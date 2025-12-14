@@ -53,6 +53,9 @@
       --colGap: 9.5mm;
       --leftCol: 63%;
       --rightCol: 37%;
+
+      /* auto-fit */
+      --fitScale: 1; /* auto-fit to 1 page */
     }
 
     *, *::before, *::after{ box-sizing: border-box; }
@@ -185,6 +188,22 @@
       box-shadow: var(--sheetShadow);
       padding: var(--padY) var(--padX);
       overflow: hidden;
+    }
+
+    /* Scale wrapper (prevents overflow → blank extra pages in print) */
+    .resume-scale{
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Auto-fit transform: keep content inside 1 page */
+    .resume{
+      transform: scale(var(--fitScale));
+      transform-origin: top left;
+      width: calc(100% / var(--fitScale));
+      min-height: calc(100% / var(--fitScale));
     }
 
     /* ===== Resume typography ===== */
@@ -320,12 +339,32 @@
       --h2LH: 1.12;
       --padX: 12mm;
       --padY: 11mm;
+
+      word-break: keep-all;
+      line-break: strict;
     }
     body[data-lang="ko"] h2{
       text-transform: none;
       letter-spacing: -0.01em;
       font-weight: 900;
+      color: #0f172a;
     }
+
+    body[data-lang="ko"] .header{
+      border-bottom: 0;
+      padding-bottom: 4px;
+      margin-bottom: 6px;
+    }
+    body[data-lang="ko"] .ko-top-skills{
+      margin-top: 8px;
+      border-top: 1px solid rgba(17,18,20,.10);
+      border-bottom: 1px solid rgba(17,18,20,.10);
+    }
+    body[data-lang="ko"] .summary{
+      font-size: 10.4px;
+      line-height: 1.28;
+    }
+
     .grid.ko{
       display: grid;
       grid-template-columns: 1fr;
@@ -400,12 +439,16 @@
       html, body{
         margin: 0 !important;
         padding: 0 !important;
-        width: 100% !important;
-        height: 100% !important;
         overflow: hidden !important;
         -webkit-print-color-adjust: exact;
         print-color-adjust: exact;
         background: #fff !important;
+      }
+
+      /* Use physical page size to avoid blank pages (no fixed positioning) */
+      body{
+        width: var(--pageW) !important;
+        height: var(--pageH) !important;
       }
 
       .topbar, .panel{ display: none !important; }
@@ -414,12 +457,10 @@
       .stage{ max-width: none !important; display: block !important; }
       .sheet-wrap{ display: block !important; }
 
-      /* Fill the printable page area exactly (Safari/Chrome stable) */
       .sheet{
-        position: fixed !important;
-        inset: 0 !important;
-        width: 100% !important;
-        height: 100% !important;
+        width: var(--pageW) !important;
+        height: var(--pageH) !important;
+        margin: 0 !important;
         border-radius: 0 !important;
         box-shadow: none !important;
         overflow: hidden !important;
@@ -429,7 +470,7 @@
       .contact a{ border-bottom: 0 !important; text-decoration: none !important; }
 
       .sheet, .resume, .header, .grid{ break-inside: avoid; }
-      .sheet{ break-after: avoid-page; }
+      .sheet{ break-after: auto; page-break-after: auto; }
     }
   </style>
 </head>
@@ -474,7 +515,9 @@
       <div class="stage">
         <div class="sheet-wrap">
           <div class="sheet">
-            <div class="resume" id="resumeRoot"></div>
+            <div class="resume-scale" id="scaleWrap">
+              <div class="resume" id="resumeRoot"></div>
+            </div>
           </div>
         </div>
 
@@ -629,7 +672,7 @@
           name: "윤홍준 (Andy Yun)",
           headline: "백엔드 · 사내 AI 업무도구/플랫폼 엔지니어",
           summary:
-            "비개발자도 바로 사용할 수 있는 사내 AI 업무도구를 ‘운영 가능한 형태’로 설계·구현·배포해왔습니다. DB 기반 로그인/RBAC, 감사 로그, 버전 관리·배포, 민감정보 유출 위험 키워드 감지(알림)까지 포함한 거버넌스 기능을 구축한 경험이 있습니다."
+            "비개발자도 바로 사용할 수 있는 사내 AI 업무도구를 ‘운영 가능한 형태’로 설계·구현·배포해 왔습니다. DB 기반 로그인/RBAC, 감사 로그, 버전 관리·배포, 민감정보 유출 위험 키워드 감지(알림)까지 포함한 거버넌스 기능을 구축·운영한 경험이 있습니다."
         },
         contact: {
           siteLabel: "웹",
@@ -650,10 +693,10 @@
             role: "AI 도입 연구원 / 사내 툴 개발 (인턴)",
             date: "2024.01 – 2024.04",
             bullets: [
-              "약 50명 규모 조직을 대상으로 사내 LLM 업무 보조 도구(베타) 개발을 주도: Windows 데스크톱(PySide6) + FastAPI 서버(서버실 상시 구동).",
+              "약 50명 규모 조직의 사내 LLM 업무 보조 도구(베타)를 기획·개발: Windows 데스크톱(PySide6) + FastAPI 서버(서버실 상시 구동).",
               "DB 기반 거버넌스 구현: 로그인/권한(RBAC), 버전 관리·배포, 사용/프롬프트 감사 로그(사용자·IP/MAC·앱 버전)로 컴플라이언스 및 디버깅 지원.",
-              "프롬프트 마켓(약 10개 템플릿) 구축: 사용자 기여(작성자 표시) + 관리자 삭제/검수. 민감정보 유출 위험 A/B/C 키워드 임계치 초과 시 관리자 팝업/알림.",
-              "뉴스/엑셀/펀드 설명서 등 내부 자료를 SQL Server(SQLAlchemy/pyodbc)로 연동해 조회하고, 로컬 LLM 요약 옵션을 추가해 토큰 초과·UI 멈춤 이슈를 완화."
+              "프롬프트 마켓(약 10개 템플릿) 구축: 사용자 기여(작성자 표시) + 관리자 삭제/검수. A/B/C 키워드 임계치 초과 시 관리자 팝업/알림으로 유출 위험 대응.",
+              "뉴스/엑셀/펀드 설명서 등 내부 자료를 SQL Server(SQLAlchemy/pyodbc)로 연동해 조회·요약하고, 로컬 LLM 요약 옵션을 추가해 토큰 초과/UI 멈춤 이슈를 완화."
             ],
             tech: ["Python","FastAPI","PySide6","SQLAlchemy","SQL Server","LangChain","OpenAI API","PyInstaller"]
           },
@@ -663,7 +706,7 @@
             date: "2023.06 – 2023.08",
             bullets: [
               "댓글/채팅/내부 기능 등 REST API(약 10개) 및 AWS 서버리스 데이터 플로우 구현.",
-              "Node.js/TypeScript로 AppSync + Lambda + DynamoDB 파이프라인 구축, GraphQL 기반으로 운영을 단순화했으며 Jest 테스트로 신뢰성을 강화."
+              "Node.js/TypeScript 기반 AppSync + Lambda + DynamoDB 파이프라인 구축, GraphQL로 운영을 단순화하고 Jest 테스트로 신뢰성을 강화."
             ],
             tech: ["TypeScript","Node.js","GraphQL","AWS AppSync","Lambda","DynamoDB","Jest"]
           },
@@ -724,6 +767,31 @@
 
     const state = { lang: "en", paper: "LETTER" };
     const lastPaperByLang = { en: "LETTER", ko: "A4" };
+
+    function setFitScale(scale){
+      const s = Math.max(0.85, Math.min(1, scale));
+      document.documentElement.style.setProperty("--fitScale", String(Number(s.toFixed(4))));
+    }
+
+    function fitToPage(){
+      const wrap = document.getElementById("scaleWrap");
+      const root = document.getElementById("resumeRoot");
+      if(!wrap || !root) return;
+
+      setFitScale(1);
+
+      requestAnimationFrame(()=>{
+        const availW = wrap.clientWidth;
+        const availH = wrap.clientHeight;
+
+        const rect = root.getBoundingClientRect();
+        const contentW = Math.max(root.scrollWidth, rect.width);
+        const contentH = Math.max(root.scrollHeight, rect.height);
+
+        const s = Math.min(1, availW / contentW, availH / contentH);
+        setFitScale(s);
+      });
+    }
 
     function setPaperVars(paper){
       const root = document.documentElement.style;
@@ -994,13 +1062,12 @@
       $("paperSel").value = state.paper;
 
       $("resumeRoot").innerHTML = (state.lang === "ko") ? buildKO(d) : buildEN(d);
+
+      fitToPage();
     }
 
     $("langSel").addEventListener("change", (e)=>{
-      // remember current selection for current template
       lastPaperByLang[state.lang] = state.paper;
-
-      // switch template and restore its last paper selection
       state.lang = e.target.value;
       state.paper = lastPaperByLang[state.lang] || ((state.lang === "ko") ? "A4" : "LETTER");
       render();
@@ -1016,8 +1083,11 @@
     const mql = window.matchMedia("print");
     mql.addEventListener?.("change", (e)=>{ if(e.matches) applyPageRule(); });
 
+    window.addEventListener("resize", ()=> fitToPage());
+
     async function safePrint(){
       applyPageRule();
+      fitToPage();
       try{ if(document.fonts && document.fonts.ready) await document.fonts.ready; }catch(e){}
       await new Promise(r => requestAnimationFrame(()=> r()));
       setTimeout(()=> window.print(), 60);
