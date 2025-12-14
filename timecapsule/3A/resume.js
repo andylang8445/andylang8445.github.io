@@ -1,7 +1,7 @@
 /* =========================================================
    Resume renderer (EN + KO)
-   - Stable paper size (A4/Letter)
-   - Print-safe (no transform scaling)
+   - Paper size (A4/Letter) + stable print
+   - Avoid blank PDF / hairline artifacts
    ========================================================= */
 
 const $ = (id) => document.getElementById(id);
@@ -146,7 +146,7 @@ const DATA = {
       name: "윤홍준 (Andy Yun)",
       headline: "백엔드 · 사내 AI 업무도구/플랫폼 엔지니어",
       summary:
-        "비개발자도 바로 사용할 수 있는 사내 AI 업무도구를 ‘운영 가능한 형태’로 설계·구현·배포해 왔습니다. 로그인/RBAC, 감사 로그, 버전 관리·배포, 민감정보 유출 위험 키워드 감지(알림)까지 포함한 거버넌스 기능 구축 경험이 있습니다."
+        "비개발자도 바로 사용할 수 있는 사내 AI 업무도구를 ‘운영 가능한 형태’로 설계·구현·배포해왔습니다. 로그인/RBAC, 감사 로그, 버전 관리·배포, 민감정보 유출 위험 키워드 감지(알림) 등 거버넌스 기능을 구축한 경험이 있습니다."
     },
     contact: {
       siteLabel: "웹",
@@ -167,10 +167,10 @@ const DATA = {
         role: "AI 도입 연구원 / 사내 툴 개발 (인턴)",
         date: "2024.01 – 2024.04",
         bullets: [
-          "약 50명 규모 조직을 대상으로 사내 LLM 업무 보조 도구(베타) 개발을 주도했습니다: Windows 데스크톱(PySide6) + FastAPI 서버(서버실 상시 구동).",
-          "DB 기반 거버넌스를 구현했습니다: 로그인/권한(RBAC), 버전 관리·배포, 사용/프롬프트 감사 로그(사용자·IP/MAC·앱 버전)로 컴플라이언스 및 디버깅을 지원했습니다.",
-          "프롬프트 마켓(약 10개 템플릿)을 구축했습니다: 작성자 표시(기여) + 관리자 검수/삭제. 민감정보 유출 위험 A/B/C 키워드 임계치 초과 시 관리자 알림(팝업)을 제공했습니다.",
-          "뉴스/엑셀/펀드 설명서 등 내부 자료를 SQL Server(SQLAlchemy/pyodbc)로 연동해 조회했고, 로컬 LLM 요약 옵션을 추가해 토큰 오버플로우 및 UI 멈춤 이슈를 완화했습니다."
+          "약 50명 규모 조직을 대상으로 사내 LLM 업무보조 도구(베타) 개발을 주도: Windows 데스크톱(PySide6) + FastAPI 서버(상시 구동).",
+          "DB 기반 거버넌스 구현: 로그인/권한(RBAC), 버전 관리·배포, 사용/프롬프트 감사 로그(사용자·IP/MAC·앱 버전)로 컴플라이언스 및 디버깅 지원.",
+          "프롬프트 마켓(약 10개 템플릿) 구축: 작성자 표시(기여 추적) + 관리자 검수/삭제. 민감정보 유출 위험 A/B/C 키워드 임계치 초과 시 관리자 알림 제공.",
+          "뉴스/엑셀/펀드 설명서 등 내부 자료를 SQL Server(SQLAlchemy/pyodbc)로 연동해 조회하고, 로컬 LLM 요약 옵션을 추가해 토큰 초과·UI 멈춤 이슈를 완화."
         ],
         tech: ["Python","FastAPI","PySide6","SQLAlchemy","SQL Server","LangChain","OpenAI API","PyInstaller"]
       },
@@ -179,8 +179,8 @@ const DATA = {
         role: "백엔드 개발 (Co-op)",
         date: "2023.06 – 2023.08",
         bullets: [
-          "댓글/채팅/내부 기능 등 REST API(약 10개) 및 AWS 서버리스 데이터 플로우를 구현했습니다.",
-          "Node.js/TypeScript로 AppSync + Lambda + DynamoDB 파이프라인을 구축하고, GraphQL 기반 운영을 단순화했으며 Jest 테스트로 신뢰성을 강화했습니다."
+          "댓글/채팅/내부 기능 등 REST API(약 10개) 및 AWS 서버리스 데이터 플로우 구현.",
+          "Node.js/TypeScript로 AppSync + Lambda + DynamoDB 파이프라인 구축, GraphQL 기반 운영 단순화 및 Jest 테스트로 신뢰성 강화."
         ],
         tech: ["TypeScript","Node.js","GraphQL","AWS AppSync","Lambda","DynamoDB","Jest"]
       },
@@ -189,8 +189,8 @@ const DATA = {
         role: "6G R&D 엔지니어 (Co-op)",
         date: "2022.09 – 2022.12",
         bullets: [
-          "Python에서 호출 가능한 내부 API(C++14/Boost)를 개발하고, CARLA 서버 연동을 통해 시뮬레이션 워크플로우를 구성했습니다.",
-          "Unreal Engine 시뮬레이션 모니터링/제어용 PyQt GUI를 제작하고, CARLA 환경에서 레이 트레이싱 로직을 구현했습니다."
+          "Python에서 호출 가능한 내부 API(C++14/Boost) 개발, CARLA 서버 연동을 통해 시뮬레이션 워크플로우 구성.",
+          "Unreal Engine 시뮬레이션 모니터링/제어용 PyQt GUI 제작, CARLA 환경에서 레이 트레이싱 로직 구현."
         ],
         tech: ["C++14","Boost","Python","PyQt","CARLA","Unreal Engine"]
       },
@@ -199,9 +199,9 @@ const DATA = {
         role: "소프트웨어 개발 (Co-op)",
         date: "2022.01 – 2022.04",
         bullets: [
-          "캐싱 메커니즘 도입으로 PLC↔Host 통신 오버헤드를 약 30% 절감했습니다.",
-          "Python(Qt), OpenCV, PyTorch 기반 GUI/ML/텔레메트리 툴을 개발하고 PLC 및 GPU 서버 운영을 지원했습니다.",
-          "Jetson Nano + PLC 환경에서 동작하는 경량 ANN 모델을 구축해 서버 부하와 응답시간을 개선했습니다."
+          "캐싱 메커니즘 도입으로 PLC↔Host 통신 오버헤드 약 30% 절감.",
+          "Python(Qt), OpenCV, PyTorch 기반 GUI/ML/텔레메트리 툴 개발, PLC 및 GPU 서버 운영 지원.",
+          "Jetson Nano + PLC 환경에서 동작하는 경량 ANN 모델 구축으로 서버 부하 및 응답시간 개선."
         ],
         tech: ["Python","Qt","OpenCV","PyTorch","PLC","Jetson"]
       }
@@ -219,8 +219,8 @@ const DATA = {
         name: "Find My Pill 플랫폼",
         meta: "2022.10 – 2023.12",
         desc: [
-          "REST API + 데이터 모델을 구축하고 3NF 정규화로 응답시간을 약 23.7% 개선했습니다.",
-          "마이크로서비스 친화 아키텍처 및 텍스트 입력 기반 추천 로직을 설계했습니다."
+          "REST API + 데이터 모델 구축, 3NF 정규화로 응답시간 약 23.7% 개선.",
+          "마이크로서비스 친화 아키텍처 및 텍스트 입력 기반 추천 로직 설계."
         ],
         tech: ["Python","Flask","SQL","REST"]
       }
@@ -254,7 +254,6 @@ function setPaperVars(paper){
 }
 
 function applyPageRule(){
-  // Chrome/Safari 호환: letter / A4
   const page = (state.paper === "A4") ? "A4" : "letter";
   $("pageStyle").textContent = `@page { size: ${page}; margin: 0; }`;
 }
@@ -487,9 +486,8 @@ function buildKO(d){
 }
 
 function setBrandSub(){
-  const lang = state.lang;
   const paper = state.paper === "A4" ? "A4" : "US Letter";
-  const template = (lang === "ko") ? "KO template (1-col)" : "EN template (2-col)";
+  const template = (state.lang === "ko") ? "KO template (1-col)" : "EN template (2-col)";
   $("brandSub").textContent = `${template} · Paper: ${paper} · Print-stable`;
 }
 
@@ -498,7 +496,6 @@ function render(){
 
   document.body.dataset.lang = state.lang;
   document.body.dataset.paper = state.paper;
-
   document.documentElement.lang = (state.lang === "ko") ? "ko" : "en";
 
   setPaperVars(state.paper);
@@ -506,7 +503,6 @@ function render(){
   setBrandSub();
 
   $("brandTitle").textContent = d.brandTitle;
-
   $("helpTitle").textContent = d.helpTitle;
   $("helpBody").innerHTML = d.helpBody.map(x => escapeHtml(x)).join("<br/>");
   $("helpHint").textContent = d.helpHint;
@@ -517,10 +513,8 @@ function render(){
 
 $("langSel").addEventListener("change", (e)=>{
   lastPaperByLang[state.lang] = state.paper;
-
   state.lang = e.target.value;
   state.paper = lastPaperByLang[state.lang] || ((state.lang === "ko") ? "A4" : "LETTER");
-
   $("paperSel").value = state.paper;
   render();
 });
@@ -531,6 +525,7 @@ $("paperSel").addEventListener("change", (e)=>{
   render();
 });
 
+/* Print safety: ensure @page is correct at the moment of printing */
 window.addEventListener("beforeprint", ()=> applyPageRule());
 const mql = window.matchMedia("print");
 mql.addEventListener?.("change", (e)=>{ if(e.matches) applyPageRule(); });
@@ -539,7 +534,7 @@ async function safePrint(){
   applyPageRule();
   try{ if(document.fonts && document.fonts.ready) await document.fonts.ready; }catch(e){}
   await new Promise(r => requestAnimationFrame(()=> requestAnimationFrame(r)));
-  setTimeout(()=> window.print(), 80);
+  setTimeout(()=> window.print(), 60);
 }
 
 $("printBtn").addEventListener("click", ()=> safePrint());
@@ -549,10 +544,8 @@ function init(){
   state.paper = "LETTER";
   lastPaperByLang.en = "LETTER";
   lastPaperByLang.ko = "A4";
-
   $("langSel").value = state.lang;
   $("paperSel").value = state.paper;
   render();
 }
-
 init();

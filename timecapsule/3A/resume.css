@@ -1,5 +1,7 @@
 /* =========================================================
    2025–26 Print-stable Resume (EN + KO separate templates)
+   - Screen: preview + controls + tips (panel is web-only)
+   - Print : ONLY the sheet content (no UI), stable size
    ========================================================= */
 
 :root{
@@ -38,15 +40,16 @@
 
 *, *::before, *::after{ box-sizing: border-box; }
 
-/* ===== Background (fix “scroll makes bg change”) ===== */
-html, body { min-height: 100%; }
+html{ background:#0b0f1a; }
 body{
   margin: 0;
+  min-height: 100vh;
   font-family: var(--font-en);
   color: var(--text);
-  background: #0b0f1a;
-  position: relative;
+  background: transparent;
 }
+
+/* ✅ 스크롤 내려도 배경색 “바뀌는” 현상 방지: fixed pseudo background */
 body::before{
   content:"";
   position: fixed;
@@ -56,12 +59,10 @@ body::before{
     radial-gradient(1200px 600px at 15% 5%, rgba(255,255,255,.10), rgba(255,255,255,0)),
     radial-gradient(800px 500px at 80% 20%, rgba(255,255,255,.07), rgba(255,255,255,0)),
     #0b0f1a;
-  background-repeat: no-repeat;
 }
 
-/* ===== App Shell ===== */
 .app{
-  min-height: 100%;
+  min-height: 100vh;
   display: grid;
   grid-template-rows: auto 1fr;
 }
@@ -148,21 +149,18 @@ body::before{
 
 .main{ padding: 18px 14px 34px; }
 
-/* ===== Stage ===== */
 .stage{
   max-width: 1120px;
   margin: 0 auto;
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  gap: 0;
   position: relative;
 }
 @media (max-width: 1040px){
   .stage{ display: block; }
 }
 
-/* ===== Sheet preview (screen) ===== */
 .sheet-wrap{
   display: flex;
   justify-content: center;
@@ -179,7 +177,6 @@ body::before{
   overflow: visible;
 }
 
-/* ===== Resume typography ===== */
 .resume{
   font-size: var(--bodySize);
   line-height: var(--bodyLH);
@@ -215,7 +212,6 @@ body::before{
   line-height: 1.25;
 }
 
-/* Contact wrapping */
 .contact{
   text-align: right;
   font-size: 10px;
@@ -246,25 +242,23 @@ h2{
 }
 .item:first-child{ border-top: 0; padding-top: 0; }
 
+/* ✅ 날짜 오른쪽 “잘림” 방지: date 영역 최소폭 확보 + overflow 방지 */
 .row{
   display: grid;
-  grid-template-columns: minmax(0, 1fr) max-content;
+  grid-template-columns: minmax(0, 1fr) minmax(36mm, max-content);
   gap: 8px;
   align-items: baseline;
-  min-width: 0;
 }
 
 .org{ font-weight: 900; }
 .role{ font-weight: 750; color: #111827; margin-top: 2px; }
-
-/* ✅ 날짜 잘림 방지: 오른쪽에 아주 얇은 안전 여백 */
 .meta{
   color: var(--muted);
   font-size: 10px;
   white-space: nowrap;
   justify-self: end;
-  padding-left: 8px;
-  padding-right: 1mm;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
 }
 
 ul{ margin: 6px 0 0 0; padding-left: 16px; }
@@ -306,16 +300,15 @@ li{ margin: 2px 0; }
   border-top: 1px solid var(--hair2);
 }
 
-/* ===== EN layout (2-col) ===== */
 .grid.en{
   display: grid;
   grid-template-columns: var(--leftCol) var(--rightCol);
   gap: var(--colGap);
   margin-top: 10px;
-  padding-right: 0; /* ✅ 이거 때문에 오른쪽이 잘리는 경우가 있었음 */
+  padding-right: 0; /* ✅ overflow 유발하던 1mm 제거 */
 }
 
-/* ===== KO layout (A4, 1-col) ===== */
+/* ===== KO ===== */
 body[data-lang="ko"]{
   font-family: var(--font-ko);
   --bodySize: 10.0px;
@@ -326,18 +319,13 @@ body[data-lang="ko"]{
   --padY: 11mm;
 }
 
-/* Korean line breaking */
+/* ✅ 한글 줄바꿈 안정화 */
 body[data-lang="ko"] .resume{
+  line-break: strict;
   word-break: keep-all;
-  overflow-wrap: anywhere;
+  overflow-wrap: break-word; /* 긴 영문 토큰만 끊기게 */
 }
 
-/* ✅ KO 가로줄 “두 겹” 느낌 제거: header 아래 줄은 KO에서 끔 */
-body[data-lang="ko"] .header{
-  border-bottom: 0;
-  margin-bottom: 6px;
-  padding-bottom: 4px;
-}
 body[data-lang="ko"] h2{
   text-transform: none;
   letter-spacing: -0.01em;
@@ -356,14 +344,14 @@ body[data-lang="ko"] h2{
   grid-template-columns: 1fr 1fr;
   gap: 8px 10px;
   padding: 8px 0 2px;
-  border-top: 1px solid var(--hair);
+  border-top: 1px solid var(--hair2);
   border-bottom: 1px solid var(--hair2);
   margin-top: 10px;
 }
 .ko-top-skills .k{ font-weight: 900; font-size: 10.2px; color: #0f172a; }
 .ko-top-skills .v{ color: var(--muted); font-size: 10px; line-height: 1.25; }
 
-/* ===== Web-only help panel ===== */
+/* ===== Web-only panel ===== */
 .panel{
   position: fixed;
   top: 86px;
@@ -407,7 +395,9 @@ body[data-lang="ko"] h2{
 }
 
 /* =========================================================
-   PRINT (ultra-stable / avoid blank page / avoid hairline bugs)
+   PRINT (ultra-stable)
+   - ✅ 빈 페이지 방지
+   - ✅ hairline(가로줄) 깨짐 방지: pt + solid
    ========================================================= */
 @media print{
   @page{ margin: 0; }
@@ -419,55 +409,37 @@ body[data-lang="ko"] h2{
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
   }
-  body::before{ display: none !important; }
 
-  /* hide web UI */
+  /* ✅ 배경 pseudo 제거 */
+  body::before{ display:none !important; }
+
+  /* ✅ 레이아웃 그리드/스티키가 print에서 빈 페이지 만드는 케이스 제거 */
+  .app{ display:block !important; min-height:0 !important; }
   .topbar, .panel{ display: none !important; }
   .main{ padding: 0 !important; }
+  .stage, .sheet-wrap{ display:block !important; max-width:none !important; }
 
-  /* ✅ Chrome/Safari 빈 페이지 방지: flex/grid 강제 해제 */
-  .app, .stage, .sheet-wrap{
-    display: block !important;
-    max-width: none !important;
-    margin: 0 !important;
-    padding: 0 !important;
-  }
-
-  /* ✅ 핵심: 고정 height 대신 min-height로 안정화 (브라우저별 클리핑/빈페이지 방지) */
   .sheet{
     width: var(--pageW) !important;
-    min-height: var(--pageH) !important;
-    height: auto !important;
+    height: var(--pageH) !important;
+    min-height: 0 !important;
+    margin: 0 !important;
     border-radius: 0 !important;
     box-shadow: none !important;
     overflow: hidden !important;
-    margin: 0 !important;
   }
 
-  .resume{
-    transform: none !important;
-    width: auto !important;
-    filter: none !important;
-    backdrop-filter: none !important;
-  }
-
-  /* remove chips in print */
   .chips{ display: none !important; }
   .contact a{ border-bottom: 0 !important; text-decoration: none !important; }
 
-  /* ---- Hairline fix: px/rgba -> pt/solid ---- */
-  .header{ border-bottom: 0.9pt solid #d1d5db !important; }
-  body[data-lang="ko"] .header{ border-bottom: 0 !important; } /* KO는 위에서 끔 */
-
-  .item{ border-top: 0.8pt solid #e5e7eb !important; }
-  .kv .line{ border-top: 0.8pt solid #e5e7eb !important; }
-
+  /* ✅ 헤어라인 깨짐 방지 */
+  .header{ border-bottom: 0.75pt solid #d1d5db !important; }
+  .item{ border-top: 0.75pt solid #e5e7eb !important; }
+  .kv .line{ border-top: 0.75pt solid #e5e7eb !important; }
   .ko-top-skills{
-    border-top: 0.9pt solid #d1d5db !important;
-    border-bottom: 0.8pt solid #e5e7eb !important;
+    border-top: 0.75pt solid #e5e7eb !important;
+    border-bottom: 0.75pt solid #e5e7eb !important;
   }
 
-  /* prevent accidental page breaks */
-  .header, .grid, .sec, .item { break-inside: avoid; }
-  .sheet{ break-after: avoid-page; }
+  /* ✅ break-inside 과하게 걸면 크롬이 “빈 2페이지” 만들 때가 있음 → 제거 */
 }
