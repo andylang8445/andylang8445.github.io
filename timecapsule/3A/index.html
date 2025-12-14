@@ -8,41 +8,19 @@
 
   <style>
     :root{
-      /* Neutral palette */
-      --paper:#ffffff;
-      --bg:#f8fafc;
-      --ink:#0f172a;
-      --muted:#475569;
-      --soft:#94a3b8;
-      --line:#e2e8f0;
-      --chip:#f1f5f9;
-      --chipHi:#e0f2fe;
-      --chipHiBorder:#7dd3fc;
+      --paper:#ffffff; --bg:#f8fafc; --ink:#0f172a; --muted:#475569; --soft:#94a3b8;
+      --line:#e2e8f0; --chip:#f1f5f9; --chipHi:#e0f2fe; --chipHiBorder:#7dd3fc;
 
-      /* Page */
-      --max: 900px;
-      --radius: 16px;
+      --max: 900px; --radius: 16px;
 
-      /* Print settings */
-      --page-margin: 12mm; /* matches @page margin */
+      --page-margin: 12mm;
       --a4-width: 210mm;
       --a4-height: 297mm;
 
-      /* Base typography */
-      --h1: 28px;
-      --h2: 12px;
-      --body: 13.5px;
-      --lead: 14.5px;
-
-      /* Spacing base */
+      --h1: 28px; --h2: 12px; --body: 13.5px; --lead: 14.5px;
       --pad: 28px;
-      --s1: 6px;
-      --s2: 10px;
-      --s3: 14px;
-      --s4: 18px;
-      --s5: 22px;
+      --s1: 6px; --s2: 10px; --s3: 14px; --s4: 18px; --s5: 22px;
 
-      /* Auto-fit applied values (default = base) */
       --fit-body: var(--body);
       --fit-lead: var(--lead);
       --fit-pad: var(--pad);
@@ -53,7 +31,6 @@
       --fit-s5: var(--s5);
     }
 
-    /* Fit levels: shrink gradually (only used when Fit 1 page ON) */
     [data-fit="1"]{
       --fit-body: 13.2px; --fit-lead: 14.2px; --fit-pad: 26px;
       --fit-s1: 5px; --fit-s2: 9px; --fit-s3: 12px; --fit-s4: 15px; --fit-s5: 18px;
@@ -71,11 +48,8 @@
       --fit-s1: 3px; --fit-s2: 6px; --fit-s3: 9px; --fit-s4: 11px; --fit-s5: 13px;
     }
 
-    /* Optional manual compact */
     [data-compact="true"]{
-      --pad: 24px;
-      --body: 13.2px;
-      --lead: 14px;
+      --pad: 24px; --body: 13.2px; --lead: 14px;
       --s1: 4px; --s2: 8px; --s3: 12px; --s4: 14px; --s5: 16px;
     }
 
@@ -89,18 +63,16 @@
       letter-spacing: 0.1px;
     }
 
-    /* A4 measurement element (in mm → px) */
     .measureA4{
       position: fixed;
       left: -9999px;
       top: -9999px;
       width: var(--a4-width);
-      height: calc(var(--a4-height) - (2 * var(--page-margin))); /* content height */
+      height: calc(var(--a4-height) - (2 * var(--page-margin)));
       visibility: hidden;
       pointer-events:none;
     }
 
-    /* Toolbar (not printed) */
     .toolbar{
       position: sticky;
       top: 0;
@@ -154,11 +126,8 @@
     }
     .btn:hover{ box-shadow: 0 10px 24px rgba(15,23,42,0.08); }
     .btn:active{ transform: translateY(1px); }
-    .btn.primary{
-      background: #0f172a;
-      color: white;
-      border-color: #0f172a;
-    }
+    .btn.primary{ background: #0f172a; color: white; border-color: #0f172a; }
+
     .toggle{
       display:inline-flex;
       align-items:center;
@@ -189,7 +158,8 @@
       border: 1px solid var(--line);
       border-radius: 10px;
       padding: 8px 10px;
-      font: 400 12px/1.3 ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      font: 400 12px/1.3 ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial,
+            "Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic", sans-serif;
       color: var(--ink);
       background: white;
       box-shadow: 0 1px 0 rgba(15,23,42,0.02);
@@ -200,7 +170,6 @@
       white-space:nowrap;
     }
 
-    /* Page */
     .page{
       max-width: var(--max);
       margin: 18px auto 32px;
@@ -249,7 +218,7 @@
     section{ padding-top: var(--fit-s4); }
     .section-title{
       margin: 0 0 var(--fit-s2) 0;
-      font-size: var(--h2);
+      font-size: 12px;
       letter-spacing: 0.18em;
       text-transform: uppercase;
       color: var(--muted);
@@ -257,12 +226,7 @@
     }
     .summary{ margin:0; max-width: 110ch; }
 
-    /* Skills */
-    .chips{
-      display:flex;
-      flex-wrap:wrap;
-      gap: 8px;
-    }
+    .chips{ display:flex; flex-wrap:wrap; gap: 8px; }
     .chip{
       background: var(--chip);
       border: 1px solid var(--line);
@@ -275,19 +239,10 @@
       align-items:center;
     }
     .chip strong{ font-weight: 800; }
-    .chip[data-hit="true"]{
-      background: var(--chipHi);
-      border-color: var(--chipHiBorder);
-    }
-    .chip .score{
-      font-size: 11px;
-      color: var(--muted);
-      margin-left: 2px;
-      display:none;
-    }
+    .chip[data-hit="true"]{ background: var(--chipHi); border-color: var(--chipHiBorder); }
+    .chip .score{ font-size: 11px; color: var(--muted); margin-left: 2px; display:none; }
     [data-show-scores="true"] .chip .score{ display:inline; }
 
-    /* Items */
     .item{ padding-top: var(--fit-s2); }
     .item + .item{
       margin-top: var(--fit-s3);
@@ -307,21 +262,10 @@
       font-weight: 820;
       letter-spacing: -0.2px;
     }
-    .meta{
-      margin: var(--fit-s1) 0 0 0;
-      color: var(--muted);
-      font-size: 12px;
-    }
-    .date{
-      color: var(--muted);
-      font-size: 12px;
-      white-space:nowrap;
-    }
+    .meta{ margin: var(--fit-s1) 0 0 0; color: var(--muted); font-size: 12px; }
+    .date{ color: var(--muted); font-size: 12px; white-space:nowrap; }
 
-    ul.bullets{
-      margin: var(--fit-s2) 0 0 18px;
-      padding: 0;
-    }
+    ul.bullets{ margin: var(--fit-s2) 0 0 18px; padding: 0; }
     ul.bullets li{ margin: 4px 0; }
     li.hidden-by-fit{ display:none !important; }
 
@@ -337,24 +281,14 @@
       flex-wrap:wrap;
     }
 
-    /* Version visibility */
     [data-version="backend"] .only-llm { display:none !important; }
     [data-version="hybrid"]  .only-backend { display:none !important; }
-
-    /* Additional experience visibility */
     [data-additional="false"] .additional { display:none !important; }
 
-    /* Print */
     @media print{
       body{ background: white; }
       .toolbar{ display:none !important; }
-      .page{
-        margin: 0;
-        border: none;
-        box-shadow:none;
-        border-radius:0;
-        padding: 0;
-      }
+      .page{ margin: 0; border: none; box-shadow:none; border-radius:0; padding: 0; }
       a{ text-decoration:none; border-bottom:none; }
       @page { size: A4; margin: var(--page-margin); }
     }
@@ -367,26 +301,29 @@
   <div class="toolbar">
     <div class="toolbar-inner">
       <div class="left">
-        <div class="pill">Version: <strong id="vLabel">Backend</strong></div>
+        <div class="pill"><span id="uiVersionLabel">Version</span>: <strong id="vLabel">Backend</strong></div>
 
-        <label class="toggle" title="Manual tighten (small) — optional">
+        <!-- UI Language -->
+        <button class="btn" id="langBtn" type="button" title="Toggle UI language">KR / EN</button>
+
+        <label class="toggle" id="compactWrap">
           <input id="compactToggle" type="checkbox" />
-          Compact
+          <span id="compactLabel">Compact</span>
         </label>
 
-        <label class="toggle" title="Auto-fit to one A4 page by shrinking & hiding low-priority bullets">
+        <label class="toggle" id="fitWrap">
           <input id="fitToggle" type="checkbox" />
-          Fit 1 page
+          <span id="fitLabel">Fit 1 page</span>
         </label>
 
-        <label class="toggle" title="Show Huawei + Stackpole as Additional Experience">
+        <label class="toggle" id="additionalWrap">
           <input id="additionalToggle" type="checkbox" checked />
-          Additional
+          <span id="additionalLabel">Additional</span>
         </label>
 
-        <label class="toggle" title="Show skill match scores after JD reorder">
+        <label class="toggle" id="scoresWrap">
           <input id="scoreToggle" type="checkbox" />
-          Scores
+          <span id="scoresLabel">Scores</span>
         </label>
       </div>
 
@@ -399,7 +336,7 @@
 
         <button class="btn" id="versionBtn" type="button">Toggle Backend ⇄ Backend+LLM</button>
         <button class="btn" id="copyBtn" type="button">Copy Plain Text</button>
-        <button class="btn primary" type="button" onclick="window.print()">Print / Save as PDF</button>
+        <button class="btn primary" type="button" onclick="window.print()" id="printBtn">Print / Save as PDF</button>
         <div class="mini" id="status"></div>
       </div>
     </div>
@@ -495,16 +432,9 @@
           <li data-priority="1">Deployed an internal assistant to a ~50-person org; supported ~50 queries/day (beta) across DB records, Excel files, news articles, and fund/prospectus documents.</li>
           <li data-priority="1">Implemented search-based retrieval (DB query + keyword filtering) and user workflows in a Windows PySide6 client; packaged via PyInstaller and distributed via intranet download (~95% usage via desktop).</li>
           <li data-priority="1">Built SQL Server–backed presets/templates and audit logging (user/version/time/IP/MAC) to support traceability, incident reproduction, and governance; admin alerts surfaced as in-app pop-ups via DB flag detection.</li>
-
-          <li class="only-llm" data-priority="3">
-            Designed A/B/C data-exposure risk tiers (A=1, B=3, C=10 keywords) to detect potential oversharing and trigger admin review; stored summarized logs via a local LLM to avoid persisting raw sensitive content.
-          </li>
-
+          <li class="only-llm" data-priority="3">Designed A/B/C data-exposure risk tiers (A=1, B=3, C=10 keywords) to detect potential oversharing and trigger admin review; stored summarized logs via a local LLM to avoid persisting raw sensitive content.</li>
           <li data-priority="2">Developed an always-on internal FastAPI service (remote-managed server) with OAuth2+JWT and endpoints for preset CRUD and run execution; added CORS controls and server-side logging for web integration.</li>
-
-          <li class="only-llm" data-priority="4">
-            Launched a user-contributed “Prompt Market” (~10 prompts at launch) with author attribution and admin moderation (delete), enabling standard workflows and faster adoption.
-          </li>
+          <li class="only-llm" data-priority="4">Launched a user-contributed “Prompt Market” (~10 prompts at launch) with author attribution and admin moderation (delete), enabling standard workflows and faster adoption.</li>
         </ul>
       </div>
 
@@ -569,22 +499,6 @@
     </section>
 
     <section>
-      <h2 class="section-title">Projects</h2>
-      <div class="item" style="padding-top:0;">
-        <div class="item-head">
-          <div>
-            <p class="role">Find My Pill Platform</p>
-            <p class="meta">Python • Computer Vision • SQL</p>
-          </div>
-          <div class="date">—</div>
-        </div>
-        <ul class="bullets">
-          <li data-priority="6">Built an image-based pill detection/classification workflow and lookup pipeline to reduce manual effort.</li>
-        </ul>
-      </div>
-    </section>
-
-    <section>
       <h2 class="section-title">Education</h2>
       <div class="item" style="padding-top:0;">
         <div class="item-head">
@@ -598,8 +512,8 @@
     </section>
 
     <div class="fine">
-      <div>Version: <span id="printVersion">Backend</span></div>
-      <div>One-column • A4-fit • JD skill reorder</div>
+      <div><span id="uiFooterVersionLabel">Version</span>: <span id="printVersion">Backend</span></div>
+      <div id="uiFooterRight">One-column • A4-fit • JD skill reorder</div>
     </div>
   </main>
 
@@ -607,7 +521,7 @@
     const resume = document.getElementById("resume");
     const measureA4 = document.getElementById("measureA4");
     const vLabel = document.getElementById("vLabel");
-    const pLabel = document.getElementById("printVersion");
+    const printVersion = document.getElementById("printVersion");
     const status = document.getElementById("status");
 
     const versionBtn = document.getElementById("versionBtn");
@@ -621,9 +535,85 @@
     const resetJdBtn = document.getElementById("resetJdBtn");
     const skillsChips = document.getElementById("skillsChips");
     const copyBtn = document.getElementById("copyBtn");
+    const printBtn = document.getElementById("printBtn");
+    const langBtn = document.getElementById("langBtn");
+
+    // UI text nodes
+    const ui = {
+      uiVersionLabel: document.getElementById("uiVersionLabel"),
+      uiFooterVersionLabel: document.getElementById("uiFooterVersionLabel"),
+      uiFooterRight: document.getElementById("uiFooterRight"),
+      compactLabel: document.getElementById("compactLabel"),
+      fitLabel: document.getElementById("fitLabel"),
+      additionalLabel: document.getElementById("additionalLabel"),
+      scoresLabel: document.getElementById("scoresLabel"),
+    };
 
     // Preserve original skill order
     const originalSkills = Array.from(skillsChips.children);
+
+    // Language dictionary (UI only)
+    const STR = {
+      en: {
+        version: "Version",
+        compact: "Compact",
+        fit: "Fit 1 page",
+        additional: "Additional",
+        scores: "Scores",
+        apply: "Apply JD",
+        reset: "Reset",
+        toggleVer: "Toggle Backend ⇄ Backend+LLM",
+        copy: "Copy Plain Text",
+        copied: "Copied ✓",
+        print: "Print / Save as PDF",
+        jdPH: "Paste JD / keywords here (e.g., FastAPI, SQL Server, OAuth2, AWS, REST)",
+        fitOk: (lvl, hidden) => `Fit OK (lvl ${lvl}, hidden ${hidden})`,
+        still: (lvl, hidden) => `Still long (lvl ${lvl}, hidden ${hidden})`,
+        footerRight: "One-column • A4-fit • JD skill reorder",
+      },
+      ko: {
+        version: "버전",
+        compact: "컴팩트",
+        fit: "1페이지 맞춤",
+        additional: "추가경험",
+        scores: "점수",
+        apply: "JD 적용",
+        reset: "초기화",
+        toggleVer: "백엔드 ⇄ 백엔드+LLM 전환",
+        copy: "텍스트 복사(ATS)",
+        copied: "복사 완료 ✓",
+        print: "인쇄 / PDF 저장",
+        jdPH: "JD/키워드 붙여넣기 (예: FastAPI, SQL Server, OAuth2, AWS, REST)",
+        fitOk: (lvl, hidden) => `맞춤 완료 (레벨 ${lvl}, 숨김 ${hidden})`,
+        still: (lvl, hidden) => `아직 길어요 (레벨 ${lvl}, 숨김 ${hidden})`,
+        footerRight: "1열 • A4 맞춤 • JD 스킬 정렬",
+      }
+    };
+
+    let lang = "en";
+    function applyLang(){
+      const t = STR[lang];
+      ui.uiVersionLabel.textContent = t.version;
+      ui.uiFooterVersionLabel.textContent = t.version;
+      ui.compactLabel.textContent = t.compact;
+      ui.fitLabel.textContent = t.fit;
+      ui.additionalLabel.textContent = t.additional;
+      ui.scoresLabel.textContent = t.scores;
+
+      applyJdBtn.textContent = t.apply;
+      resetJdBtn.textContent = t.reset;
+      versionBtn.textContent = t.toggleVer;
+      copyBtn.textContent = t.copy;
+      printBtn.textContent = t.print;
+      jdInput.placeholder = t.jdPH;
+      ui.uiFooterRight.textContent = t.footerRight;
+    }
+
+    langBtn.addEventListener("click", () => {
+      lang = (lang === "en") ? "ko" : "en";
+      applyLang();
+      if (fitToggle.checked) requestFit();
+    });
 
     function setAttr(name, val){ resume.setAttribute(name, String(val)); }
 
@@ -631,7 +621,7 @@
       setAttr("data-version", v);
       const txt = (v === "backend") ? "Backend" : "Backend+LLM";
       vLabel.textContent = txt;
-      pLabel.textContent = txt;
+      printVersion.textContent = txt;
       if (fitToggle.checked) requestFit();
     }
 
@@ -639,12 +629,10 @@
       setAttr("data-compact", on);
       if (fitToggle.checked) requestFit();
     }
-
     function setAdditional(on){
       setAttr("data-additional", on);
       if (fitToggle.checked) requestFit();
     }
-
     function setShowScores(on){
       setAttr("data-show-scores", on);
     }
@@ -657,26 +645,25 @@
     additionalToggle.addEventListener("change", e => setAdditional(e.target.checked));
     scoreToggle.addEventListener("change", e => setShowScores(e.target.checked));
 
-    // Copy plain text (ATS sanity check)
+    // Copy plain text
     copyBtn.addEventListener("click", async () => {
       const text = resume.innerText.replace(/\n{3,}/g, "\n\n").trim();
       try{
         await navigator.clipboard.writeText(text);
-        copyBtn.textContent = "Copied ✓";
-        setTimeout(() => copyBtn.textContent = "Copy Plain Text", 1000);
+        copyBtn.textContent = STR[lang].copied;
+        setTimeout(() => copyBtn.textContent = STR[lang].copy, 1100);
       }catch{
-        alert("Clipboard blocked. Select all and copy manually.");
+        alert(lang === "ko" ? "클립보드가 차단되었습니다. 전체 선택 후 수동 복사하세요." : "Clipboard blocked. Select all and copy manually.");
       }
     });
 
-    // -------- JD reorder (smarter tokenization + synonyms) --------
+    // JD reorder
     const SYN = new Map([
       ["ms", "sqlserver"], ["mssql", "sqlserver"], ["sql-server", "sqlserver"], ["sql", "sql"],
-      ["oauth", "oauth2"], ["jwt", "jwt"], ["auth", "authentication"], ["restful", "rest"],
+      ["oauth", "oauth2"], ["jwt", "jwt"], ["restful", "rest"],
       ["ts", "typescript"], ["js", "javascript"], ["node", "nodejs"],
       ["aws", "aws"], ["lambda", "lambda"], ["dynamo", "dynamodb"], ["appsync", "appsync"],
       ["fast-api", "fastapi"], ["fastapi", "fastapi"], ["sqlalchemy", "sqlalchemy"],
-      ["postgres", "postgresql"], ["postgresql", "postgresql"],
       ["cicd", "ci"], ["ci/cd", "ci"]
     ]);
 
@@ -684,7 +671,6 @@
       const x = t.toLowerCase().replace(/[^a-z0-9#+.-]/g, "");
       return SYN.get(x) || x;
     }
-
     function tokenize(text){
       return text
         .toLowerCase()
@@ -693,7 +679,6 @@
         .filter(Boolean)
         .map(normalizeToken);
     }
-
     function scoreSkill(skillEl, tokens){
       const kws = (skillEl.getAttribute("data-keywords") || "")
         .toLowerCase().split(/\s+/).filter(Boolean).map(normalizeToken);
@@ -701,12 +686,11 @@
       let score = 0;
       for (const t of tokens){
         if (!t) continue;
-        if (kws.includes(t)) score += 4;                       // exact
-        else if (kws.some(k => k.length >= 4 && (k.includes(t) || t.includes(k)))) score += 1; // weak partial
+        if (kws.includes(t)) score += 4;
+        else if (kws.some(k => k.length >= 4 && (k.includes(t) || t.includes(k)))) score += 1;
       }
       return score;
     }
-
     function applyJdReorder(){
       const tokens = tokenize(jdInput.value);
       const chips = Array.from(skillsChips.children);
@@ -723,7 +707,6 @@
       scored.sort((a,b) => (b.s - a.s) || (a.idx - b.idx));
       scored.forEach(x => skillsChips.appendChild(x.el));
     }
-
     function resetSkills(){
       originalSkills.forEach(el => skillsChips.appendChild(el));
       Array.from(skillsChips.children).forEach(el => {
@@ -733,41 +716,32 @@
         if (sc) sc.textContent = "";
       });
     }
-
     applyJdBtn.addEventListener("click", () => {
       applyJdReorder();
       if (fitToggle.checked) requestFit();
     });
-
     resetJdBtn.addEventListener("click", () => {
       resetSkills();
       if (fitToggle.checked) requestFit();
     });
 
-    // -------- True A4 Fit-to-one-page --------
-    // Hide lowest priority bullets first (higher number = less important).
+    // True A4 Fit
     function clearHidden(){
       document.querySelectorAll(".hidden-by-fit").forEach(li => li.classList.remove("hidden-by-fit"));
     }
-
     function visibleLisByPriority(){
       const lis = Array.from(document.querySelectorAll("li[data-priority]"));
       return lis.filter(li => {
-        // filtered out by version?
         if (li.closest(".only-llm") && resume.getAttribute("data-version") === "backend") return false;
-        // filtered out by additional?
         if (li.closest(".additional") && resume.getAttribute("data-additional") === "false") return false;
         return true;
       }).sort((a,b) => {
         const pa = Number(a.getAttribute("data-priority") || 99);
         const pb = Number(b.getAttribute("data-priority") || 99);
-        // hide higher priority number first (least important)
-        return pb - pa;
+        return pb - pa; // hide least important first
       });
     }
-
     function targetA4HeightPx(){
-      // This element height is exactly A4 content height (297mm - 2*margin) in CSS units.
       return measureA4.getBoundingClientRect().height;
     }
 
@@ -787,15 +761,10 @@
 
       clearHidden();
 
-      // 1) try fit levels
       let level = 0;
       const target = targetA4HeightPx();
       const setLevel = (lv) => setAttr("data-fit", lv);
-
-      function heightNow(){
-        // If you want stricter fit, subtract a little buffer:
-        return resume.getBoundingClientRect().height;
-      }
+      const heightNow = () => resume.getBoundingClientRect().height;
 
       setLevel(0);
       while (level < 4 && heightNow() > target){
@@ -803,7 +772,6 @@
         setLevel(level);
       }
 
-      // 2) if still too tall, hide bullets from lowest-importance
       let hidden = 0;
       if (heightNow() > target){
         const candidates = visibleLisByPriority();
@@ -815,7 +783,7 @@
       }
 
       const ok = heightNow() <= target;
-      status.textContent = ok ? `Fit OK (lvl ${level}, hidden ${hidden})` : `Still long (lvl ${level}, hidden ${hidden})`;
+      status.textContent = ok ? STR[lang].fitOk(level, hidden) : STR[lang].still(level, hidden);
       status.style.color = ok ? "#475569" : "#b45309";
     }
 
@@ -823,12 +791,12 @@
       if (fitToggle.checked) requestFit();
       else runFit();
     });
-
     window.addEventListener("resize", () => {
       if (fitToggle.checked) requestFit();
     });
 
     // Defaults
+    applyLang();
     setVersion("backend");
     setCompact(false);
     setAdditional(true);
