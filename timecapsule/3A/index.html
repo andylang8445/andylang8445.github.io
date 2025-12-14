@@ -400,8 +400,8 @@
       html, body{
         margin: 0 !important;
         padding: 0 !important;
-        width: var(--pageW) !important;
-        height: var(--pageH) !important;
+        width: 100% !important;
+        height: 100% !important;
         overflow: hidden !important;
         -webkit-print-color-adjust: exact;
         print-color-adjust: exact;
@@ -414,19 +414,22 @@
       .stage{ max-width: none !important; display: block !important; }
       .sheet-wrap{ display: block !important; }
 
+      /* Fill the printable page area exactly (Safari/Chrome stable) */
       .sheet{
+        position: fixed !important;
+        inset: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
         border-radius: 0 !important;
         box-shadow: none !important;
-        width: var(--pageW) !important;
-        height: calc(var(--pageH) - 0.2mm) !important; /* 2페이지 빈 페이지 방지 */
         overflow: hidden !important;
       }
 
       .chips{ display: none !important; }
-
       .contact a{ border-bottom: 0 !important; text-decoration: none !important; }
 
       .sheet, .resume, .header, .grid{ break-inside: avoid; }
+      .sheet{ break-after: avoid-page; }
     }
   </style>
 </head>
@@ -626,7 +629,7 @@
           name: "윤홍준 (Andy Yun)",
           headline: "백엔드 · 사내 AI 업무도구/플랫폼 엔지니어",
           summary:
-            "사내 비개발자도 바로 쓸 수 있는 AI 업무도구를 ‘운영 가능한 형태’로 설계·구현·배포해왔습니다. DB 기반 로그인/RBAC, 감사로그, 버전·배포, 유출 위험 키워드 감지(알림)까지 포함한 거버넌스 기능을 구축한 경험이 있습니다."
+            "비개발자도 바로 사용할 수 있는 사내 AI 업무도구를 ‘운영 가능한 형태’로 설계·구현·배포해왔습니다. DB 기반 로그인/RBAC, 감사 로그, 버전 관리·배포, 민감정보 유출 위험 키워드 감지(알림)까지 포함한 거버넌스 기능을 구축한 경험이 있습니다."
         },
         contact: {
           siteLabel: "웹",
@@ -637,7 +640,7 @@
         },
         topSkills: [
           { k: "백엔드", v: "Python(FastAPI), Node.js/TypeScript, SQL, REST, GraphQL" },
-          { k: "데이터/연동", v: "SQL Server, SQLAlchemy/pyodbc, 문서·엑셀·뉴스 연동" },
+          { k: "데이터/연동", v: "SQL Server, SQLAlchemy/pyodbc, 문서/엑셀/뉴스 연동" },
           { k: "사내 AI 도구", v: "LangChain, OpenAI API, 로컬 요약 옵션, 프롬프트 마켓" },
           { k: "거버넌스/운영", v: "RBAC, 감사로그, 버전관리·배포, 위험 키워드 알림" }
         ],
@@ -647,10 +650,10 @@
             role: "AI 도입 연구원 / 사내 툴 개발 (인턴)",
             date: "2024.01 – 2024.04",
             bullets: [
-              "약 50명 규모 조직 대상 사내 LLM 업무보조 도구(베타) 개발을 주도: Windows 데스크톱(PySide6) + FastAPI 서버(서버실 상시 구동).",
-              "DB 기반 거버넌스 구축: 로그인/권한(RBAC), 버전관리·배포, 사용/프롬프트 감사로그(사용자·IP/MAC·앱 버전)로 컴플라이언스·디버깅 지원.",
+              "약 50명 규모 조직을 대상으로 사내 LLM 업무 보조 도구(베타) 개발을 주도: Windows 데스크톱(PySide6) + FastAPI 서버(서버실 상시 구동).",
+              "DB 기반 거버넌스 구현: 로그인/권한(RBAC), 버전 관리·배포, 사용/프롬프트 감사 로그(사용자·IP/MAC·앱 버전)로 컴플라이언스 및 디버깅 지원.",
               "프롬프트 마켓(약 10개 템플릿) 구축: 사용자 기여(작성자 표시) + 관리자 삭제/검수. 민감정보 유출 위험 A/B/C 키워드 임계치 초과 시 관리자 팝업/알림.",
-              "뉴스/엑셀/펀드 설명서 등 내부 자료를 SQL Server 연동(SQLAlchemy/pyodbc)으로 조회하고, 로컬 LLM 요약 옵션을 추가해 토큰 초과·UI 멈춤 이슈를 완화."
+              "뉴스/엑셀/펀드 설명서 등 내부 자료를 SQL Server(SQLAlchemy/pyodbc)로 연동해 조회하고, 로컬 LLM 요약 옵션을 추가해 토큰 초과·UI 멈춤 이슈를 완화."
             ],
             tech: ["Python","FastAPI","PySide6","SQLAlchemy","SQL Server","LangChain","OpenAI API","PyInstaller"]
           },
@@ -660,7 +663,7 @@
             date: "2023.06 – 2023.08",
             bullets: [
               "댓글/채팅/내부 기능 등 REST API(약 10개) 및 AWS 서버리스 데이터 플로우 구현.",
-              "Node.js/TypeScript로 AppSync + Lambda + DynamoDB 파이프라인 구축, GraphQL 기반 운영 단순화 및 Jest 테스트로 신뢰성 강화."
+              "Node.js/TypeScript로 AppSync + Lambda + DynamoDB 파이프라인 구축, GraphQL 기반으로 운영을 단순화했으며 Jest 테스트로 신뢰성을 강화."
             ],
             tech: ["TypeScript","Node.js","GraphQL","AWS AppSync","Lambda","DynamoDB","Jest"]
           },
@@ -669,8 +672,8 @@
             role: "6G R&D 엔지니어 (Co-op)",
             date: "2022.09 – 2022.12",
             bullets: [
-              "Python에서 호출 가능한 내부 API(C++14/Boost) 개발 및 CARLA 서버 연동으로 시뮬레이션 워크플로우 구성.",
-              "Unreal Engine 시뮬레이션 모니터링/제어 PyQt GUI 제작, CARLA 환경 레이 트레이싱 로직 구현."
+              "Python에서 호출 가능한 내부 API(C++14/Boost) 개발, CARLA 서버 연동을 통해 시뮬레이션 워크플로우 구성.",
+              "Unreal Engine 시뮬레이션을 모니터링/제어하는 PyQt GUI 제작, CARLA 환경에서 레이 트레이싱 로직 구현."
             ],
             tech: ["C++14","Boost","Python","PyQt","CARLA","Unreal Engine"]
           },
@@ -679,7 +682,7 @@
             role: "소프트웨어 개발 (Co-op)",
             date: "2022.01 – 2022.04",
             bullets: [
-              "캐싱 메커니즘으로 PLC↔Host 통신 오버헤드 약 30% 절감.",
+              "캐싱 메커니즘 도입으로 PLC↔Host 통신 오버헤드 약 30% 절감.",
               "Python(Qt), OpenCV, PyTorch 기반 GUI/ML/텔레메트리 툴 개발, PLC 및 GPU 서버 운영 지원.",
               "Jetson Nano + PLC 환경에서 동작하는 경량 ANN 모델 구축으로 서버 부하 및 응답시간 개선."
             ],
@@ -714,12 +717,13 @@
         ],
         volunteering: [
           { k: "FIRST 로보틱스 팀 7722", v: "프로그래밍/컴퓨팅 멘토 · 2023.01 – 2023.08" },
-          { k: "", v: "고등학생 9명 대상 임베디드/센서퓨전/모션플래닝 멘토링, 자율주행 신뢰성 향상(보고 성공률 93%)." }
+          { k: "", v: "고등학생 9명을 대상으로 임베디드/센서퓨전/모션 플래닝을 멘토링했으며, 자율주행 신뢰성을 향상(보고 성공률 93%)." }
         ]
       }
     };
 
     const state = { lang: "en", paper: "LETTER" };
+    const lastPaperByLang = { en: "LETTER", ko: "A4" };
 
     function setPaperVars(paper){
       const root = document.documentElement.style;
@@ -993,13 +997,18 @@
     }
 
     $("langSel").addEventListener("change", (e)=>{
+      // remember current selection for current template
+      lastPaperByLang[state.lang] = state.paper;
+
+      // switch template and restore its last paper selection
       state.lang = e.target.value;
-      state.paper = (state.lang === "ko") ? "A4" : "LETTER";
+      state.paper = lastPaperByLang[state.lang] || ((state.lang === "ko") ? "A4" : "LETTER");
       render();
     });
 
     $("paperSel").addEventListener("change", (e)=>{
       state.paper = e.target.value;
+      lastPaperByLang[state.lang] = state.paper;
       render();
     });
 
