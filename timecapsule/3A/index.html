@@ -9,7 +9,7 @@
   <style>
     /* =========================
        2025-26 Minimal Print-first Resume
-       - Web: nice UI + chips
+       - Web: nice UI + chips + side memo
        - Print: hard 1-page sheet only
        ========================= */
 
@@ -18,7 +18,7 @@
       --w-a4: 210mm;   --h-a4: 297mm;
       --w-letter: 215.9mm; --h-letter: 279.4mm;
 
-      /* Active paper */
+      /* Active paper (screen preview only) */
       --pageW: var(--w-letter);
       --pageH: var(--h-letter);
 
@@ -137,7 +137,7 @@
       user-select: none;
     }
     .pill label { opacity: .72; }
-    .pill select, .pill button, .pill input[type="checkbox"]{
+    .pill select, .pill button{
       font: inherit;
       color: inherit;
     }
@@ -147,14 +147,6 @@
       outline: none;
       cursor: pointer;
       padding-right: 2px;
-    }
-    .pill button{
-      border: 0;
-      background: transparent;
-      cursor: pointer;
-      padding: 0;
-      font-weight: 650;
-      letter-spacing: -.01em;
     }
 
     .btn {
@@ -201,7 +193,7 @@
       background: #fff;
       border-radius: var(--sheetRadius);
       box-shadow: var(--sheetShadow);
-      overflow: hidden; /* critical for iOS blank extra page reduction */
+      overflow: hidden; /* helps reduce iOS phantom overflow */
       position: relative;
     }
 
@@ -212,7 +204,7 @@
       box-sizing: border-box;
     }
 
-    /* Print scaling wrapper: only applied during printing mode */
+    /* Print scaling wrapper */
     .print-scale {
       transform-origin: top left;
       transform: scale(var(--printScale));
@@ -271,7 +263,6 @@
       margin-top: 10px;
     }
 
-    /* ATS mode stacks columns */
     body[data-layout="ats"] .grid{
       grid-template-columns: 1fr;
       gap: 10px;
@@ -347,17 +338,6 @@
       border-top: 1px solid rgba(17,18,20,.08);
     }
 
-    .foot{
-      position: absolute;
-      left: var(--padX);
-      right: var(--padX);
-      bottom: 6mm;
-      display: flex;
-      justify-content: space-between;
-      font-size: 9.4px;
-      color: rgba(17,18,20,.45);
-    }
-
     /* ===== Side Panel (Web only) ===== */
     .panel{
       position: sticky;
@@ -400,14 +380,12 @@
     body[data-lang="en"] { font-family: var(--font-en); }
     body[data-lang="ko"] { font-family: var(--font-ko); }
 
-    /* Korean heading style (less uppercase, more Korean-friendly) */
     body[data-lang="ko"] h2{
       text-transform: none;
       letter-spacing: -0.01em;
       font-weight: 900;
     }
 
-    /* Slightly denser KR to fit 1 page */
     body[data-lang="ko"]{
       --bodySize: 9.9px;
       --bodyLH: 1.20;
@@ -416,16 +394,15 @@
 
     /* ===== PRINT RULES (hard 1-page) ===== */
     @media print{
-      /* Hide web UI */
       .topbar, .panel { display: none !important; }
       body { background: #fff !important; }
 
-      /* Safari/iOS can ignore some @page settings; keep margin 0 anyway */
-      @page { margin: 0; } /* Safari margin bugs exist; user must set None/Minimum in dialog  [oai_citation:1‡GitHub](https://github.com/mdn/browser-compat-data/issues/23178?utm_source=chatgpt.com) */
+      @page { margin: 0; }
 
+      /* Use page-relative sizing in print to avoid iOS/Safari mm rounding → blank extra pages */
       html, body{
-        width: var(--pageW) !important;
-        height: var(--pageH) !important;
+        width: 100% !important;
+        height: 100% !important;
         margin: 0 !important;
         padding: 0 !important;
         overflow: hidden !important;
@@ -434,24 +411,27 @@
       }
 
       .main{ padding: 0 !important; }
-      .stage{ max-width: none !important; grid-template-columns: 1fr !important; gap: 0 !important; }
-
-      .sheet-wrap{ place-items: start !important; }
-      .sheet{
-        width: var(--pageW) !important;
-        height: var(--pageH) !important;
-        border-radius: 0 !important;
-        box-shadow: none !important;
-        overflow: hidden !important; /* important for iOS extra blank page reduction */
-        position: fixed !important;  /* keep exactly one sheet */
-        left: 0 !important;
-        top: 0 !important;
+      .stage{
+        max-width: none !important;
+        grid-template-columns: 1fr !important;
+        gap: 0 !important;
       }
 
-      /* In print, chips are hidden to save space + reduce page overflow */
+      .sheet-wrap{ place-items: start !important; }
+
+      .sheet{
+        width: 100% !important;
+        height: 100% !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        overflow: hidden !important;
+        position: relative !important;
+        left: auto !important;
+        top: auto !important;
+      }
+
       .chips{ display: none !important; }
 
-      /* prevent any accidental page breaks */
       *{
         break-inside: avoid;
         page-break-inside: avoid;
@@ -462,7 +442,6 @@
 
 <body data-lang="en" data-paper="LETTER" data-fit="on" data-layout="classic">
   <div class="app" id="app">
-    <!-- ===== Topbar ===== -->
     <div class="topbar">
       <div class="topbar-inner">
         <div class="brand">
@@ -511,27 +490,19 @@
       </div>
     </div>
 
-    <!-- ===== Main ===== -->
     <div class="main">
       <div class="stage">
-        <!-- Sheet -->
         <div class="sheet-wrap">
           <div class="sheet" id="sheet">
             <div class="sheet-inner">
-              <!-- print-scale wrapper: JS computes --printScale -->
               <div class="print-scale" id="printScale">
                 <div class="resume" id="resumeRoot"></div>
               </div>
             </div>
-
-            <div class="foot" aria-hidden="true">
-              <div id="footLeft">Last updated: 2025-12-14</div>
-              <div id="footRight">@hongjunyun</div>
-            </div>
           </div>
         </div>
 
-        <!-- Web-only help panel -->
+        <!-- Web-only memo panel (NOT printed) -->
         <aside class="panel" id="helpPanel">
           <h3 id="helpTitle">Print tips (iPad / Safari)</h3>
           <p id="helpBody">
@@ -541,7 +512,7 @@
           </p>
           <div class="hint" id="helpHint">
             If you apply via ATS-heavy portals, switch <code>Layout</code> → <code>ATS (1-col)</code>.
-            (Some ATS dislike multi-column PDFs.)  [oai_citation:2‡The Interview Guys](https://blog.theinterviewguys.com/free-ats-resume-template-2025/?utm_source=chatgpt.com)
+            (Some ATS dislike multi-column PDFs.)
           </div>
         </aside>
       </div>
@@ -577,14 +548,14 @@
           name: "Andy Yun",
           headline: "Backend / AI Tooling Engineer (Co-op / Intern)",
           summary:
-            "Backend-focused ECE student building internal AI tooling and production backends. Recently led a Windows + FastAPI internal LLM assistant with governance (RBAC/audit/versioned distribution), a prompt marketplace, and leakage-risk monitoring for a ~50-person org."
+            "Backend-focused ECE student who builds internal AI tooling and production backends. Recently led a Windows + FastAPI internal LLM assistant with governance (RBAC/audit/versioned distribution), a prompt marketplace, and leakage-risk monitoring for a ~50-person org."
         },
         contact: {
           email1: "andy.yun@uwaterloo.ca",
           email2: "a2yun@uwaterloo.ca",
           phone: "+1 (226) 507-9755",
           siteLabel: "site",
-          site: "git.io/JXa1p"  // placeholder shown in your screenshot
+          site: "git.io/JXa1p"
         },
         experience: [
           {
@@ -693,7 +664,7 @@
           name: "윤홍준 (Andy Yun)",
           headline: "백엔드 · 사내 AI 업무도구/플랫폼 엔지니어",
           summary:
-            "백엔드 중심으로 시스템을 설계/구현하며, 사내 사용자(비개발자 포함)가 실제로 쓰는 업무도구를 ‘운영 가능한 형태’로 배포/관리하는 데 강점이 있습니다. (권한/감사로그/버전관리/배포/민감정보 유출 위험 알림)"
+            "사내 사용자가 실제로 쓰는 업무도구를 ‘운영 가능한 형태’로 만드는 데 강점이 있습니다. (권한/RBAC, 감사로그, 버전관리·배포, 민감정보 유출 위험 알림) 백엔드 중심으로 설계·구현하고, 현업 워크플로우에 자연스럽게 녹이는 방향을 선호합니다."
         },
         contact: {
           email1: "andy.yun@uwaterloo.ca",
@@ -708,10 +679,10 @@
             role: "AI 도입 연구원 / 사내 툴 개발 (인턴)",
             date: "2024.01 – 2024.04",
             bullets: [
-              "약 50명 규모 조직 대상 사내 LLM 업무보조 도구(베타) 주도 개발: Windows 데스크톱(PySide6) + FastAPI 서버, 서버실 상시 구동 환경.",
-              "거버넌스 구축: DB 기반 로그인/권한(RBAC), 버전 관리·배포, 사용/프롬프트 감사로그(사용자·IP/MAC·앱 버전 등)로 컴플라이언스/디버깅 지원.",
-              "프롬프트 마켓(약 10개 템플릿) 오픈 + 작성자 표시/관리자 삭제 + 민감정보 유출 위험 알림(A/B/C 키워드 임계치) 연동.",
-              "뉴스/엑셀/펀드 설명서 등 내부자료를 DB 연동(SQLAlchemy/pyodbc)으로 조회·요약(로컬 LLM 옵션)하여 토큰 초과/멈춤 이슈 완화."
+              "약 50명 조직 대상 사내 LLM 업무보조 도구(베타) 주도 개발: Windows(PySide6) + FastAPI 서버, 서버실 상시 구동.",
+              "거버넌스/감사 체계 구축: DB 기반 로그인·권한(RBAC), 버전관리·배포, 사용/프롬프트 감사로그(사용자·IP/MAC·앱 버전)로 컴플라이언스/디버깅 지원.",
+              "프롬프트 마켓(약 10개 템플릿) 오픈: 작성자 표시/관리자 삭제 + 민감정보 유출 위험 알림(A/B/C 키워드 임계치) 연동.",
+              "뉴스/엑셀/펀드 설명서 등 내부자료를 DB 연동(SQLAlchemy/pyodbc)으로 조회·요약(로컬 LLM 옵션)하여 토큰 초과/멈춤 이슈를 완화."
             ],
             tech: ["Python","FastAPI","PySide6","LangChain","OpenAI API","SQLAlchemy","SQL Server","PyInstaller"]
           },
@@ -771,7 +742,7 @@
             { k: "백엔드", v: "Python(FastAPI), Node.js/TypeScript, SQL, GraphQL, REST" },
             { k: "클라우드/데이터", v: "AWS(Lambda/AppSync/DynamoDB), SQLAlchemy/pyodbc, UNIX/Linux" },
             { k: "사내 AI 도구", v: "LangChain, OpenAI API, 로컬 요약 옵션, 거버넌스(권한/감사로그)" },
-            { k: "시스템/배포", v: "C/C++(Boost), Qt(Pyside6/PyQt), PyInstaller 기반 사내 배포" }
+            { k: "시스템/배포", v: "C/C++(Boost), Qt(PySide6/PyQt), PyInstaller 기반 사내 배포" }
           ],
           education: [
             { k: "워털루 대학교", v: "공학사 과정(Computer Engineering, ECE) · 2021.09 – 2026.06" },
@@ -798,7 +769,6 @@
     };
 
     function setPaperVars(paper){
-      // Use CSS variables for physical sheet size; user must also choose matching paper in print dialog.
       const root = document.documentElement.style;
       if(paper === "A4"){
         root.setProperty("--pageW", "var(--w-a4)");
@@ -818,35 +788,26 @@
     function render(){
       const d = DATA[state.lang];
 
-      // body attributes for CSS
       document.body.dataset.lang = state.lang;
       document.body.dataset.paper = state.paper;
       document.body.dataset.fit = state.fit;
       document.body.dataset.layout = state.layout;
 
-      // Paper vars
       setPaperVars(state.paper);
 
-      // Top bar text
       $("brandTitle").textContent = d.brandTitle;
       $("brandSub").textContent = d.brandSub;
 
-      // Help panel
       $("helpTitle").textContent = d.helpTitle;
       $("helpBody").innerHTML = d.helpBody.map(line => escapeHtml(line)).join("<br/>");
       $("helpHint").textContent = d.helpHint;
 
-      // Labels
       $("lblLang").textContent = state.lang === "ko" ? "언어" : "Language";
       $("lblPaper").textContent = state.lang === "ko" ? "용지" : "Paper";
       $("lblLayout").textContent = state.lang === "ko" ? "레이아웃" : "Layout";
       $("lblFit").textContent = state.lang === "ko" ? "1페이지 맞춤" : "Fit to 1 page";
       $("printBtn").textContent = state.lang === "ko" ? "인쇄 / PDF 저장" : "Print / Save PDF";
 
-      // Footer
-      $("footLeft").textContent = state.lang === "ko" ? "최종 업데이트: 2025-12-14" : "Last updated: 2025-12-14";
-
-      // Render resume HTML
       $("resumeRoot").innerHTML = buildResume(d);
     }
 
@@ -919,7 +880,6 @@
         </div>
       `).join("");
 
-      // Contact formatting differs per language (KO tends to left-align name; keep header grid anyway)
       const contactLines = `
         <div>${escapeHtml(c.siteLabel)}: <a href="https://${escapeHtml(c.site)}" target="_blank" rel="noopener">${escapeHtml(c.site)}</a></div>
         <div>email: <a href="mailto:${escapeHtml(c.email1)}">${escapeHtml(c.email1)}</a></div>
@@ -976,35 +936,26 @@
     }
 
     function computeFitScale(){
-      // Only apply if fit is ON
       if(state.fit !== "on"){
         document.documentElement.style.setProperty("--printScale", "1");
         return 1;
       }
 
-      // Measure content height vs available height inside sheet
       const sheet = $("sheet");
       const inner = sheet.querySelector(".sheet-inner");
       const content = $("resumeRoot");
 
-      // Temporarily reset scale for accurate measurement
       document.documentElement.style.setProperty("--printScale", "1");
-
-      // Force reflow
       void content.offsetHeight;
 
-      const innerRect = inner.getBoundingClientRect();
-      const contentRect = content.getBoundingClientRect();
-
-      // Available height: inner height minus a tiny safety (footer/rounding)
-      const availableH = innerRect.height - 2; // px
-      const contentH = contentRect.height;
+      // Use clientHeight/scrollHeight for more stable results across iPad/Safari
+      const availableH = inner.clientHeight - 2; // px
+      const contentH = content.scrollHeight;
 
       if(contentH <= 0) return 1;
 
-      // Conservative safety factor to avoid iOS/Safari phantom overflow → blank page
       const raw = availableH / contentH;
-      const safety = 0.965; // tighter than before
+      const safety = 0.94; // extra safety for iPad/Safari print rounding
       const scale = Math.min(1, raw * safety);
 
       document.documentElement.style.setProperty("--printScale", String(scale));
@@ -1012,30 +963,26 @@
     }
 
     function beforePrint(){
-      // Recompute scale right before printing
       computeFitScale();
     }
 
     function afterPrint(){
-      // Reset scale (optional)
       if(state.fit !== "on"){
         document.documentElement.style.setProperty("--printScale", "1");
       }
     }
 
-    // Safari/iOS: matchMedia is more reliable than onbeforeprint sometimes
     const mql = window.matchMedia("print");
     mql.addEventListener?.("change", (e)=>{
       if(e.matches) beforePrint();
       else afterPrint();
     });
 
+    window.addEventListener?.("beforeprint", beforePrint);
+    window.addEventListener?.("afterprint", afterPrint);
+
     $("langSel").addEventListener("change", (e)=>{
       state.lang = e.target.value;
-      // Suggest paper default by language (user can override)
-      if(state.lang === "ko" && state.paper === "LETTER"){
-        // keep as-is; don’t force
-      }
       render();
       computeFitScale();
     });
@@ -1059,13 +1006,15 @@
     });
 
     $("printBtn").addEventListener("click", ()=>{
-      // Ensure scale is computed in current mode BEFORE print dialog opens
       beforePrint();
-      // Small timeout helps Safari apply computed scale
-      setTimeout(()=>window.print(), 60);
+      // iPad/Safari: give the browser a couple frames to apply CSS var scaling
+      requestAnimationFrame(()=>{
+        requestAnimationFrame(()=>{
+          window.print();
+        });
+      });
     });
 
-    // Init selects
     function init(){
       $("langSel").value = state.lang;
       $("paperSel").value = state.paper;
