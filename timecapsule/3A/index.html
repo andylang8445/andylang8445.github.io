@@ -20,13 +20,11 @@
 
       /* Colors */
       --bg: #0b0d10;
-      --panel: #0f1319;
       --sheet: #ffffff;
       --ink: #0f172a;
       --muted: #475569;
       --line: #e2e8f0;
       --chip: #f1f5f9;
-      --accent: #2563eb;
 
       /* Fit-to-page scale */
       --fit: 1;
@@ -113,9 +111,7 @@
     }
 
     /* Stage */
-    .stage{
-      padding: 20px 16px 48px;
-    }
+    .stage{ padding: 20px 16px 48px; }
     .stage-inner{
       max-width: 1120px;
       margin: 0 auto;
@@ -213,7 +209,6 @@
       font-size: 12.8px;
       line-height: 1.45;
     }
-    .summary b{ font-weight: 900; }
 
     .grid{
       display:grid;
@@ -222,10 +217,9 @@
       padding-top: 4px;
     }
 
-    .section{
-      padding-top: 10px;
-    }
+    .section{ padding-top: 10px; }
     .section:first-child{ padding-top: 0; }
+
     .h2{
       display:flex;
       align-items:center;
@@ -249,11 +243,8 @@
       padding-bottom: 10px;
       border-bottom: 1px solid rgba(226,232,240,0.70);
     }
-    .item:last-child{
-      border-bottom: none;
-      padding-bottom: 0;
-      margin-bottom: 0;
-    }
+    .item:last-child{ border-bottom: none; padding-bottom: 0; margin-bottom: 0; }
+
     .item-top{
       display:flex;
       gap: 10px;
@@ -277,6 +268,7 @@
       white-space: nowrap;
       font-variant-numeric: tabular-nums;
     }
+
     ul{
       margin: 8px 0 0;
       padding-left: 16px;
@@ -327,30 +319,19 @@
       gap: 10px;
     }
     .footer code{
-      font-family: var(--mono);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
       font-size: 11px;
     }
 
-    /* Tight mode */
     body.fit-tight .summary{ padding: 8px 0 10px; }
     body.fit-tight .item{ margin-bottom: 8px; padding-bottom: 8px; }
     body.fit-tight ul{ margin-top: 6px; }
     body.fit-tight li{ margin: 3px 0; }
 
-    /* Mobile */
     @media (max-width: 980px){
-      .sheet{
-        width: calc(100vw - 32px);
-        border-radius: 16px;
-      }
-      .pad{
-        width: 100%;
-      }
-      .sheet{
-        aspect-ratio: 8.5 / 11;
-        height: auto;
-        min-height: unset;
-      }
+      .sheet{ width: calc(100vw - 32px); border-radius: 16px; }
+      .pad{ width: 100%; }
+      .sheet{ aspect-ratio: 8.5 / 11; height: auto; min-height: unset; }
       .pad{ height: 100%; }
       #scaleRoot{ width: auto; }
       .contacts{ align-items:flex-start; text-align:left; }
@@ -358,7 +339,6 @@
       .grid{ grid-template-columns: 1fr; }
     }
 
-    /* Print */
     @media print{
       body{ background: #fff; color:#000; }
       .topbar, .no-print{ display:none !important; }
@@ -372,10 +352,8 @@
       }
       .sheet::after{ display:none; }
     }
-    @page{
-      size: letter;
-      margin: 0;
-    }
+
+    @page{ size: letter; margin: 0; }
   </style>
 </head>
 
@@ -394,22 +372,22 @@
       </div>
 
       <div class="controls">
-        <button class "btn" id="langBtn" type="button">
+        <button class="btn" id="langBtn" type="button">
           <span data-en="Language" data-ko="언어">Language</span>
           <span class="pill" id="langPill">EN</span>
         </button>
 
         <button class="btn" id="paperBtn" type="button" title="Switch Letter/A4">
           <span data-en="Paper" data-ko="용지">Paper</span>
-          <span class "pill" id="paperPill">LETTER</span>
+          <span class="pill" id="paperPill">LETTER</span>
         </button>
 
-        <button class "btn" id="fitBtn" type="button" title="Auto scale content to fit exactly one page">
+        <button class="btn" id="fitBtn" type="button" title="Auto scale content to fit exactly one page">
           <span data-en="Fit to 1 page" data-ko="1페이지 맞춤">Fit to 1 page</span>
-          <span class "pill" id="fitPill">ON</span>
+          <span class="pill" id="fitPill">ON</span>
         </button>
 
-        <button class "btn primary" type="button" onclick="window.print()">
+        <button class="btn primary" type="button" onclick="window.print()">
           <span data-en="Print / Save PDF" data-ko="인쇄 / PDF 저장">Print / Save PDF</span>
         </button>
       </div>
@@ -419,17 +397,18 @@
   <main class="stage">
     <div class="stage-inner">
       <article class="sheet" aria-label="Resume Sheet">
-        <div class "pad">
+        <div class="pad">
           <div id="scaleRoot">
+
             <section class="hdr">
-              <div class "name">
+              <div class="name">
                 <h1 data-en="Andy Yun" data-ko="윤홍준 (Andy Yun)">Andy Yun</h1>
                 <p class="role"
                    data-en="Backend / AI Platform Engineer"
                    data-ko="백엔드 / AI 플랫폼 엔지니어">
                   Backend / AI Platform Engineer
                 </p>
-                <p class "subrole"
+                <p class="subrole"
                    data-en="University of Waterloo (Computer Engineering, ECE) · Co-op / Internship (US/Canada) · Open to relocate"
                    data-ko="워털루 대학교 (컴퓨터공학, ECE) · Co-op/인턴 (미국/캐나다) · 이전 가능">
                   University of Waterloo (Computer Engineering, ECE) · Co-op / Internship (US/Canada) · Open to relocate
@@ -437,17 +416,17 @@
               </div>
 
               <div class="contacts">
-                <div><span class "mini" data-en="Website" data-ko="웹사이트">Website</span>:
+                <div><span class="mini" data-en="Website" data-ko="웹사이트">Website</span>:
                   <a href="https://git.io/JXa1p" target="_blank" rel="noreferrer">git.io/JXa1p</a>
                 </div>
-                <div><span class "mini" data-en="GitHub" data-ko="깃허브">GitHub</span>:
+                <div><span class="mini" data-en="GitHub" data-ko="깃허브">GitHub</span>:
                   <a href="https://git.io/JXaXP" target="_blank" rel="noreferrer">git.io/JXaXP</a>
                 </div>
-                <div><span class "mini" data-en="Email" data-ko="이메일">Email</span>:
+                <div><span class="mini" data-en="Email" data-ko="이메일">Email</span>:
                   <a href="mailto:andy.yun@uwaterloo.ca">andy.yun@uwaterloo.ca</a>
-                  <span class "mini">/ <a href="mailto:a2yun@uwaterloo.ca">a2yun@uwaterloo.ca</a></span>
+                  <span class="mini">/ <a href="mailto:a2yun@uwaterloo.ca">a2yun@uwaterloo.ca</a></span>
                 </div>
-                <div><span class "mini" data-en="Phone" data-ko="전화">Phone</span>:
+                <div><span class="mini" data-en="Phone" data-ko="전화">Phone</span>:
                   <a href="tel:+12265079755">+1 (226) 507-9755</a>
                 </div>
               </div>
@@ -455,44 +434,37 @@
 
             <section class="summary"
               data-en="I build <b>backend systems</b> and <b>internal AI tools</b> that turn messy documents (news/Excel/reports) into reliable workflows. Recent work: led a Windows + FastAPI enterprise LLM assistant at Korea Fund Ratings with governance (auth, RBAC, audit logs), a prompt marketplace, and safety alerts. Also shipped serverless AWS backends (AppSync/Lambda/DynamoDB/GraphQL) and production test coverage."
-              data-ko="<b>백엔드 시스템</b>과 <b>사내 AI 업무보조 툴</b>을 만들어 문서(뉴스/엑셀/리포트)를 안정적인 워크플로우로 바꿉니다. 최근에는 한국펀드평가에서 Windows + FastAPI 기반 사내 LLM 도구를 주도 개발(인증·권한·감사로그), 프롬프트 마켓, 민감정보 유출 위험 알림까지 구축했습니다. AWS 서버리스(AppSync/Lambda/DynamoDB/GraphQL) 백엔드와 테스트도 운영 수준으로 개발했습니다.">
-              I build backend systems and internal AI tools…
+              data-ko="저는 <b>백엔드 시스템</b>과 <b>사내 AI 업무보조 툴</b>을 만들어 문서(뉴스/엑셀/리포트)를 안정적인 워크플로우로 바꿉니다. 최근에는 한국펀드평가에서 Windows + FastAPI 기반 사내 LLM 도구를 주도 개발(인증·권한·감사로그), 프롬프트 마켓, 민감정보 유출 위험 알림까지 구축했습니다. 또한 AWS 서버리스(AppSync/Lambda/DynamoDB/GraphQL) 백엔드와 테스트를 운영 수준으로 개발했습니다.">
+              ...
             </section>
 
-            <div class "grid">
+            <div class="grid">
+              <!-- LEFT -->
               <div>
-                <section class "section">
-                  <h2 class "h2" data-en="Experience" data-ko="경력">Experience</h2>
+                <section class="section">
+                  <h2 class="h2" data-en="Experience" data-ko="경력">Experience</h2>
 
-                  <div class "item">
-                    <div class "item-top">
+                  <div class="item">
+                    <div class="item-top">
                       <div>
-                        <div class "where" data-en="Korea Fund Ratings (KFR)" data-ko="한국펀드평가 (KFR)">Korea Fund Ratings (KFR)</div>
-                        <div class "title"
+                        <div class="where" data-en="Korea Fund Ratings (KFR)" data-ko="한국펀드평가 (KFR)">Korea Fund Ratings (KFR)</div>
+                        <div class="title"
                              data-en="AI Researcher / Internal Tooling (Intern)"
                              data-ko="AI 도입 연구원 / 사내툴 개발 (인턴)">
                           AI Researcher / Internal Tooling (Intern)
                         </div>
                       </div>
-                      <div class "when" data-en="Jan 2024 – Apr 2024" data-ko="2024.01 – 2024.04">Jan 2024 – Apr 2024</div>
+                      <div class="when" data-en="Jan 2024 – Apr 2024" data-ko="2024.01 – 2024.04">Jan 2024 – Apr 2024</div>
                     </div>
                     <ul>
                       <li data-en="Led development of an internal LLM assistant for a ~50-person org: Windows desktop client (PySide6) + FastAPI server, always-on in a server room (remote-managed)."
-                          data-ko="약 50명 조직용 사내 LLM 업무보조 툴을 주도 개발: Windows 데스크톱(PySide6) + FastAPI 서버, 서버실 상시 구동(원격 운영).">
-                        Led development of an internal LLM assistant…
-                      </li>
+                          data-ko="약 50명 조직용 사내 LLM 업무보조 툴을 주도 개발: Windows 데스크톱(PySide6) + FastAPI 서버, 서버실 상시 구동(원격 운영)."></li>
                       <li data-en="Implemented governance: DB-based login, role-based admin controls, versioned client distribution, and audit logging (usage, prompts, metadata such as IP/MAC & app version) for compliance and debugging."
-                          data-ko="거버넌스 구현: DB 기반 로그인, 관리자 권한/삭제 권한, 버전 관리 배포, 감사 로그(사용/프롬프트/메타데이터: IP·MAC·버전)로 컴플라이언스·디버깅 지원.">
-                        Implemented governance…
-                      </li>
+                          data-ko="거버넌스 구현: DB 기반 로그인, 관리자 권한/삭제 권한, 버전 관리 배포, 감사 로그(사용/프롬프트/메타데이터: IP·MAC·버전)로 컴플라이언스·디버깅 지원."></li>
                       <li data-en="Shipped a prompt marketplace (~10 templates) with attribution + moderation; added A/B/C keyword thresholds that trigger admin pop-up alerts when leakage risk indicators exceed limits."
-                          data-ko="프롬프트 마켓(약 10개 템플릿)과 작성자 표시/관리자 삭제 기능을 배포; A/B/C 키워드 임계치 초과 시 관리자 팝업 알림으로 유출 위험 대응.">
-                        Shipped a prompt marketplace…
-                      </li>
+                          data-ko="프롬프트 마켓(약 10개 템플릿)과 작성자 표시/관리자 삭제 기능을 배포; A/B/C 키워드 임계치 초과 시 관리자 팝업 알림으로 유출 위험 대응."></li>
                       <li data-en="Integrated internal sources (news, Excel, fund documents) via DB connectors (SQLAlchemy/pyodbc); added summarization (local LLM option) to reduce token overflows and improve responsiveness."
-                          data-ko="뉴스/엑셀/펀드 설명서 등 내부 자료를 DB 연동(SQLAlchemy/pyodbc)으로 연결하고, 요약(로컬 LLM 옵션)으로 토큰 초과·UI 멈춤 이슈를 완화.">
-                        Integrated internal sources…
-                      </li>
+                          data-ko="뉴스/엑셀/펀드 설명서 등 내부 자료를 DB 연동(SQLAlchemy/pyodbc)으로 연결하고, 요약(로컬 LLM 옵션)으로 토큰 초과·UI 멈춤 이슈를 완화."></li>
                     </ul>
                     <div class="chips">
                       <span class="chip">Python</span><span class="chip">FastAPI</span><span class="chip">PySide6</span>
@@ -511,13 +483,9 @@
                     </div>
                     <ul>
                       <li data-en="Developed ~10 REST API endpoints (comments/chat/internal) and implemented serverless data flows on AWS."
-                          data-ko="댓글/채팅/내부 기능용 REST API(약 10개)와 AWS 서버리스 데이터 플로우를 개발.">
-                        Developed ~10 REST API endpoints…
-                      </li>
+                          data-ko="댓글/채팅/내부 기능용 REST API(약 10개)와 AWS 서버리스 데이터 플로우를 개발."></li>
                       <li data-en="Built AppSync + Lambda + DynamoDB pipelines with Node.js/TypeScript; used GraphQL for streamlined operations; shipped unit tests for reliability."
-                          data-ko="Node.js/TypeScript로 AppSync + Lambda + DynamoDB 파이프라인을 구축하고 GraphQL로 운영을 단순화, 유닛 테스트로 신뢰성을 강화.">
-                        Built AppSync + Lambda + DynamoDB pipelines…
-                      </li>
+                          data-ko="Node.js/TypeScript로 AppSync + Lambda + DynamoDB 파이프라인을 구축하고 GraphQL로 운영을 단순화, 유닛 테스트로 신뢰성을 강화."></li>
                     </ul>
                     <div class="chips">
                       <span class="chip">TypeScript</span><span class="chip">Node.js</span><span class="chip">GraphQL</span>
@@ -536,13 +504,9 @@
                     </div>
                     <ul>
                       <li data-en="Developed internal APIs (C++14/Boost) callable from Python; interfaced with CARLA server for simulation workflows."
-                          data-ko="Python에서 호출 가능한 내부 API(C++14/Boost)를 개발하고 CARLA 서버와 연동해 시뮬레이션 워크플로우를 구성.">
-                        Developed internal APIs…
-                      </li>
+                          data-ko="Python에서 호출 가능한 내부 API(C++14/Boost)를 개발하고 CARLA 서버와 연동해 시뮬레이션 워크플로우를 구성."></li>
                       <li data-en="Built a PyQt GUI to monitor/control Unreal Engine simulation; implemented ray tracing logic in CARLA context."
-                          data-ko="Unreal Engine 시뮬레이션 모니터링/제어 PyQt GUI를 제작하고, CARLA 환경에서 레이 트레이싱 로직을 구현.">
-                        Built a PyQt GUI…
-                      </li>
+                          data-ko="Unreal Engine 시뮬레이션 모니터링/제어 PyQt GUI를 제작하고, CARLA 환경에서 레이 트레이싱 로직을 구현."></li>
                     </ul>
                     <div class="chips">
                       <span class="chip">C++14</span><span class="chip">Boost</span><span class="chip">Python</span>
@@ -560,19 +524,16 @@
                     </div>
                     <ul>
                       <li data-en="Reduced PLC↔Host communication overhead by ~30% via a caching mechanism."
-                          data-ko="캐싱 메커니즘으로 PLC↔Host 통신 오버헤드를 약 30% 절감.">
-                        Reduced PLC↔Host communication overhead…
-                      </li>
+                          data-ko="캐싱 메커니즘으로 PLC↔Host 통신 오버헤드를 약 30% 절감."></li>
                       <li data-en="Built GUI + ML + telemetry tooling using Python (Qt), OpenCV, and PyTorch; supported PLC and GPU servers."
-                          data-ko="Python(Qt), OpenCV, PyTorch로 GUI/ML/텔레메트리 툴을 개발해 PLC 및 GPU 서버 운영을 지원.">
-                        Built GUI + ML + telemetry tooling…
-                      </li>
+                          data-ko="Python(Qt), OpenCV, PyTorch로 GUI/ML/텔레메트리 툴을 개발해 PLC 및 GPU 서버 운영을 지원."></li>
                     </ul>
                     <div class="chips">
                       <span class="chip">Python</span><span class="chip">Qt</span><span class="chip">OpenCV</span>
-                      <span class="chip">PyTorch</span><span class="chip">PLC</span><span class="chip">CUDA/GPU</span>
+                      <span class="chip">PyTorch</span><span class="chip">PLC</span><span class="chip">Jetson</span>
                     </div>
                   </div>
+
                 </section>
 
                 <section class="section">
@@ -591,9 +552,7 @@
                     </div>
                     <ul>
                       <li data-en="Prototyping tutoring workflows and evaluation-first improvements; focusing on reliability and user experience."
-                          data-ko="튜터링 워크플로우를 프로토타이핑하고 평가 중심으로 개선하며, 신뢰성과 UX에 집중.">
-                        Prototyping tutoring workflows…
-                      </li>
+                          data-ko="튜터링 워크플로우를 프로토타이핑하고 평가 중심으로 개선하며, 신뢰성과 UX에 집중."></li>
                     </ul>
                   </div>
 
@@ -607,18 +566,15 @@
                     </div>
                     <ul>
                       <li data-en="Built REST API using Python/Flask and improved response time by ~23.7% via 3NF normalization."
-                          data-ko="Python/Flask로 REST API를 구축하고 3NF 정규화로 응답 시간을 약 23.7% 개선.">
-                        Built REST API…
-                      </li>
+                          data-ko="Python/Flask로 REST API를 구축하고 3NF 정규화로 응답 시간을 약 23.7% 개선."></li>
                       <li data-en="Designed microservice-friendly architecture and a custom recommendation approach for user text input."
-                          data-ko="마이크로서비스 친화적 아키텍처와 사용자 텍스트 입력 기반 커스텀 추천 로직을 설계.">
-                        Designed microservice-friendly architecture…
-                      </li>
+                          data-ko="마이크로서비스 친화적 아키텍처와 사용자 텍스트 입력 기반 커스텀 추천 로직을 설계."></li>
                     </ul>
                     <div class="chips">
                       <span class="chip">Python</span><span class="chip">Flask</span><span class="chip">SQL</span><span class="chip">REST</span>
                     </div>
                   </div>
+
                 </section>
               </div>
 
@@ -629,40 +585,40 @@
 
                   <div class="edu-lines">
                     <div><b data-en="Backend" data-ko="백엔드">Backend</b> <span class="muted">—</span>
-                      <span data-en="Python (FastAPI), Node.js/TypeScript, SQL, GraphQL, REST, WebSocket, C/C++, JavaScript"
-                            data-ko="Python(FastAPI), Node.js/TypeScript, SQL, GraphQL, REST, WebSocket, C/C++, JavaScript">
-                        Python (FastAPI), Node.js/TypeScript, SQL, GraphQL, REST, WebSocket, C/C++, JavaScript
+                      <span data-en="Python (FastAPI), Node.js/TypeScript, SQL, GraphQL, REST, WebSocket"
+                            data-ko="Python(FastAPI), Node.js/TypeScript, SQL, GraphQL, REST, WebSocket">
+                        Python (FastAPI), Node.js/TypeScript, SQL, GraphQL, REST, WebSocket
                       </span>
                     </div>
                     <div style="margin-top:6px;"><b data-en="Cloud / Data" data-ko="클라우드/데이터">Cloud / Data</b> <span class="muted">—</span>
-                      <span data-en="AWS (Lambda/AppSync/DynamoDB), GCP, SQLAlchemy/pyodbc, UNIX/Linux"
-                            data-ko="AWS(Lambda/AppSync/DynamoDB), GCP, SQLAlchemy/pyodbc, UNIX/Linux">
-                        AWS (Lambda/AppSync/DynamoDB), GCP, SQLAlchemy/pyodbc, UNIX/Linux
+                      <span data-en="AWS (Lambda/AppSync/DynamoDB), SQLAlchemy/pyodbc, UNIX/Linux"
+                            data-ko="AWS(Lambda/AppSync/DynamoDB), SQLAlchemy/pyodbc, UNIX/Linux">
+                        AWS (Lambda/AppSync/DynamoDB), SQLAlchemy/pyodbc, UNIX/Linux
                       </span>
                     </div>
                     <div style="margin-top:6px;"><b data-en="AI Tooling" data-ko="AI 도구">AI Tooling</b> <span class="muted">—</span>
-                      <span data-en="LangChain, OpenAI API, TensorFlow, PyTorch, local summarization option, governance (audit/RBAC)"
-                            data-ko="LangChain, OpenAI API, TensorFlow, PyTorch, 로컬 요약 옵션, 거버넌스(감사/권한)">
-                        LangChain, OpenAI API, TensorFlow, PyTorch, local summarization option, governance (audit/RBAC)
+                      <span data-en="LangChain, OpenAI API, local summarization option, governance (audit/RBAC)"
+                            data-ko="LangChain, OpenAI API, 로컬 요약 옵션, 거버넌스(감사로그/권한)">
+                        LangChain, OpenAI API, local summarization option, governance (audit/RBAC)
                       </span>
                     </div>
                     <div style="margin-top:6px;"><b data-en="Systems" data-ko="시스템">Systems</b> <span class="muted">—</span>
-                      <span data-en="C/C++ (Boost), Qt (PySide6/PyQt), PLC & Jetson GPU, CARLA/Unreal Engine, packaging & internal distribution"
-                            data-ko="C/C++(Boost), Qt(PySide6/PyQt), PLC·Jetson GPU, CARLA·Unreal Engine, 패키징·사내 배포">
-                        C/C++ (Boost), Qt (PySide6/PyQt), PLC & Jetson GPU, CARLA/Unreal Engine, packaging & internal distribution
+                      <span data-en="C/C++ (Boost), Qt (PySide6/PyQt), packaging & internal distribution"
+                            data-ko="C/C++(Boost), Qt(PySide6/PyQt), 패키징·사내 배포">
+                        C/C++ (Boost), Qt (PySide6/PyQt), packaging & internal distribution
                       </span>
                     </div>
                   </div>
 
-                  <div class "chips" style="margin-top:10px;">
+                  <div class="chips" style="margin-top:10px;">
                     <span class="chip">Python</span><span class="chip">FastAPI</span><span class="chip">TypeScript</span><span class="chip">Node.js</span>
                     <span class="chip">AWS</span><span class="chip">GraphQL</span><span class="chip">SQL</span><span class="chip">LangChain</span>
-                    <span class="chip">TensorFlow</span><span class="chip">PyTorch</span><span class="chip">PySide6</span><span class="chip">C++14</span>
+                    <span class="chip">PySide6</span><span class="chip">C++14</span>
                   </div>
                 </section>
 
                 <section class="section">
-                  <h2 class "h2" data-en="Education" data-ko="학력">Education</h2>
+                  <h2 class="h2" data-en="Education" data-ko="학력">Education</h2>
                   <div class="edu-lines">
                     <div><b data-en="University of Waterloo" data-ko="워털루 대학교">University of Waterloo</b></div>
                     <div class="muted"
@@ -691,7 +647,7 @@
                 </section>
 
                 <section class="section">
-                  <h2 class "h2" data-en="Volunteering" data-ko="봉사">Volunteering</h2>
+                  <h2 class="h2" data-en="Volunteering" data-ko="봉사">Volunteering</h2>
                   <div class="item">
                     <div class="item-top">
                       <div>
@@ -702,13 +658,9 @@
                     </div>
                     <ul>
                       <li data-en="Mentored 9 high school students in embedded programming, sensor fusion, and robot motion planning."
-                          data-ko="고등학생 9명을 대상으로 임베디드 프로그래밍, 센서 퓨전, 로봇 모션 플래닝을 멘토링.">
-                        Mentored 9 students…
-                      </li>
+                          data-ko="고등학생 9명을 대상으로 임베디드 프로그래밍, 센서 퓨전, 로봇 모션 플래닝을 멘토링."></li>
                       <li data-en="Built ISR-based calibration + sensor fusion; helped improve autonomous movement reliability (reported 93% success)."
-                          data-ko="ISR 기반 보정 + 센서 퓨전으로 자율 주행 신뢰성 향상(보고된 성공률 93%).">
-                        Built ISR-based calibration…
-                      </li>
+                          data-ko="ISR 기반 보정 + 센서 퓨전으로 자율 주행 신뢰성 향상(보고된 성공률 93%)."></li>
                     </ul>
                     <div class="chips">
                       <span class="chip">Embedded</span><span class="chip">RTOS</span><span class="chip">ESP32</span><span class="chip">roboRIO</span>
@@ -718,13 +670,14 @@
                 </section>
 
                 <section class="section">
-                  <h2 class "h2" data-en="Notes" data-ko="메모">Notes</h2>
-                  <div class "mini"
+                  <h2 class="h2" data-en="Notes" data-ko="메모">Notes</h2>
+                  <div class="mini"
                        data-en="Printing tip (North America): keep Paper = LETTER, enable Fit to 1 page, and set margins to 'None' (or minimum) in Chrome Save as PDF."
                        data-ko="출력 팁(북미): 용지를 LETTER로 두고 ‘1페이지 맞춤’을 켠 다음, Chrome PDF 저장에서 여백을 None(또는 최소)로 설정해.">
-                    Printing tip (North America): keep Paper = LETTER, enable Fit to 1 page, and set margins to 'None' (or minimum) in Chrome Save as PDF.
+                    Printing tip…
                   </div>
                 </section>
+
               </div>
             </div>
 
@@ -745,15 +698,12 @@
   </main>
 
   <script>
-    const state = {
-      lang: "en",
-      fit: true,
-      paper: "letter"
-    };
+    const state = { lang: "en", fit: true, paper: "letter" };
 
+    // ✅ 핵심 수정: textContent -> innerHTML (그래야 <b>가 실제 bold로 렌더링됨)
     function applyLang() {
       document.querySelectorAll("[data-en][data-ko]").forEach(el => {
-        el.textContent = (state.lang === "en") ? el.dataset.en : el.dataset.ko;
+        el.innerHTML = (state.lang === "en") ? el.dataset.en : el.dataset.ko;
       });
       document.getElementById("langPill").textContent = state.lang.toUpperCase();
       document.documentElement.lang = state.lang;
@@ -793,7 +743,7 @@
 
       const sH = avail.height / naturalH;
       const sW = avail.width / naturalW;
-      let s = Math.min(1, sH, sW);
+      const s = Math.min(1, sH, sW);
 
       document.body.classList.toggle("fit-tight", s < 0.95);
       document.documentElement.style.setProperty("--fit", s.toFixed(4));
@@ -801,8 +751,7 @@
 
     function setUpdatedAt() {
       const now = new Date();
-      const iso = now.toISOString().slice(0, 10);
-      document.getElementById("updatedAt").textContent = iso;
+      document.getElementById("updatedAt").textContent = now.toISOString().slice(0, 10);
     }
 
     document.getElementById("langBtn").addEventListener("click", () => {
@@ -824,7 +773,7 @@
       computeFitScale();
     });
 
-    window.addEventListener("resize", () => computeFitScale());
+    window.addEventListener("resize", computeFitScale);
     window.addEventListener("load", () => {
       setUpdatedAt();
       applyLang();
