@@ -13,8 +13,8 @@
   <style>
     /* =========================================================
        2025-26 Print-stable Resume (EN + KO are separate templates)
-       - Screen: preview + controls + tips
-       - Print: ONLY the sheet content (no UI), no fixed/absolute hacks
+       - Screen: preview + controls + tips (panel is web-only)
+       - Print: ONLY the sheet content (no UI), 1-page stable
        ========================================================= */
 
     :root{
@@ -54,6 +54,8 @@
       --leftCol: 63%;
       --rightCol: 37%;
     }
+
+    *, *::before, *::after{ box-sizing: border-box; }
 
     html, body { height: 100%; }
     body{
@@ -155,16 +157,18 @@
 
     .main{ padding: 18px 14px 34px; }
 
+    /* ===== Stage: keep sheet centered; panel floats (web-only) ===== */
     .stage{
       max-width: 1120px;
       margin: 0 auto;
-      display: grid;
-      grid-template-columns: 1fr 340px;
-      gap: 16px;
-      align-items: start;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 0;
+      position: relative;
     }
     @media (max-width: 1040px){
-      .stage{ grid-template-columns: 1fr; }
+      .stage{ display: block; }
     }
 
     /* ===== Sheet preview (screen) ===== */
@@ -175,12 +179,12 @@
     }
     .sheet{
       width: var(--pageW);
-      min-height: var(--pageH);
+      height: var(--pageH);
       background: #fff;
       border-radius: var(--sheetRadius);
       box-shadow: var(--sheetShadow);
-      box-sizing: border-box;
       padding: var(--padY) var(--padX);
+      overflow: hidden;
     }
 
     /* ===== Resume typography ===== */
@@ -219,12 +223,16 @@
       line-height: 1.25;
     }
 
+    /* IMPORTANT: allow wrapping to avoid horizontal spill in print */
     .contact{
       text-align: right;
       font-size: 10px;
       color: var(--muted);
       line-height: 1.35;
-      white-space: nowrap;
+      white-space: normal;
+      overflow-wrap: anywhere;
+      word-break: break-word;
+      max-width: 260px;
     }
     .contact a{ color: inherit; text-decoration: none; border-bottom: 1px dotted rgba(0,0,0,.25); }
 
@@ -306,7 +314,6 @@
     /* ===== KO layout (A4, 1-col) ===== */
     body[data-lang="ko"]{
       font-family: var(--font-ko);
-      /* KO는 1페이지 안정성을 위해 조금 더 조밀하게 */
       --bodySize: 9.9px;
       --bodyLH: 1.22;
       --h2Size: 11.2px;
@@ -337,17 +344,28 @@
     .ko-top-skills .k{ font-weight: 900; font-size: 10.2px; color: #0f172a; }
     .ko-top-skills .v{ color: var(--muted); font-size: 10px; line-height: 1.25; }
 
-    /* ===== Side panel (web only) ===== */
+    /* ===== Web-only help panel (floats) ===== */
     .panel{
-      position: sticky;
+      position: fixed;
       top: 86px;
-      align-self: start;
+      right: 16px;
+      width: 340px;
+      max-width: calc(100vw - 28px);
       padding: 14px;
       border-radius: 16px;
       border: 1px solid rgba(255,255,255,.12);
       background: rgba(255,255,255,.06);
       color: rgba(255,255,255,.90);
       box-shadow: 0 10px 30px rgba(0,0,0,.22);
+      z-index: 10;
+    }
+    @media (max-width: 1040px){
+      .panel{
+        position: static;
+        width: auto;
+        max-width: 720px;
+        margin: 16px auto 0;
+      }
     }
     .panel h3{
       margin: 0 0 8px 0;
@@ -375,34 +393,40 @@
       font-size: 11px;
     }
 
-    /* ===== PRINT (ultra-stable) ===== */
+    /* ===== PRINT (ultra-stable / 1-page) ===== */
     @media print{
-      /* 인쇄 시에는 UI/패널 전부 제거하고, sheet만 출력 */
-      body{ background:#fff !important; }
-      .topbar, .panel { display: none !important; }
-      .main{ padding: 0 !important; }
-      .stage{ max-width: none !important; grid-template-columns: 1fr !important; gap: 0 !important; }
-      .sheet-wrap{ justify-content: flex-start !important; }
+      @page{ margin: 0; }
 
-      /* 화면용 둥근 모서리/그림자 제거 */
+      html, body{
+        margin: 0 !important;
+        padding: 0 !important;
+        width: var(--pageW) !important;
+        height: var(--pageH) !important;
+        overflow: hidden !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+        background: #fff !important;
+      }
+
+      .topbar, .panel{ display: none !important; }
+      .main{ padding: 0 !important; }
+
+      .stage{ max-width: none !important; display: block !important; }
+      .sheet-wrap{ display: block !important; }
+
       .sheet{
         border-radius: 0 !important;
         box-shadow: none !important;
         width: var(--pageW) !important;
-        min-height: var(--pageH) !important;
+        height: calc(var(--pageH) - 0.2mm) !important; /* 2페이지 빈 페이지 방지 */
+        overflow: hidden !important;
       }
 
-      /* 인쇄 공간 절약: 칩 숨김 */
       .chips{ display: none !important; }
 
-      /* 여백/헤더푸터는 사용자가 Chrome/Safari 옵션에서 꺼도 되지만,
-         우리는 margin 0로 @page를 강제하고, padding은 sheet 내부에서 관리 */
-      html, body{
-        margin: 0 !important;
-        padding: 0 !important;
-        -webkit-print-color-adjust: exact;
-        print-color-adjust: exact;
-      }
+      .contact a{ border-bottom: 0 !important; text-decoration: none !important; }
+
+      .sheet, .resume, .header, .grid{ break-inside: avoid; }
     }
   </style>
 </head>
@@ -416,7 +440,7 @@
           <div class="dot"></div>
           <div>
             <div class="brand-title" id="brandTitle">Resume</div>
-            <div class="brand-sub" id="brandSub">North America (Letter) · EN template · Print-stable</div>
+            <div class="brand-sub" id="brandSub">EN template · Print-stable</div>
           </div>
         </div>
 
@@ -424,8 +448,8 @@
           <div class="pill">
             <label id="lblLang">Template</label>
             <select id="langSel">
-              <option value="en">EN (Letter)</option>
-              <option value="ko">KO (A4)</option>
+              <option value="en">EN (2-col)</option>
+              <option value="ko">KO (1-col)</option>
             </select>
           </div>
 
@@ -445,7 +469,6 @@
     <!-- ===== Main ===== -->
     <div class="main">
       <div class="stage">
-        <!-- Sheet -->
         <div class="sheet-wrap">
           <div class="sheet">
             <div class="resume" id="resumeRoot"></div>
@@ -463,25 +486,18 @@
   </div>
 
   <script>
-    /* =========================
-       EN vs KO are separate (not translations)
-       KO: A4 + Korean 1-col layout
-       EN: Letter + 2-col layout
-       ========================= */
-
     const $ = (id) => document.getElementById(id);
 
     const DATA = {
       en: {
         brandTitle: "Resume",
-        brandSub: "North America (Letter) · EN template · Print-stable",
         helpTitle: "Print tips (Chrome / Safari)",
         helpBody: [
-          "1) Use Paper = US Letter for NA applications.",
-          "2) In the print dialog: turn OFF 'Headers and footers'.",
-          "3) Set Margins = None (or Minimum) if available. Keep Scale = 100%."
+          "1) For North America, prefer US Letter unless instructed otherwise.",
+          "2) In print dialog: turn OFF 'Headers and footers'.",
+          "3) Set Margins = None (or Minimum), Scale = 100%."
         ],
-        helpHint: "If an ATS is picky, export as 1-column version later. (This template keeps print stable and clean.)",
+        helpHint: "If an ATS is picky, you can switch to the KO 1-column layout style later, but this EN template stays print-stable.",
         headings: {
           experience: "Experience",
           skills: "Skills",
@@ -590,14 +606,14 @@
 
       ko: {
         brandTitle: "이력서",
-        brandSub: "한국 (A4) · 한글 전용 1열 레이아웃 · Print-stable",
         helpTitle: "인쇄/저장 팁 (Chrome / Safari)",
         helpBody: [
-          "1) Paper = A4로 맞추세요.",
+          "1) 한국 기업 제출은 보통 A4를 권장합니다.",
           "2) 인쇄 옵션에서 ‘머리글/바닥글’은 OFF.",
-          "3) 여백 = 없음(또는 최소), 배율 = 100% 권장."
+          "3) 여백 = 없음(또는 최소), 배율 = 100% 권장.",
+          "4) 제출처가 Letter를 요구하면 Paper를 Letter로 바꿔 출력하세요."
         ],
-        helpHint: "KO 템플릿은 한글 ‘전용 1열(A4)’로 구성해서 오른쪽 여백/밸런스 문제를 없앴습니다.",
+        helpHint: "KO 템플릿은 한글 전용 1열로 구성(2025–26 스타일)했고, 인쇄/PDF에는 이 패널이 포함되지 않습니다.",
         headings: {
           skillsTop: "핵심역량",
           experience: "경력",
@@ -610,7 +626,7 @@
           name: "윤홍준 (Andy Yun)",
           headline: "백엔드 · 사내 AI 업무도구/플랫폼 엔지니어",
           summary:
-            "사내 사용자(비개발자 포함)가 ‘실제로 쓰는’ 업무도구를 운영 가능한 형태로 설계/구현/배포해온 백엔드 엔지니어입니다. 권한(RBAC)·감사로그·버전/배포·민감정보 유출 위험 감지(알림)까지 포함한 거버넌스 기반 업무도구 구축 경험이 있습니다."
+            "사내 비개발자도 바로 쓸 수 있는 AI 업무도구를 ‘운영 가능한 형태’로 설계·구현·배포해왔습니다. DB 기반 로그인/RBAC, 감사로그, 버전·배포, 유출 위험 키워드 감지(알림)까지 포함한 거버넌스 기능을 구축한 경험이 있습니다."
         },
         contact: {
           siteLabel: "웹",
@@ -621,7 +637,7 @@
         },
         topSkills: [
           { k: "백엔드", v: "Python(FastAPI), Node.js/TypeScript, SQL, REST, GraphQL" },
-          { k: "데이터/연동", v: "SQL Server, SQLAlchemy/pyodbc, 문서/엑셀/뉴스 연동" },
+          { k: "데이터/연동", v: "SQL Server, SQLAlchemy/pyodbc, 문서·엑셀·뉴스 연동" },
           { k: "사내 AI 도구", v: "LangChain, OpenAI API, 로컬 요약 옵션, 프롬프트 마켓" },
           { k: "거버넌스/운영", v: "RBAC, 감사로그, 버전관리·배포, 위험 키워드 알림" }
         ],
@@ -631,10 +647,10 @@
             role: "AI 도입 연구원 / 사내 툴 개발 (인턴)",
             date: "2024.01 – 2024.04",
             bullets: [
-              "약 50명 규모 조직 대상 사내 LLM 업무보조 도구(베타) 주도 개발: Windows 데스크톱(PySide6) + FastAPI 서버(서버실 상시 구동).",
-              "DB 기반 거버넌스 구축: 로그인/권한(RBAC), 버전 관리·배포, 사용/프롬프트 감사로그(사용자·IP/MAC·앱 버전)로 컴플라이언스·디버깅 지원.",
-              "프롬프트 마켓(약 10개 템플릿) 구축: 사용자 기여 + 작성자 표시 + 관리자 삭제/검수, 민감정보 유출 위험(A/B/C 키워드 임계치) 감지 시 관리자 팝업/알림.",
-              "뉴스/엑셀/펀드 설명서 등 내부자료를 DB 연동(SQLAlchemy/pyodbc)으로 조회·요약(로컬 LLM 옵션)하여 토큰 초과/멈춤 이슈 완화."
+              "약 50명 규모 조직 대상 사내 LLM 업무보조 도구(베타) 개발을 주도: Windows 데스크톱(PySide6) + FastAPI 서버(서버실 상시 구동).",
+              "DB 기반 거버넌스 구축: 로그인/권한(RBAC), 버전관리·배포, 사용/프롬프트 감사로그(사용자·IP/MAC·앱 버전)로 컴플라이언스·디버깅 지원.",
+              "프롬프트 마켓(약 10개 템플릿) 구축: 사용자 기여(작성자 표시) + 관리자 삭제/검수. 민감정보 유출 위험 A/B/C 키워드 임계치 초과 시 관리자 팝업/알림.",
+              "뉴스/엑셀/펀드 설명서 등 내부 자료를 SQL Server 연동(SQLAlchemy/pyodbc)으로 조회하고, 로컬 LLM 요약 옵션을 추가해 토큰 초과·UI 멈춤 이슈를 완화."
             ],
             tech: ["Python","FastAPI","PySide6","SQLAlchemy","SQL Server","LangChain","OpenAI API","PyInstaller"]
           },
@@ -703,10 +719,7 @@
       }
     };
 
-    const state = {
-      lang: "en",     // en | ko
-      paper: "LETTER" // LETTER | A4
-    };
+    const state = { lang: "en", paper: "LETTER" };
 
     function setPaperVars(paper){
       const root = document.documentElement.style;
@@ -720,7 +733,6 @@
     }
 
     function applyPageRule(){
-      // @page는 CSS selector로 토글하기가 불안정해서, JS로 확정 주입합니다.
       const page = (state.paper === "A4") ? "A4" : "letter";
       $("pageStyle").textContent = `@page { size: ${page}; margin: 0; }`;
     }
@@ -738,7 +750,7 @@
       return `
         <div>${escapeHtml(c.siteLabel)}: <a href="${escapeHtml(siteUrl)}" target="_blank" rel="noopener">${escapeHtml(c.site)}</a></div>
         <div>${emailLabel}: <a href="mailto:${escapeHtml(c.email1)}">${escapeHtml(c.email1)}</a></div>
-        <div>${escapeHtml(c.email2)}</div>
+        <div><a href="mailto:${escapeHtml(c.email2)}">${escapeHtml(c.email2)}</a></div>
         <div>${phoneLabel}: ${escapeHtml(c.phone)}</div>
       `;
     }
@@ -952,47 +964,37 @@
       `;
     }
 
+    function setBrandSub(){
+      const lang = state.lang;
+      const paper = state.paper === "A4" ? "A4" : "US Letter";
+      const template = (lang === "ko") ? "KO template (1-col)" : "EN template (2-col)";
+      $("brandSub").textContent = `${template} · Paper: ${paper} · Print-stable`;
+    }
+
     function render(){
       const d = DATA[state.lang];
 
-      // KO 선택 시 기본값 강제: A4
-      if(state.lang === "ko") state.paper = "A4";
-
-      // body dataset
       document.body.dataset.lang = state.lang;
       document.body.dataset.paper = state.paper;
 
-      // paper vars + @page size 주입
       setPaperVars(state.paper);
       applyPageRule();
+      setBrandSub();
 
-      // topbar texts
       $("brandTitle").textContent = d.brandTitle;
-      $("brandSub").textContent = d.brandSub;
 
-      // help panel
       $("helpTitle").textContent = d.helpTitle;
       $("helpBody").innerHTML = d.helpBody.map(x => escapeHtml(x)).join("<br/>");
       $("helpHint").textContent = d.helpHint;
 
-      // paper UI: KO는 A4 고정 (사용자 실수 방지)
       $("paperSel").value = state.paper;
-      if(state.lang === "ko"){
-        $("paperPill").style.opacity = "0.55";
-        $("paperSel").disabled = true;
-      } else {
-        $("paperPill").style.opacity = "1";
-        $("paperSel").disabled = false;
-      }
 
-      // resume html
       $("resumeRoot").innerHTML = (state.lang === "ko") ? buildKO(d) : buildEN(d);
     }
 
-    // Events
     $("langSel").addEventListener("change", (e)=>{
       state.lang = e.target.value;
-      if(state.lang === "en") state.paper = "LETTER";
+      state.paper = (state.lang === "ko") ? "A4" : "LETTER";
       render();
     });
 
@@ -1001,20 +1003,19 @@
       render();
     });
 
-    // Print: beforeprint에서 @page 다시 주입 (브라우저별 타이밍 이슈 방지)
     window.addEventListener("beforeprint", ()=> applyPageRule());
     const mql = window.matchMedia("print");
-    mql.addEventListener?.("change", (e)=>{
-      if(e.matches) applyPageRule();
-    });
+    mql.addEventListener?.("change", (e)=>{ if(e.matches) applyPageRule(); });
 
-    $("printBtn").addEventListener("click", ()=>{
+    async function safePrint(){
       applyPageRule();
-      // Safari/Chrome 모두에서 적용되도록 약간의 딜레이
-      setTimeout(()=> window.print(), 80);
-    });
+      try{ if(document.fonts && document.fonts.ready) await document.fonts.ready; }catch(e){}
+      await new Promise(r => requestAnimationFrame(()=> r()));
+      setTimeout(()=> window.print(), 60);
+    }
 
-    // Init
+    $("printBtn").addEventListener("click", ()=> safePrint() );
+
     function init(){
       $("langSel").value = state.lang;
       $("paperSel").value = state.paper;
