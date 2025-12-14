@@ -2,806 +2,838 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Andy Yun — Resume</title>
-  <meta name="description" content="Resume (Backend / Backend+LLM) — A4-fit + JD keyword skill reorder" />
+  <meta name="description" content="Andy Yun — Backend / AI Platform Engineer Resume (EN/KR, A4/Letter, Fit-to-1-page)" />
 
   <style>
     :root{
-      --paper:#ffffff; --bg:#f8fafc; --ink:#0f172a; --muted:#475569; --soft:#94a3b8;
-      --line:#e2e8f0; --chip:#f1f5f9; --chipHi:#e0f2fe; --chipHiBorder:#7dd3fc;
+      /* Page size (default: Letter for North America) */
+      --pagew: 216mm; /* Letter: 8.5in */
+      --pageh: 279mm; /* Letter: 11in */
+      --pad: 11.5mm;
 
-      --max: 900px; --radius: 16px;
+      /* Typography */
+      --font: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial,
+              "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 
-      --page-margin: 12mm;
-      --a4-width: 210mm;
-      --a4-height: 297mm;
+      /* Colors */
+      --bg: #0b0d10;
+      --panel: #0f1319;
+      --sheet: #ffffff;
+      --ink: #0f172a;
+      --muted: #475569;
+      --line: #e2e8f0;
+      --chip: #f1f5f9;
+      --accent: #2563eb;
 
-      --h1: 28px; --h2: 12px; --body: 13.5px; --lead: 14.5px;
-      --pad: 28px;
-      --s1: 6px; --s2: 10px; --s3: 14px; --s4: 18px; --s5: 22px;
-
-      --fit-body: var(--body);
-      --fit-lead: var(--lead);
-      --fit-pad: var(--pad);
-      --fit-s1: var(--s1);
-      --fit-s2: var(--s2);
-      --fit-s3: var(--s3);
-      --fit-s4: var(--s4);
-      --fit-s5: var(--s5);
+      /* Fit-to-page scale */
+      --fit: 1;
     }
 
-    [data-fit="1"]{
-      --fit-body: 13.2px; --fit-lead: 14.2px; --fit-pad: 26px;
-      --fit-s1: 5px; --fit-s2: 9px; --fit-s3: 12px; --fit-s4: 15px; --fit-s5: 18px;
-    }
-    [data-fit="2"]{
-      --fit-body: 12.9px; --fit-lead: 13.9px; --fit-pad: 24px;
-      --fit-s1: 4px; --fit-s2: 8px; --fit-s3: 11px; --fit-s4: 13px; --fit-s5: 16px;
-    }
-    [data-fit="3"]{
-      --fit-body: 12.6px; --fit-lead: 13.6px; --fit-pad: 22px;
-      --fit-s1: 4px; --fit-s2: 7px; --fit-s3: 10px; --fit-s4: 12px; --fit-s5: 14px;
-    }
-    [data-fit="4"]{
-      --fit-body: 12.3px; --fit-lead: 13.3px; --fit-pad: 20px;
-      --fit-s1: 3px; --fit-s2: 6px; --fit-s3: 9px; --fit-s4: 11px; --fit-s5: 13px;
-    }
-
-    [data-compact="true"]{
-      --pad: 24px; --body: 13.2px; --lead: 14px;
-      --s1: 4px; --s2: 8px; --s3: 12px; --s4: 14px; --s5: 16px;
-    }
-
-    html, body { height: 100%; }
+    *{ box-sizing: border-box; }
+    html, body{ height:100%; }
     body{
       margin:0;
-      background: var(--bg);
-      color: var(--ink);
-      font: 400 var(--fit-body)/1.48 ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial,
-            "Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic", sans-serif;
-      letter-spacing: 0.1px;
+      font-family: var(--font);
+      background:
+        radial-gradient(1200px 600px at 20% 10%, #101826 0%, transparent 55%),
+        radial-gradient(900px 500px at 80% 15%, #1a1026 0%, transparent 55%),
+        var(--bg);
+      color: #e5e7eb;
     }
 
-    .measureA4{
-      position: fixed;
-      left: -9999px;
-      top: -9999px;
-      width: var(--a4-width);
-      height: calc(var(--a4-height) - (2 * var(--page-margin)));
-      visibility: hidden;
-      pointer-events:none;
-    }
-
-    .toolbar{
+    /* Topbar */
+    .topbar{
       position: sticky;
-      top: 0;
-      z-index: 50;
+      top:0;
+      z-index: 10;
       backdrop-filter: blur(10px);
-      background: rgba(248,250,252,0.9);
-      border-bottom: 1px solid var(--line);
+      background: rgba(15, 19, 25, 0.72);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
     }
-    .toolbar-inner{
-      max-width: var(--max);
+    .topbar-inner{
+      max-width: 1120px;
       margin: 0 auto;
-      padding: 10px 16px;
+      padding: 14px 16px;
       display:flex;
-      align-items:flex-start;
-      justify-content:space-between;
-      gap: 12px;
-      flex-wrap:wrap;
-    }
-    .left, .right{
-      display:flex;
+      gap:12px;
       align-items:center;
-      gap: 10px;
-      flex-wrap:wrap;
+      justify-content: space-between;
     }
-    .pill{
+    .brand{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      min-width: 260px;
+    }
+    .dot{
+      width:10px; height:10px; border-radius: 999px;
+      background: linear-gradient(135deg, #60a5fa, #a78bfa);
+      box-shadow: 0 0 0 4px rgba(96,165,250,0.15);
+    }
+    .brand b{ font-weight: 800; letter-spacing: 0.2px; }
+    .brand span{ color: rgba(229,231,235,0.75); font-size: 13px; }
+
+    .controls{
+      display:flex;
+      gap:10px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+    .btn{
+      appearance:none;
+      border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.06);
+      color: #e5e7eb;
+      padding: 9px 11px;
+      border-radius: 12px;
+      font-weight: 650;
+      font-size: 13px;
+      letter-spacing: 0.1px;
+      cursor: pointer;
       display:inline-flex;
       align-items:center;
       gap:8px;
-      padding: 8px 10px;
-      border: 1px solid var(--line);
-      background: white;
+      user-select:none;
+    }
+    .btn:hover{ background: rgba(255,255,255,0.10); }
+    .btn.primary{
+      border-color: rgba(37,99,235,0.45);
+      background: rgba(37,99,235,0.16);
+    }
+    .btn.primary:hover{ background: rgba(37,99,235,0.22); }
+    .pill{
+      padding: 3px 8px;
       border-radius: 999px;
+      background: rgba(255,255,255,0.10);
       font-size: 12px;
-      color: var(--muted);
-      box-shadow: 0 1px 0 rgba(15,23,42,0.02);
-      user-select:none;
-      white-space:nowrap;
+      font-weight: 800;
     }
-    .btn{
-      cursor:pointer;
-      border: 1px solid var(--line);
-      background: white;
-      color: var(--ink);
-      padding: 8px 10px;
-      border-radius: 10px;
-      font-size: 12px;
-      transition: transform .04s ease, box-shadow .15s ease;
-      box-shadow: 0 1px 0 rgba(15,23,42,0.02);
-      user-select:none;
-      white-space:nowrap;
-    }
-    .btn:hover{ box-shadow: 0 10px 24px rgba(15,23,42,0.08); }
-    .btn:active{ transform: translateY(1px); }
-    .btn.primary{ background: #0f172a; color: white; border-color: #0f172a; }
 
-    .toggle{
-      display:inline-flex;
-      align-items:center;
-      gap: 8px;
-      padding: 8px 10px;
-      border: 1px solid var(--line);
-      background: white;
-      border-radius: 10px;
-      font-size: 12px;
-      color: var(--muted);
-      user-select:none;
-      white-space:nowrap;
+    /* Stage */
+    .stage{
+      padding: 20px 16px 48px;
     }
-    .toggle input{ transform: translateY(0.5px); }
-
-    .jdbox{
+    .stage-inner{
+      max-width: 1120px;
+      margin: 0 auto;
       display:flex;
-      gap: 8px;
-      align-items:stretch;
-      flex-wrap:wrap;
-      width: min(560px, 100%);
+      justify-content:center;
     }
-    .jdbox textarea{
-      width: min(390px, 100%);
-      min-width: 260px;
-      height: 40px;
-      resize: vertical;
-      border: 1px solid var(--line);
-      border-radius: 10px;
-      padding: 8px 10px;
-      font: 400 12px/1.3 ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial,
-            "Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic", sans-serif;
+
+    /* Sheet */
+    .sheet{
+      width: var(--pagew);
+      min-height: var(--pageh);
+      background: var(--sheet);
       color: var(--ink);
-      background: white;
-      box-shadow: 0 1px 0 rgba(15,23,42,0.02);
+      border-radius: 18px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.40);
+      overflow:hidden;
+      position: relative;
     }
-    .mini{
-      font-size: 11.5px;
-      color: var(--muted);
-      white-space:nowrap;
-    }
-
-    .page{
-      max-width: var(--max);
-      margin: 18px auto 32px;
-      padding: var(--fit-pad);
-      background: var(--paper);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      box-shadow: 0 24px 70px rgba(15,23,42,0.08);
+    .sheet::after{
+      content:"";
+      position:absolute;
+      inset: 10mm;
+      border: 1px solid rgba(2,6,23,0.06);
+      border-radius: 14px;
+      pointer-events:none;
     }
 
-    .top{
+    .pad{
+      padding: var(--pad);
+      height: var(--pageh);
+      width: var(--pagew);
+      display:flex;
+      align-items: stretch;
+    }
+
+    #scaleRoot{
+      transform: scale(var(--fit));
+      transform-origin: top left;
+      width: calc( (var(--pagew) - (2 * var(--pad))) / var(--fit) );
+    }
+
+    /* Resume layout */
+    .hdr{
       display:flex;
       align-items:flex-start;
-      justify-content:space-between;
-      gap: 14px;
-      padding-bottom: var(--fit-s4);
+      justify-content: space-between;
+      gap: 18px;
+      padding-bottom: 10px;
       border-bottom: 1px solid var(--line);
-      flex-wrap:wrap;
     }
     .name{
-      margin:0 0 var(--fit-s1) 0;
-      font-size: var(--h1);
-      line-height: 1.1;
-      font-weight: 800;
-      letter-spacing: -0.6px;
-    }
-    .tagline{
-      margin:0;
-      font-size: var(--fit-lead);
-      color: var(--muted);
-      max-width: 78ch;
-    }
-    .contact{
-      text-align:right;
-      font-size: 12px;
-      color: var(--muted);
-      line-height: 1.4;
-      white-space:nowrap;
-    }
-    .contact a{
-      color: inherit;
-      text-decoration: none;
-      border-bottom: 1px dotted var(--soft);
-    }
-
-    section{ padding-top: var(--fit-s4); }
-    .section-title{
-      margin: 0 0 var(--fit-s2) 0;
-      font-size: 12px;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--muted);
-      font-weight: 780;
-    }
-    .summary{ margin:0; max-width: 110ch; }
-
-    .chips{ display:flex; flex-wrap:wrap; gap: 8px; }
-    .chip{
-      background: var(--chip);
-      border: 1px solid var(--line);
-      padding: 6px 10px;
-      border-radius: 999px;
-      font-size: 12px;
-      color: #0b1220;
-      display:inline-flex;
-      gap: 6px;
-      align-items:center;
-    }
-    .chip strong{ font-weight: 800; }
-    .chip[data-hit="true"]{ background: var(--chipHi); border-color: var(--chipHiBorder); }
-    .chip .score{ font-size: 11px; color: var(--muted); margin-left: 2px; display:none; }
-    [data-show-scores="true"] .chip .score{ display:inline; }
-
-    .item{ padding-top: var(--fit-s2); }
-    .item + .item{
-      margin-top: var(--fit-s3);
-      padding-top: var(--fit-s3);
-      border-top: 1px dashed var(--line);
-    }
-    .item-head{
       display:flex;
-      justify-content:space-between;
-      align-items:baseline;
-      gap: 12px;
-      flex-wrap:wrap;
+      flex-direction: column;
+      gap: 6px;
+      min-width: 55%;
+    }
+    .name h1{
+      margin:0;
+      font-size: 28px;
+      line-height: 1.10;
+      letter-spacing: -0.5px;
     }
     .role{
       margin:0;
       font-size: 14px;
-      font-weight: 820;
-      letter-spacing: -0.2px;
-    }
-    .meta{ margin: var(--fit-s1) 0 0 0; color: var(--muted); font-size: 12px; }
-    .date{ color: var(--muted); font-size: 12px; white-space:nowrap; }
-
-    ul.bullets{ margin: var(--fit-s2) 0 0 18px; padding: 0; }
-    ul.bullets li{ margin: 4px 0; }
-    li.hidden-by-fit{ display:none !important; }
-
-    .fine{
-      margin-top: var(--fit-s4);
-      padding-top: var(--fit-s3);
-      border-top: 1px solid var(--line);
       color: var(--muted);
-      font-size: 11.5px;
+      font-weight: 750;
+      letter-spacing: 0.15px;
+    }
+    .subrole{
+      margin:0;
+      font-size: 12.6px;
+      color: var(--muted);
+      line-height: 1.25;
+    }
+    .contacts{
       display:flex;
-      justify-content:space-between;
-      gap: 10px;
-      flex-wrap:wrap;
+      flex-direction: column;
+      gap: 6px;
+      align-items:flex-end;
+      font-size: 12.5px;
+      color: var(--muted);
+      text-align:right;
+    }
+    .contacts a{
+      color: var(--ink);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(37,99,235,0.25);
+    }
+    .contacts a:hover{ border-bottom-color: rgba(37,99,235,0.55); }
+
+    .summary{
+      padding: 10px 0 12px;
+      color: #0f172a;
+      font-size: 12.8px;
+      line-height: 1.45;
+    }
+    .summary b{ font-weight: 900; }
+
+    .grid{
+      display:grid;
+      grid-template-columns: 1.62fr 1fr;
+      gap: 14px;
+      padding-top: 4px;
     }
 
-    [data-version="backend"] .only-llm { display:none !important; }
-    [data-version="hybrid"]  .only-backend { display:none !important; }
-    [data-additional="false"] .additional { display:none !important; }
+    .section{
+      padding-top: 10px;
+    }
+    .section:first-child{ padding-top: 0; }
+    .h2{
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      margin: 0 0 8px;
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #0f172a;
+    }
+    .h2::after{
+      content:"";
+      height:1px;
+      flex: 1;
+      margin-left: 10px;
+      background: var(--line);
+    }
 
+    .item{
+      margin-bottom: 10px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(226,232,240,0.70);
+    }
+    .item:last-child{
+      border-bottom: none;
+      padding-bottom: 0;
+      margin-bottom: 0;
+    }
+    .item-top{
+      display:flex;
+      gap: 10px;
+      align-items: baseline;
+      justify-content: space-between;
+    }
+    .where{
+      font-weight: 900;
+      font-size: 13px;
+      line-height: 1.25;
+    }
+    .title{
+      font-weight: 700;
+      color: var(--muted);
+      font-size: 12.6px;
+      margin-top: 2px;
+    }
+    .when{
+      font-size: 11.8px;
+      color: var(--muted);
+      white-space: nowrap;
+      font-variant-numeric: tabular-nums;
+    }
+    ul{
+      margin: 8px 0 0;
+      padding-left: 16px;
+      color: #0f172a;
+      font-size: 12.4px;
+      line-height: 1.40;
+    }
+    li{ margin: 4px 0; }
+
+    .chips{
+      display:flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 6px;
+    }
+    .chip{
+      background: var(--chip);
+      border: 1px solid rgba(148,163,184,0.35);
+      padding: 5px 8px;
+      border-radius: 999px;
+      font-size: 11.5px;
+      color: #0f172a;
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    .edu-lines{
+      font-size: 12.4px;
+      line-height: 1.35;
+      color: #0f172a;
+    }
+    .edu-lines .muted{ color: var(--muted); }
+
+    .mini{
+      font-size: 11.6px;
+      color: var(--muted);
+      line-height: 1.35;
+    }
+
+    .footer{
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid var(--line);
+      font-size: 11px;
+      color: var(--muted);
+      display:flex;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .footer code{
+      font-family: var(--mono);
+      font-size: 11px;
+    }
+
+    /* Tight mode */
+    body.fit-tight .summary{ padding: 8px 0 10px; }
+    body.fit-tight .item{ margin-bottom: 8px; padding-bottom: 8px; }
+    body.fit-tight ul{ margin-top: 6px; }
+    body.fit-tight li{ margin: 3px 0; }
+
+    /* Mobile */
+    @media (max-width: 980px){
+      .sheet{
+        width: calc(100vw - 32px);
+        border-radius: 16px;
+      }
+      .pad{
+        width: 100%;
+      }
+      .sheet{
+        aspect-ratio: 8.5 / 11;
+        height: auto;
+        min-height: unset;
+      }
+      .pad{ height: 100%; }
+      #scaleRoot{ width: auto; }
+      .contacts{ align-items:flex-start; text-align:left; }
+      .hdr{ flex-direction: column; }
+      .grid{ grid-template-columns: 1fr; }
+    }
+
+    /* Print */
     @media print{
-      body{ background: white; }
-      .toolbar{ display:none !important; }
-      .page{ margin: 0; border: none; box-shadow:none; border-radius:0; padding: 0; }
-      a{ text-decoration:none; border-bottom:none; }
-      @page { size: A4; margin: var(--page-margin); }
+      body{ background: #fff; color:#000; }
+      .topbar, .no-print{ display:none !important; }
+      .stage{ padding:0; }
+      .stage-inner{ max-width: none; }
+      .sheet{
+        width: var(--pagew);
+        min-height: var(--pageh);
+        border-radius: 0;
+        box-shadow: none;
+      }
+      .sheet::after{ display:none; }
+    }
+    @page{
+      size: letter;
+      margin: 0;
     }
   </style>
 </head>
 
 <body>
-  <div class="measureA4" id="measureA4"></div>
-
-  <div class="toolbar">
-    <div class="toolbar-inner">
-      <div class="left">
-        <div class="pill"><span id="uiVersionLabel">Version</span>: <strong id="vLabel">Backend</strong></div>
-
-        <!-- UI Language -->
-        <button class="btn" id="langBtn" type="button" title="Toggle UI language">KR / EN</button>
-
-        <label class="toggle" id="compactWrap">
-          <input id="compactToggle" type="checkbox" />
-          <span id="compactLabel">Compact</span>
-        </label>
-
-        <label class="toggle" id="fitWrap">
-          <input id="fitToggle" type="checkbox" />
-          <span id="fitLabel">Fit 1 page</span>
-        </label>
-
-        <label class="toggle" id="additionalWrap">
-          <input id="additionalToggle" type="checkbox" checked />
-          <span id="additionalLabel">Additional</span>
-        </label>
-
-        <label class="toggle" id="scoresWrap">
-          <input id="scoreToggle" type="checkbox" />
-          <span id="scoresLabel">Scores</span>
-        </label>
+  <header class="topbar no-print">
+    <div class="topbar-inner">
+      <div class="brand">
+        <div class="dot"></div>
+        <div>
+          <b data-en="Resume" data-ko="이력서">Resume</b>
+          <span data-en="North America default (Letter) · EN/KR · Fit-to-1-page"
+                data-ko="북미 기본(레터) · 영/한 · 자동 1페이지 맞춤">
+            North America default (Letter) · EN/KR · Fit-to-1-page
+          </span>
+        </div>
       </div>
 
-      <div class="right">
-        <div class="jdbox">
-          <textarea id="jdInput" placeholder="Paste JD / keywords here (e.g., FastAPI, SQL Server, OAuth2, AWS, REST)"></textarea>
-          <button class="btn" id="applyJdBtn" type="button">Apply JD</button>
-          <button class="btn" id="resetJdBtn" type="button">Reset</button>
-        </div>
+      <div class="controls">
+        <button class "btn" id="langBtn" type="button">
+          <span data-en="Language" data-ko="언어">Language</span>
+          <span class="pill" id="langPill">EN</span>
+        </button>
 
-        <button class="btn" id="versionBtn" type="button">Toggle Backend ⇄ Backend+LLM</button>
-        <button class="btn" id="copyBtn" type="button">Copy Plain Text</button>
-        <button class="btn primary" type="button" onclick="window.print()" id="printBtn">Print / Save as PDF</button>
-        <div class="mini" id="status"></div>
+        <button class="btn" id="paperBtn" type="button" title="Switch Letter/A4">
+          <span data-en="Paper" data-ko="용지">Paper</span>
+          <span class "pill" id="paperPill">LETTER</span>
+        </button>
+
+        <button class "btn" id="fitBtn" type="button" title="Auto scale content to fit exactly one page">
+          <span data-en="Fit to 1 page" data-ko="1페이지 맞춤">Fit to 1 page</span>
+          <span class "pill" id="fitPill">ON</span>
+        </button>
+
+        <button class "btn primary" type="button" onclick="window.print()">
+          <span data-en="Print / Save PDF" data-ko="인쇄 / PDF 저장">Print / Save PDF</span>
+        </button>
       </div>
     </div>
-  </div>
+  </header>
 
-  <main class="page" id="resume"
-        data-version="backend"
-        data-additional="true"
-        data-compact="false"
-        data-fit="0"
-        data-show-scores="false">
+  <main class="stage">
+    <div class="stage-inner">
+      <article class="sheet" aria-label="Resume Sheet">
+        <div class "pad">
+          <div id="scaleRoot">
+            <section class="hdr">
+              <div class "name">
+                <h1 data-en="Andy Yun" data-ko="윤홍준 (Andy Yun)">Andy Yun</h1>
+                <p class="role"
+                   data-en="Backend / AI Platform Engineer"
+                   data-ko="백엔드 / AI 플랫폼 엔지니어">
+                  Backend / AI Platform Engineer
+                </p>
+                <p class "subrole"
+                   data-en="University of Waterloo (Computer Engineering, ECE) · Co-op / Internship (US/Canada) · Open to relocate"
+                   data-ko="워털루 대학교 (컴퓨터공학, ECE) · Co-op/인턴 (미국/캐나다) · 이전 가능">
+                  University of Waterloo (Computer Engineering, ECE) · Co-op / Internship (US/Canada) · Open to relocate
+                </p>
+              </div>
 
-    <div class="top">
-      <div>
-        <h1 class="name">Andy Yun</h1>
-        <p class="tagline">
-          Backend-leaning engineer (Python/FastAPI/SQL) who ships reliable internal tools with governance, audit logging, and clean API design.
-          <span class="only-llm"> Built safe adoption controls for company-funded LLM usage (RBAC, risk tiers, summarized audit logs).</span>
-        </p>
-      </div>
+              <div class="contacts">
+                <div><span class "mini" data-en="Website" data-ko="웹사이트">Website</span>:
+                  <a href="https://git.io/JXa1p" target="_blank" rel="noreferrer">git.io/JXa1p</a>
+                </div>
+                <div><span class "mini" data-en="GitHub" data-ko="깃허브">GitHub</span>:
+                  <a href="https://git.io/JXaXP" target="_blank" rel="noreferrer">git.io/JXaXP</a>
+                </div>
+                <div><span class "mini" data-en="Email" data-ko="이메일">Email</span>:
+                  <a href="mailto:andy.yun@uwaterloo.ca">andy.yun@uwaterloo.ca</a>
+                  <span class "mini">/ <a href="mailto:a2yun@uwaterloo.ca">a2yun@uwaterloo.ca</a></span>
+                </div>
+                <div><span class "mini" data-en="Phone" data-ko="전화">Phone</span>:
+                  <a href="tel:+12265079755">+1 (226) 507-9755</a>
+                </div>
+              </div>
+            </section>
 
-      <div class="contact">
-        Seoul, KR<br/>
-        +82-XXX-XXXX-XXXX<br/>
-        <a href="mailto:andy@email.com">andy@email.com</a><br/>
-        <a href="https://linkedin.com/in/your-id">linkedin.com/in/your-id</a><br/>
-        <a href="https://github.com/your-id">github.com/your-id</a><br/>
-        <a href="https://andylang8445.github.io/">andylang8445.github.io</a>
-      </div>
-    </div>
+            <section class="summary"
+              data-en="I build <b>backend systems</b> and <b>internal AI tools</b> that turn messy documents (news/Excel/reports) into reliable workflows. Recent work: led a Windows + FastAPI enterprise LLM assistant at Korea Fund Ratings with governance (auth, RBAC, audit logs), a prompt marketplace, and safety alerts. Also shipped serverless AWS backends (AppSync/Lambda/DynamoDB/GraphQL) and production test coverage."
+              data-ko="<b>백엔드 시스템</b>과 <b>사내 AI 업무보조 툴</b>을 만들어 문서(뉴스/엑셀/리포트)를 안정적인 워크플로우로 바꿉니다. 최근에는 한국펀드평가에서 Windows + FastAPI 기반 사내 LLM 도구를 주도 개발(인증·권한·감사로그), 프롬프트 마켓, 민감정보 유출 위험 알림까지 구축했습니다. AWS 서버리스(AppSync/Lambda/DynamoDB/GraphQL) 백엔드와 테스트도 운영 수준으로 개발했습니다.">
+              I build backend systems and internal AI tools…
+            </section>
 
-    <section>
-      <h2 class="section-title">Summary</h2>
-      <p class="summary">
-        Built and deployed a department-wide internal assistant used by ~50 users (~50 queries/day beta), with Windows distribution,
-        SQL-backed audit logging (user/version/IP/MAC), role-based controls, and an always-on FastAPI service.
-        <span class="only-llm"> Focused on governance and safe adoption for users unfamiliar with LLMs.</span>
-      </p>
-    </section>
+            <div class "grid">
+              <div>
+                <section class "section">
+                  <h2 class "h2" data-en="Experience" data-ko="경력">Experience</h2>
 
-    <section>
-      <h2 class="section-title">Skills</h2>
+                  <div class "item">
+                    <div class "item-top">
+                      <div>
+                        <div class "where" data-en="Korea Fund Ratings (KFR)" data-ko="한국펀드평가 (KFR)">Korea Fund Ratings (KFR)</div>
+                        <div class "title"
+                             data-en="AI Researcher / Internal Tooling (Intern)"
+                             data-ko="AI 도입 연구원 / 사내툴 개발 (인턴)">
+                          AI Researcher / Internal Tooling (Intern)
+                        </div>
+                      </div>
+                      <div class "when" data-en="Jan 2024 – Apr 2024" data-ko="2024.01 – 2024.04">Jan 2024 – Apr 2024</div>
+                    </div>
+                    <ul>
+                      <li data-en="Led development of an internal LLM assistant for a ~50-person org: Windows desktop client (PySide6) + FastAPI server, always-on in a server room (remote-managed)."
+                          data-ko="약 50명 조직용 사내 LLM 업무보조 툴을 주도 개발: Windows 데스크톱(PySide6) + FastAPI 서버, 서버실 상시 구동(원격 운영).">
+                        Led development of an internal LLM assistant…
+                      </li>
+                      <li data-en="Implemented governance: DB-based login, role-based admin controls, versioned client distribution, and audit logging (usage, prompts, metadata such as IP/MAC & app version) for compliance and debugging."
+                          data-ko="거버넌스 구현: DB 기반 로그인, 관리자 권한/삭제 권한, 버전 관리 배포, 감사 로그(사용/프롬프트/메타데이터: IP·MAC·버전)로 컴플라이언스·디버깅 지원.">
+                        Implemented governance…
+                      </li>
+                      <li data-en="Shipped a prompt marketplace (~10 templates) with attribution + moderation; added A/B/C keyword thresholds that trigger admin pop-up alerts when leakage risk indicators exceed limits."
+                          data-ko="프롬프트 마켓(약 10개 템플릿)과 작성자 표시/관리자 삭제 기능을 배포; A/B/C 키워드 임계치 초과 시 관리자 팝업 알림으로 유출 위험 대응.">
+                        Shipped a prompt marketplace…
+                      </li>
+                      <li data-en="Integrated internal sources (news, Excel, fund documents) via DB connectors (SQLAlchemy/pyodbc); added summarization (local LLM option) to reduce token overflows and improve responsiveness."
+                          data-ko="뉴스/엑셀/펀드 설명서 등 내부 자료를 DB 연동(SQLAlchemy/pyodbc)으로 연결하고, 요약(로컬 LLM 옵션)으로 토큰 초과·UI 멈춤 이슈를 완화.">
+                        Integrated internal sources…
+                      </li>
+                    </ul>
+                    <div class="chips">
+                      <span class="chip">Python</span><span class="chip">FastAPI</span><span class="chip">PySide6</span>
+                      <span class="chip">LangChain</span><span class="chip">OpenAI API</span><span class="chip">SQLAlchemy</span>
+                      <span class="chip">SQL Server</span><span class="chip">PyInstaller</span>
+                    </div>
+                  </div>
 
-      <div class="chips" id="skillsChips" aria-label="skills">
-        <span class="chip" data-skill="python"
-          data-keywords="python fastapi sqlalchemy pydantic pandas pyside6 pyside pyqt pyqt6 scripting">
-          <strong>Python</strong> • FastAPI • SQLAlchemy <span class="score"></span>
-        </span>
-        <span class="chip" data-skill="sql"
-          data-keywords="sql sqlserver sql-server mssql t-sql tsql odbc pyodbc database">
-          SQL Server • ODBC/pyodbc <span class="score"></span>
-        </span>
-        <span class="chip" data-skill="auth"
-          data-keywords="oauth oauth2 jwt bearer token authentication authorization security">
-          Auth: OAuth2 • JWT <span class="score"></span>
-        </span>
-        <span class="chip" data-skill="api"
-          data-keywords="rest api graphql openapi appsync resolver endpoint">
-          APIs: REST • GraphQL <span class="score"></span>
-        </span>
-        <span class="chip" data-skill="aws"
-          data-keywords="aws lambda dynamodb appsync serverless cloudwatch">
-          AWS: Lambda • AppSync • DynamoDB <span class="score"></span>
-        </span>
-        <span class="chip" data-skill="test"
-          data-keywords="jest testing unit-test unittest integration-test">
-          Testing: Jest <span class="score"></span>
-        </span>
-        <span class="chip" data-skill="tools"
-          data-keywords="git linux docker ci cd github-actions">
-          Git • Linux <span class="score"></span>
-        </span>
-        <span class="chip only-llm" data-skill="llm"
-          data-keywords="langchain llm openai prompt governance logging retrieval rag">
-          LangChain • LLM Ops (governance/logging) <span class="score"></span>
-        </span>
-      </div>
-    </section>
+                  <div class="item">
+                    <div class="item-top">
+                      <div>
+                        <div class="where" data-en="Escape Platforms" data-ko="Escape Platforms">Escape Platforms</div>
+                        <div class="title" data-en="Software Backend Developer (Co-op)" data-ko="백엔드 개발 (Co-op)">Software Backend Developer (Co-op)</div>
+                      </div>
+                      <div class="when" data-en="Jun 2023 – Aug 2023" data-ko="2023.06 – 2023.08">Jun 2023 – Aug 2023</div>
+                    </div>
+                    <ul>
+                      <li data-en="Developed ~10 REST API endpoints (comments/chat/internal) and implemented serverless data flows on AWS."
+                          data-ko="댓글/채팅/내부 기능용 REST API(약 10개)와 AWS 서버리스 데이터 플로우를 개발.">
+                        Developed ~10 REST API endpoints…
+                      </li>
+                      <li data-en="Built AppSync + Lambda + DynamoDB pipelines with Node.js/TypeScript; used GraphQL for streamlined operations; shipped unit tests for reliability."
+                          data-ko="Node.js/TypeScript로 AppSync + Lambda + DynamoDB 파이프라인을 구축하고 GraphQL로 운영을 단순화, 유닛 테스트로 신뢰성을 강화.">
+                        Built AppSync + Lambda + DynamoDB pipelines…
+                      </li>
+                    </ul>
+                    <div class="chips">
+                      <span class="chip">TypeScript</span><span class="chip">Node.js</span><span class="chip">GraphQL</span>
+                      <span class="chip">AWS AppSync</span><span class="chip">Lambda</span><span class="chip">DynamoDB</span>
+                      <span class="chip">Jest</span>
+                    </div>
+                  </div>
 
-    <section>
-      <h2 class="section-title">Work Experience</h2>
+                  <div class="item">
+                    <div class="item-top">
+                      <div>
+                        <div class="where" data-en="Huawei Technologies Canada" data-ko="Huawei Technologies Canada">Huawei Technologies Canada</div>
+                        <div class="title" data-en="6G R&D Engineer (Co-op)" data-ko="6G R&D 엔지니어 (Co-op)">6G R&D Engineer (Co-op)</div>
+                      </div>
+                      <div class="when" data-en="Sep 2022 – Dec 2022" data-ko="2022.09 – 2022.12">Sep 2022 – Dec 2022</div>
+                    </div>
+                    <ul>
+                      <li data-en="Developed internal APIs (C++14/Boost) callable from Python; interfaced with CARLA server for simulation workflows."
+                          data-ko="Python에서 호출 가능한 내부 API(C++14/Boost)를 개발하고 CARLA 서버와 연동해 시뮬레이션 워크플로우를 구성.">
+                        Developed internal APIs…
+                      </li>
+                      <li data-en="Built a PyQt GUI to monitor/control Unreal Engine simulation; implemented ray tracing logic in CARLA context."
+                          data-ko="Unreal Engine 시뮬레이션 모니터링/제어 PyQt GUI를 제작하고, CARLA 환경에서 레이 트레이싱 로직을 구현.">
+                        Built a PyQt GUI…
+                      </li>
+                    </ul>
+                    <div class="chips">
+                      <span class="chip">C++14</span><span class="chip">Boost</span><span class="chip">Python</span>
+                      <span class="chip">PyQt</span><span class="chip">CARLA</span><span class="chip">Unreal Engine</span>
+                    </div>
+                  </div>
 
-      <div class="item">
-        <div class="item-head">
-          <div>
-            <p class="role">Korea Fund Ratings (한국펀드평가) — AI Adoption Researcher / Intern (Main Developer)</p>
-            <p class="meta">Windows desktop internal tool • SQL governance • Always-on FastAPI service</p>
-          </div>
-          <div class="date">2024.01 – 2024.04</div>
-        </div>
+                  <div class="item">
+                    <div class="item-top">
+                      <div>
+                        <div class="where" data-en="Stackpole International" data-ko="Stackpole International">Stackpole International</div>
+                        <div class="title" data-en="Software Developer (Co-op)" data-ko="소프트웨어 개발 (Co-op)">Software Developer (Co-op)</div>
+                      </div>
+                      <div class="when" data-en="Jan 2022 – Apr 2022" data-ko="2022.01 – 2022.04">Jan 2022 – Apr 2022</div>
+                    </div>
+                    <ul>
+                      <li data-en="Reduced PLC↔Host communication overhead by ~30% via a caching mechanism."
+                          data-ko="캐싱 메커니즘으로 PLC↔Host 통신 오버헤드를 약 30% 절감.">
+                        Reduced PLC↔Host communication overhead…
+                      </li>
+                      <li data-en="Built GUI + ML + telemetry tooling using Python (Qt), OpenCV, and PyTorch; supported PLC and GPU servers."
+                          data-ko="Python(Qt), OpenCV, PyTorch로 GUI/ML/텔레메트리 툴을 개발해 PLC 및 GPU 서버 운영을 지원.">
+                        Built GUI + ML + telemetry tooling…
+                      </li>
+                    </ul>
+                    <div class="chips">
+                      <span class="chip">Python</span><span class="chip">Qt</span><span class="chip">OpenCV</span>
+                      <span class="chip">PyTorch</span><span class="chip">PLC</span><span class="chip">CUDA/GPU</span>
+                    </div>
+                  </div>
+                </section>
 
-        <ul class="bullets">
-          <li data-priority="1">Deployed an internal assistant to a ~50-person org; supported ~50 queries/day (beta) across DB records, Excel files, news articles, and fund/prospectus documents.</li>
-          <li data-priority="1">Implemented search-based retrieval (DB query + keyword filtering) and user workflows in a Windows PySide6 client; packaged via PyInstaller and distributed via intranet download (~95% usage via desktop).</li>
-          <li data-priority="1">Built SQL Server–backed presets/templates and audit logging (user/version/time/IP/MAC) to support traceability, incident reproduction, and governance; admin alerts surfaced as in-app pop-ups via DB flag detection.</li>
-          <li class="only-llm" data-priority="3">Designed A/B/C data-exposure risk tiers (A=1, B=3, C=10 keywords) to detect potential oversharing and trigger admin review; stored summarized logs via a local LLM to avoid persisting raw sensitive content.</li>
-          <li data-priority="2">Developed an always-on internal FastAPI service (remote-managed server) with OAuth2+JWT and endpoints for preset CRUD and run execution; added CORS controls and server-side logging for web integration.</li>
-          <li class="only-llm" data-priority="4">Launched a user-contributed “Prompt Market” (~10 prompts at launch) with author attribution and admin moderation (delete), enabling standard workflows and faster adoption.</li>
-        </ul>
-      </div>
+                <section class="section">
+                  <h2 class="h2" data-en="Projects" data-ko="프로젝트">Projects</h2>
 
-      <div class="item">
-        <div class="item-head">
-          <div>
-            <p class="role">Escape Platforms — Software Backend Developer (Co-op)</p>
-            <p class="meta">Serverless backend • REST + GraphQL • Testing</p>
-          </div>
-          <div class="date">2023.06 – 2023.08</div>
-        </div>
+                  <div class="item">
+                    <div class="item-top">
+                      <div>
+                        <div class="where" data-en="Logic.Gate Tutoring Platform" data-ko="Logic.Gate 튜터링 플랫폼">Logic.Gate Tutoring Platform</div>
+                        <div class="title" data-en="STEM education platform · Multi-agent / RAG direction (ongoing)"
+                             data-ko="STEM 교육 플랫폼 · 멀티에이전트/RAG 방향 (진행중)">
+                          STEM education platform · Multi-agent / RAG direction (ongoing)
+                        </div>
+                      </div>
+                      <div class="when" data-en="2021 – Present" data-ko="2021 – 현재">2021 – Present</div>
+                    </div>
+                    <ul>
+                      <li data-en="Prototyping tutoring workflows and evaluation-first improvements; focusing on reliability and user experience."
+                          data-ko="튜터링 워크플로우를 프로토타이핑하고 평가 중심으로 개선하며, 신뢰성과 UX에 집중.">
+                        Prototyping tutoring workflows…
+                      </li>
+                    </ul>
+                  </div>
 
-        <ul class="bullets">
-          <li data-priority="2">Built REST + GraphQL endpoints for comments/chat/internal tools using AWS Lambda + AppSync + DynamoDB (TypeScript/JavaScript) for a pre-launch product.</li>
-          <li data-priority="4">Wrote and ran local Jest test cases to validate Lambda/resolver behavior and reduce regressions during rapid iteration.</li>
-        </ul>
-      </div>
+                  <div class="item">
+                    <div class="item-top">
+                      <div>
+                        <div class="where" data-en="Find My Pill Platform" data-ko="Find My Pill 플랫폼">Find My Pill Platform</div>
+                        <div class="title" data-en="Backend API + data model" data-ko="백엔드 API + 데이터 모델">Backend API + data model</div>
+                      </div>
+                      <div class="when" data-en="Oct 2022 – Dec 2023" data-ko="2022.10 – 2023.12">Oct 2022 – Dec 2023</div>
+                    </div>
+                    <ul>
+                      <li data-en="Built REST API using Python/Flask and improved response time by ~23.7% via 3NF normalization."
+                          data-ko="Python/Flask로 REST API를 구축하고 3NF 정규화로 응답 시간을 약 23.7% 개선.">
+                        Built REST API…
+                      </li>
+                      <li data-en="Designed microservice-friendly architecture and a custom recommendation approach for user text input."
+                          data-ko="마이크로서비스 친화적 아키텍처와 사용자 텍스트 입력 기반 커스텀 추천 로직을 설계.">
+                        Designed microservice-friendly architecture…
+                      </li>
+                    </ul>
+                    <div class="chips">
+                      <span class="chip">Python</span><span class="chip">Flask</span><span class="chip">SQL</span><span class="chip">REST</span>
+                    </div>
+                  </div>
+                </section>
+              </div>
 
-      <div class="item">
-        <div class="item-head">
-          <div>
-            <p class="role">ROK Army — Tactical C4I Maintenance &amp; Ops (Signal)</p>
-            <p class="meta">Procedure-driven operations • Reliability</p>
-          </div>
-          <div class="date">2024.09 – 2025.03</div>
-        </div>
+              <!-- RIGHT -->
+              <div>
+                <section class="section">
+                  <h2 class="h2" data-en="Skills" data-ko="기술">Skills</h2>
 
-        <ul class="bullets">
-          <li data-priority="5">Maintained and operated tactical C4I/communications systems in a structured, procedure-driven environment.</li>
-        </ul>
-      </div>
+                  <div class="edu-lines">
+                    <div><b data-en="Backend" data-ko="백엔드">Backend</b> <span class="muted">—</span>
+                      <span data-en="Python (FastAPI), Node.js/TypeScript, SQL, GraphQL, REST, WebSocket, C/C++, JavaScript"
+                            data-ko="Python(FastAPI), Node.js/TypeScript, SQL, GraphQL, REST, WebSocket, C/C++, JavaScript">
+                        Python (FastAPI), Node.js/TypeScript, SQL, GraphQL, REST, WebSocket, C/C++, JavaScript
+                      </span>
+                    </div>
+                    <div style="margin-top:6px;"><b data-en="Cloud / Data" data-ko="클라우드/데이터">Cloud / Data</b> <span class="muted">—</span>
+                      <span data-en="AWS (Lambda/AppSync/DynamoDB), GCP, SQLAlchemy/pyodbc, UNIX/Linux"
+                            data-ko="AWS(Lambda/AppSync/DynamoDB), GCP, SQLAlchemy/pyodbc, UNIX/Linux">
+                        AWS (Lambda/AppSync/DynamoDB), GCP, SQLAlchemy/pyodbc, UNIX/Linux
+                      </span>
+                    </div>
+                    <div style="margin-top:6px;"><b data-en="AI Tooling" data-ko="AI 도구">AI Tooling</b> <span class="muted">—</span>
+                      <span data-en="LangChain, OpenAI API, TensorFlow, PyTorch, local summarization option, governance (audit/RBAC)"
+                            data-ko="LangChain, OpenAI API, TensorFlow, PyTorch, 로컬 요약 옵션, 거버넌스(감사/권한)">
+                        LangChain, OpenAI API, TensorFlow, PyTorch, local summarization option, governance (audit/RBAC)
+                      </span>
+                    </div>
+                    <div style="margin-top:6px;"><b data-en="Systems" data-ko="시스템">Systems</b> <span class="muted">—</span>
+                      <span data-en="C/C++ (Boost), Qt (PySide6/PyQt), PLC & Jetson GPU, CARLA/Unreal Engine, packaging & internal distribution"
+                            data-ko="C/C++(Boost), Qt(PySide6/PyQt), PLC·Jetson GPU, CARLA·Unreal Engine, 패키징·사내 배포">
+                        C/C++ (Boost), Qt (PySide6/PyQt), PLC & Jetson GPU, CARLA/Unreal Engine, packaging & internal distribution
+                      </span>
+                    </div>
+                  </div>
 
-      <div class="additional">
-        <div class="item">
-          <div class="item-head">
-            <div>
-              <p class="role">Huawei Technologies Canada — 6G R&amp;D Engineer (Co-op)</p>
-              <p class="meta">C++14 APIs • Python-callable interfaces • CARLA/Unreal simulation tooling</p>
+                  <div class "chips" style="margin-top:10px;">
+                    <span class="chip">Python</span><span class="chip">FastAPI</span><span class="chip">TypeScript</span><span class="chip">Node.js</span>
+                    <span class="chip">AWS</span><span class="chip">GraphQL</span><span class="chip">SQL</span><span class="chip">LangChain</span>
+                    <span class="chip">TensorFlow</span><span class="chip">PyTorch</span><span class="chip">PySide6</span><span class="chip">C++14</span>
+                  </div>
+                </section>
+
+                <section class="section">
+                  <h2 class "h2" data-en="Education" data-ko="학력">Education</h2>
+                  <div class="edu-lines">
+                    <div><b data-en="University of Waterloo" data-ko="워털루 대학교">University of Waterloo</b></div>
+                    <div class="muted"
+                         data-en="BASc Candidate, Computer Engineering (ECE) · Sep 2021 – Jun 2026"
+                         data-ko="공학사 과정(Computer Engineering, ECE) · 2021.09 – 2026.06">
+                      BASc Candidate, Computer Engineering (ECE) · Sep 2021 – Jun 2026
+                    </div>
+                    <div style="margin-top:6px;"
+                         data-en="Scholarship: University of Waterloo President’s Scholarship (2021)"
+                         data-ko="장학: University of Waterloo President’s Scholarship (2021)">
+                      Scholarship: University of Waterloo President’s Scholarship (2021)
+                    </div>
+                  </div>
+                </section>
+
+                <section class="section">
+                  <h2 class="h2" data-en="Service" data-ko="복무">Service</h2>
+                  <div class="edu-lines">
+                    <div><b data-en="Republic of Korea Army" data-ko="대한민국 육군">Republic of Korea Army</b></div>
+                    <div class="muted"
+                         data-en="Tactical C4I Maintenance & Operation · Sep 2024 – Mar 2026"
+                         data-ko="전술 C4I 정비/운용 · 2024.09 – 2026.03">
+                      Tactical C4I Maintenance & Operation · Sep 2024 – Mar 2026
+                    </div>
+                  </div>
+                </section>
+
+                <section class="section">
+                  <h2 class "h2" data-en="Volunteering" data-ko="봉사">Volunteering</h2>
+                  <div class="item">
+                    <div class="item-top">
+                      <div>
+                        <div class="where" data-en="FIRST Robotics Team 7722" data-ko="FIRST 로보틱스 팀 7722">FIRST Robotics Team 7722</div>
+                        <div class="title" data-en="Programming & Computing Mentor" data-ko="프로그래밍/컴퓨팅 멘토">Programming & Computing Mentor</div>
+                      </div>
+                      <div class="when" data-en="Jan 2023 – Aug 2023" data-ko="2023.01 – 2023.08">Jan 2023 – Aug 2023</div>
+                    </div>
+                    <ul>
+                      <li data-en="Mentored 9 high school students in embedded programming, sensor fusion, and robot motion planning."
+                          data-ko="고등학생 9명을 대상으로 임베디드 프로그래밍, 센서 퓨전, 로봇 모션 플래닝을 멘토링.">
+                        Mentored 9 students…
+                      </li>
+                      <li data-en="Built ISR-based calibration + sensor fusion; helped improve autonomous movement reliability (reported 93% success)."
+                          data-ko="ISR 기반 보정 + 센서 퓨전으로 자율 주행 신뢰성 향상(보고된 성공률 93%).">
+                        Built ISR-based calibration…
+                      </li>
+                    </ul>
+                    <div class="chips">
+                      <span class="chip">Embedded</span><span class="chip">RTOS</span><span class="chip">ESP32</span><span class="chip">roboRIO</span>
+                      <span class="chip">Sensor Fusion</span>
+                    </div>
+                  </div>
+                </section>
+
+                <section class="section">
+                  <h2 class "h2" data-en="Notes" data-ko="메모">Notes</h2>
+                  <div class "mini"
+                       data-en="Printing tip (North America): keep Paper = LETTER, enable Fit to 1 page, and set margins to 'None' (or minimum) in Chrome Save as PDF."
+                       data-ko="출력 팁(북미): 용지를 LETTER로 두고 ‘1페이지 맞춤’을 켠 다음, Chrome PDF 저장에서 여백을 None(또는 최소)로 설정해.">
+                    Printing tip (North America): keep Paper = LETTER, enable Fit to 1 page, and set margins to 'None' (or minimum) in Chrome Save as PDF.
+                  </div>
+                </section>
+              </div>
             </div>
-            <div class="date">2022.09 – 2022.12</div>
-          </div>
-          <ul class="bullets">
-            <li data-priority="5">Developed C++14 internal APIs callable from Python and interfaced with CARLA server; built a PyQt monitoring/control GUI for Unreal Engine simulation workflows.</li>
-            <li data-priority="6">Designed ray tracing logic for object interaction with high-frequency radio signals and improved simulation fidelity for antenna development.</li>
-          </ul>
-        </div>
 
-        <div class="item">
-          <div class="item-head">
-            <div>
-              <p class="role">Stackpole International — Software Developer (Co-op)</p>
-              <p class="meta">Performance optimization • PLC ↔ host comms • ML/telemetry tooling</p>
+            <div class="footer">
+              <div>
+                <span data-en="Last updated" data-ko="최종 업데이트">Last updated</span>:
+                <code id="updatedAt"></code>
+              </div>
+              <div class="mini">
+                <span data-en="Handle" data-ko="핸들">Handle</span>: <code>hongjunyun</code>
+              </div>
             </div>
-            <div class="date">2022.01 – 2022.04</div>
-          </div>
-          <ul class="bullets">
-            <li data-priority="5">Reduced PLC–host communication overhead by <strong>30%</strong> via caching and workflow improvements.</li>
-            <li data-priority="6">Built GUI/ML/telemetry software (Python, PyQt6, OpenCV, PyTorch) reducing final product defects by <strong>21%</strong>; prototyped a lightweight ANN for Jetson Nano to reduce server load.</li>
-          </ul>
-        </div>
-      </div>
-    </section>
 
-    <section>
-      <h2 class="section-title">Education</h2>
-      <div class="item" style="padding-top:0;">
-        <div class="item-head">
-          <div>
-            <p class="role">University of Waterloo — BASc, Electrical and Computer Engineering (ECE)</p>
-            <p class="meta">2021 – 2024 (3A completed)</p>
           </div>
-          <div class="date"></div>
         </div>
-      </div>
-    </section>
-
-    <div class="fine">
-      <div><span id="uiFooterVersionLabel">Version</span>: <span id="printVersion">Backend</span></div>
-      <div id="uiFooterRight">One-column • A4-fit • JD skill reorder</div>
+      </article>
     </div>
   </main>
 
   <script>
-    const resume = document.getElementById("resume");
-    const measureA4 = document.getElementById("measureA4");
-    const vLabel = document.getElementById("vLabel");
-    const printVersion = document.getElementById("printVersion");
-    const status = document.getElementById("status");
-
-    const versionBtn = document.getElementById("versionBtn");
-    const compactToggle = document.getElementById("compactToggle");
-    const fitToggle = document.getElementById("fitToggle");
-    const additionalToggle = document.getElementById("additionalToggle");
-    const scoreToggle = document.getElementById("scoreToggle");
-
-    const jdInput = document.getElementById("jdInput");
-    const applyJdBtn = document.getElementById("applyJdBtn");
-    const resetJdBtn = document.getElementById("resetJdBtn");
-    const skillsChips = document.getElementById("skillsChips");
-    const copyBtn = document.getElementById("copyBtn");
-    const printBtn = document.getElementById("printBtn");
-    const langBtn = document.getElementById("langBtn");
-
-    // UI text nodes
-    const ui = {
-      uiVersionLabel: document.getElementById("uiVersionLabel"),
-      uiFooterVersionLabel: document.getElementById("uiFooterVersionLabel"),
-      uiFooterRight: document.getElementById("uiFooterRight"),
-      compactLabel: document.getElementById("compactLabel"),
-      fitLabel: document.getElementById("fitLabel"),
-      additionalLabel: document.getElementById("additionalLabel"),
-      scoresLabel: document.getElementById("scoresLabel"),
+    const state = {
+      lang: "en",
+      fit: true,
+      paper: "letter"
     };
 
-    // Preserve original skill order
-    const originalSkills = Array.from(skillsChips.children);
-
-    // Language dictionary (UI only)
-    const STR = {
-      en: {
-        version: "Version",
-        compact: "Compact",
-        fit: "Fit 1 page",
-        additional: "Additional",
-        scores: "Scores",
-        apply: "Apply JD",
-        reset: "Reset",
-        toggleVer: "Toggle Backend ⇄ Backend+LLM",
-        copy: "Copy Plain Text",
-        copied: "Copied ✓",
-        print: "Print / Save as PDF",
-        jdPH: "Paste JD / keywords here (e.g., FastAPI, SQL Server, OAuth2, AWS, REST)",
-        fitOk: (lvl, hidden) => `Fit OK (lvl ${lvl}, hidden ${hidden})`,
-        still: (lvl, hidden) => `Still long (lvl ${lvl}, hidden ${hidden})`,
-        footerRight: "One-column • A4-fit • JD skill reorder",
-      },
-      ko: {
-        version: "버전",
-        compact: "컴팩트",
-        fit: "1페이지 맞춤",
-        additional: "추가경험",
-        scores: "점수",
-        apply: "JD 적용",
-        reset: "초기화",
-        toggleVer: "백엔드 ⇄ 백엔드+LLM 전환",
-        copy: "텍스트 복사(ATS)",
-        copied: "복사 완료 ✓",
-        print: "인쇄 / PDF 저장",
-        jdPH: "JD/키워드 붙여넣기 (예: FastAPI, SQL Server, OAuth2, AWS, REST)",
-        fitOk: (lvl, hidden) => `맞춤 완료 (레벨 ${lvl}, 숨김 ${hidden})`,
-        still: (lvl, hidden) => `아직 길어요 (레벨 ${lvl}, 숨김 ${hidden})`,
-        footerRight: "1열 • A4 맞춤 • JD 스킬 정렬",
-      }
-    };
-
-    let lang = "en";
-    function applyLang(){
-      const t = STR[lang];
-      ui.uiVersionLabel.textContent = t.version;
-      ui.uiFooterVersionLabel.textContent = t.version;
-      ui.compactLabel.textContent = t.compact;
-      ui.fitLabel.textContent = t.fit;
-      ui.additionalLabel.textContent = t.additional;
-      ui.scoresLabel.textContent = t.scores;
-
-      applyJdBtn.textContent = t.apply;
-      resetJdBtn.textContent = t.reset;
-      versionBtn.textContent = t.toggleVer;
-      copyBtn.textContent = t.copy;
-      printBtn.textContent = t.print;
-      jdInput.placeholder = t.jdPH;
-      ui.uiFooterRight.textContent = t.footerRight;
-    }
-
-    langBtn.addEventListener("click", () => {
-      lang = (lang === "en") ? "ko" : "en";
-      applyLang();
-      if (fitToggle.checked) requestFit();
-    });
-
-    function setAttr(name, val){ resume.setAttribute(name, String(val)); }
-
-    function setVersion(v){
-      setAttr("data-version", v);
-      const txt = (v === "backend") ? "Backend" : "Backend+LLM";
-      vLabel.textContent = txt;
-      printVersion.textContent = txt;
-      if (fitToggle.checked) requestFit();
-    }
-
-    function setCompact(on){
-      setAttr("data-compact", on);
-      if (fitToggle.checked) requestFit();
-    }
-    function setAdditional(on){
-      setAttr("data-additional", on);
-      if (fitToggle.checked) requestFit();
-    }
-    function setShowScores(on){
-      setAttr("data-show-scores", on);
-    }
-
-    versionBtn.addEventListener("click", () => {
-      const cur = resume.getAttribute("data-version");
-      setVersion(cur === "backend" ? "hybrid" : "backend");
-    });
-    compactToggle.addEventListener("change", e => setCompact(e.target.checked));
-    additionalToggle.addEventListener("change", e => setAdditional(e.target.checked));
-    scoreToggle.addEventListener("change", e => setShowScores(e.target.checked));
-
-    // Copy plain text
-    copyBtn.addEventListener("click", async () => {
-      const text = resume.innerText.replace(/\n{3,}/g, "\n\n").trim();
-      try{
-        await navigator.clipboard.writeText(text);
-        copyBtn.textContent = STR[lang].copied;
-        setTimeout(() => copyBtn.textContent = STR[lang].copy, 1100);
-      }catch{
-        alert(lang === "ko" ? "클립보드가 차단되었습니다. 전체 선택 후 수동 복사하세요." : "Clipboard blocked. Select all and copy manually.");
-      }
-    });
-
-    // JD reorder
-    const SYN = new Map([
-      ["ms", "sqlserver"], ["mssql", "sqlserver"], ["sql-server", "sqlserver"], ["sql", "sql"],
-      ["oauth", "oauth2"], ["jwt", "jwt"], ["restful", "rest"],
-      ["ts", "typescript"], ["js", "javascript"], ["node", "nodejs"],
-      ["aws", "aws"], ["lambda", "lambda"], ["dynamo", "dynamodb"], ["appsync", "appsync"],
-      ["fast-api", "fastapi"], ["fastapi", "fastapi"], ["sqlalchemy", "sqlalchemy"],
-      ["cicd", "ci"], ["ci/cd", "ci"]
-    ]);
-
-    function normalizeToken(t){
-      const x = t.toLowerCase().replace(/[^a-z0-9#+.-]/g, "");
-      return SYN.get(x) || x;
-    }
-    function tokenize(text){
-      return text
-        .toLowerCase()
-        .replace(/[^a-z0-9#+.\s-]/g, " ")
-        .split(/\s+/)
-        .filter(Boolean)
-        .map(normalizeToken);
-    }
-    function scoreSkill(skillEl, tokens){
-      const kws = (skillEl.getAttribute("data-keywords") || "")
-        .toLowerCase().split(/\s+/).filter(Boolean).map(normalizeToken);
-
-      let score = 0;
-      for (const t of tokens){
-        if (!t) continue;
-        if (kws.includes(t)) score += 4;
-        else if (kws.some(k => k.length >= 4 && (k.includes(t) || t.includes(k)))) score += 1;
-      }
-      return score;
-    }
-    function applyJdReorder(){
-      const tokens = tokenize(jdInput.value);
-      const chips = Array.from(skillsChips.children);
-
-      const scored = chips.map((el, idx) => {
-        const s = scoreSkill(el, tokens);
-        el.dataset.score = String(s);
-        el.dataset.hit = String(s > 0);
-        const sc = el.querySelector(".score");
-        if (sc) sc.textContent = s > 0 ? `(match ${s})` : "";
-        return { el, s, idx };
+    function applyLang() {
+      document.querySelectorAll("[data-en][data-ko]").forEach(el => {
+        el.textContent = (state.lang === "en") ? el.dataset.en : el.dataset.ko;
       });
-
-      scored.sort((a,b) => (b.s - a.s) || (a.idx - b.idx));
-      scored.forEach(x => skillsChips.appendChild(x.el));
-    }
-    function resetSkills(){
-      originalSkills.forEach(el => skillsChips.appendChild(el));
-      Array.from(skillsChips.children).forEach(el => {
-        el.dataset.score = "0";
-        el.dataset.hit = "false";
-        const sc = el.querySelector(".score");
-        if (sc) sc.textContent = "";
-      });
-    }
-    applyJdBtn.addEventListener("click", () => {
-      applyJdReorder();
-      if (fitToggle.checked) requestFit();
-    });
-    resetJdBtn.addEventListener("click", () => {
-      resetSkills();
-      if (fitToggle.checked) requestFit();
-    });
-
-    // True A4 Fit
-    function clearHidden(){
-      document.querySelectorAll(".hidden-by-fit").forEach(li => li.classList.remove("hidden-by-fit"));
-    }
-    function visibleLisByPriority(){
-      const lis = Array.from(document.querySelectorAll("li[data-priority]"));
-      return lis.filter(li => {
-        if (li.closest(".only-llm") && resume.getAttribute("data-version") === "backend") return false;
-        if (li.closest(".additional") && resume.getAttribute("data-additional") === "false") return false;
-        return true;
-      }).sort((a,b) => {
-        const pa = Number(a.getAttribute("data-priority") || 99);
-        const pb = Number(b.getAttribute("data-priority") || 99);
-        return pb - pa; // hide least important first
-      });
-    }
-    function targetA4HeightPx(){
-      return measureA4.getBoundingClientRect().height;
+      document.getElementById("langPill").textContent = state.lang.toUpperCase();
+      document.documentElement.lang = state.lang;
     }
 
-    let raf = null;
-    function requestFit(){
-      if (raf) cancelAnimationFrame(raf);
-      raf = requestAnimationFrame(runFit);
+    function applyPaper() {
+      const root = document.documentElement;
+      const paperPill = document.getElementById("paperPill");
+
+      if (state.paper === "letter") {
+        root.style.setProperty("--pagew", "216mm");
+        root.style.setProperty("--pageh", "279mm");
+        paperPill.textContent = "LETTER";
+        try { document.styleSheets[0].insertRule("@page{size:letter;margin:0}", 0); } catch(e) {}
+      } else {
+        root.style.setProperty("--pagew", "210mm");
+        root.style.setProperty("--pageh", "297mm");
+        paperPill.textContent = "A4";
+        try { document.styleSheets[0].insertRule("@page{size:A4;margin:0}", 0); } catch(e) {}
+      }
     }
 
-    function runFit(){
-      if (!fitToggle.checked){
-        setAttr("data-fit", 0);
-        status.textContent = "";
-        clearHidden();
+    function computeFitScale() {
+      if (!state.fit) {
+        document.documentElement.style.setProperty("--fit", 1);
+        document.body.classList.remove("fit-tight");
         return;
       }
 
-      clearHidden();
+      const pad = document.querySelector(".pad");
+      const root = document.getElementById("scaleRoot");
+      document.documentElement.style.setProperty("--fit", 1);
 
-      let level = 0;
-      const target = targetA4HeightPx();
-      const setLevel = (lv) => setAttr("data-fit", lv);
-      const heightNow = () => resume.getBoundingClientRect().height;
+      const avail = pad.getBoundingClientRect();
+      const naturalH = root.scrollHeight;
+      const naturalW = root.scrollWidth;
 
-      setLevel(0);
-      while (level < 4 && heightNow() > target){
-        level++;
-        setLevel(level);
-      }
+      const sH = avail.height / naturalH;
+      const sW = avail.width / naturalW;
+      let s = Math.min(1, sH, sW);
 
-      let hidden = 0;
-      if (heightNow() > target){
-        const candidates = visibleLisByPriority();
-        for (const li of candidates){
-          if (heightNow() <= target) break;
-          li.classList.add("hidden-by-fit");
-          hidden++;
-        }
-      }
-
-      const ok = heightNow() <= target;
-      status.textContent = ok ? STR[lang].fitOk(level, hidden) : STR[lang].still(level, hidden);
-      status.style.color = ok ? "#475569" : "#b45309";
+      document.body.classList.toggle("fit-tight", s < 0.95);
+      document.documentElement.style.setProperty("--fit", s.toFixed(4));
     }
 
-    fitToggle.addEventListener("change", () => {
-      if (fitToggle.checked) requestFit();
-      else runFit();
-    });
-    window.addEventListener("resize", () => {
-      if (fitToggle.checked) requestFit();
+    function setUpdatedAt() {
+      const now = new Date();
+      const iso = now.toISOString().slice(0, 10);
+      document.getElementById("updatedAt").textContent = iso;
+    }
+
+    document.getElementById("langBtn").addEventListener("click", () => {
+      state.lang = (state.lang === "en") ? "ko" : "en";
+      applyLang();
+      computeFitScale();
     });
 
-    // Defaults
-    applyLang();
-    setVersion("backend");
-    setCompact(false);
-    setAdditional(true);
-    setShowScores(false);
-    resetSkills();
+    document.getElementById("paperBtn").addEventListener("click", () => {
+      state.paper = (state.paper === "letter") ? "a4" : "letter";
+      applyPaper();
+      setTimeout(computeFitScale, 30);
+      setTimeout(computeFitScale, 200);
+    });
+
+    document.getElementById("fitBtn").addEventListener("click", () => {
+      state.fit = !state.fit;
+      document.getElementById("fitPill").textContent = state.fit ? "ON" : "OFF";
+      computeFitScale();
+    });
+
+    window.addEventListener("resize", () => computeFitScale());
+    window.addEventListener("load", () => {
+      setUpdatedAt();
+      applyLang();
+      applyPaper();
+      document.getElementById("fitPill").textContent = state.fit ? "ON" : "OFF";
+      computeFitScale();
+      setTimeout(computeFitScale, 50);
+      setTimeout(computeFitScale, 250);
+    });
   </script>
 </body>
 </html>
