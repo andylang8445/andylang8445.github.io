@@ -3,77 +3,77 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-  <meta name="color-scheme" content="light dark" />
   <title>Resume | Andy Yun</title>
 
+  <!-- JS가 여기 내용을 바꿔서 @page size를 확정합니다 -->
+  <style id="pageStyle">
+    @page { size: letter; margin: 0; }
+  </style>
+
   <style>
-    /* =========================
-       2025-26 Minimal Print-first Resume
-       - Web: nice UI + chips + side memo
-       - Print: hard 1-page sheet only
-       ========================= */
+    /* =========================================================
+       2025-26 Print-stable Resume (EN + KO are separate templates)
+       - Screen: preview + controls + tips
+       - Print: ONLY the sheet content (no UI), no fixed/absolute hacks
+       ========================================================= */
 
     :root{
-      /* Paper (mm) */
+      /* Paper sizes */
       --w-a4: 210mm;   --h-a4: 297mm;
       --w-letter: 215.9mm; --h-letter: 279.4mm;
 
-      /* Active paper (screen preview only) */
+      /* Active paper (default = Letter) */
       --pageW: var(--w-letter);
       --pageH: var(--h-letter);
 
-      /* Internal padding (tuned for 1-page) */
-      --padX: 10.5mm;
-      --padY: 9.5mm;
+      /* Print padding */
+      --padX: 11mm;
+      --padY: 10mm;
 
-      /* Typography (screen) */
+      /* Fonts */
       --font-en: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
       --font-ko: ui-sans-serif, system-ui, -apple-system, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", Segoe UI, Roboto, Helvetica, Arial;
+
       --text: #111214;
       --muted: #4b5563;
       --hair: rgba(17,18,20,.12);
       --chipBg: rgba(17,18,20,.05);
 
-      /* Sheet look */
+      /* Sheet look (screen only) */
       --sheetRadius: 14px;
       --sheetShadow: 0 20px 60px rgba(0,0,0,.22);
 
-      /* Print scale (computed) */
-      --printScale: 1;
+      /* EN default typography */
+      --bodySize: 10.2px;
+      --bodyLH: 1.24;
+      --h2Size: 11.3px;
+      --h2LH: 1.12;
 
-      /* Layout */
-      --colGap: 10mm;
+      /* EN 2-col layout widths */
+      --colGap: 9.5mm;
       --leftCol: 63%;
       --rightCol: 37%;
-
-      /* EN vs KO fine-tune */
-      --bodySize: 10.2px;
-      --bodyLH: 1.22;
-      --h2Size: 11.4px;
-      --h2LH: 1.1;
-
-      /* “B-structure”: left=Experience heavy, right=Skills/Ed/Service */
-      --layout: classic; /* classic | ats */
     }
 
     html, body { height: 100%; }
-    body {
+    body{
       margin: 0;
       font-family: var(--font-en);
       color: var(--text);
-      background: radial-gradient(1200px 600px at 15% 5%, rgba(255,255,255,.10), rgba(255,255,255,0)),
-                  radial-gradient(800px 500px at 80% 20%, rgba(255,255,255,.07), rgba(255,255,255,0)),
-                  #0b0f1a;
+      background:
+        radial-gradient(1200px 600px at 15% 5%, rgba(255,255,255,.10), rgba(255,255,255,0)),
+        radial-gradient(800px 500px at 80% 20%, rgba(255,255,255,.07), rgba(255,255,255,0)),
+        #0b0f1a;
     }
 
     /* ===== App Shell ===== */
-    .app {
+    .app{
       min-height: 100%;
       display: grid;
       grid-template-rows: auto 1fr;
     }
 
-    .topbar {
+    .topbar{
       position: sticky;
       top: 0;
       z-index: 20;
@@ -92,31 +92,22 @@
       justify-content: space-between;
     }
 
-    .brand {
+    .brand{
       display: flex;
       gap: 10px;
       align-items: center;
       color: rgba(255,255,255,.92);
     }
-    .dot {
+    .dot{
       width: 10px; height: 10px; border-radius: 999px;
       background: #3b82f6;
       box-shadow: 0 0 0 4px rgba(59,130,246,.18);
       flex: 0 0 auto;
     }
-    .brand-title{
-      font-weight: 650;
-      letter-spacing: -.01em;
-      line-height: 1.05;
-    }
-    .brand-sub{
-      font-size: 12px;
-      color: rgba(255,255,255,.68);
-      margin-top: 2px;
-      letter-spacing: -.01em;
-    }
+    .brand-title{ font-weight: 700; letter-spacing: -.01em; line-height: 1.05; }
+    .brand-sub{ font-size: 12px; color: rgba(255,255,255,.68); margin-top: 2px; letter-spacing: -.01em; }
 
-    .controls {
+    .controls{
       display: flex;
       gap: 10px;
       align-items: center;
@@ -124,7 +115,7 @@
       justify-content: flex-end;
     }
 
-    .pill {
+    .pill{
       display: inline-flex;
       gap: 8px;
       align-items: center;
@@ -137,11 +128,9 @@
       user-select: none;
     }
     .pill label { opacity: .72; }
-    .pill select, .pill button{
+    .pill select{
       font: inherit;
       color: inherit;
-    }
-    .pill select{
       border: 0;
       background: transparent;
       outline: none;
@@ -149,7 +138,7 @@
       padding-right: 2px;
     }
 
-    .btn {
+    .btn{
       display: inline-flex;
       align-items: center;
       gap: 8px;
@@ -160,15 +149,13 @@
       color: rgba(255,255,255,.95);
       cursor: pointer;
       font-size: 12px;
-      font-weight: 650;
+      font-weight: 700;
     }
-    .btn:active { transform: translateY(1px); }
+    .btn:active{ transform: translateY(1px); }
 
-    .main {
-      padding: 18px 14px 34px;
-    }
+    .main{ padding: 18px 14px 34px; }
 
-    .stage {
+    .stage{
       max-width: 1120px;
       margin: 0 auto;
       display: grid;
@@ -176,42 +163,27 @@
       gap: 16px;
       align-items: start;
     }
-
     @media (max-width: 1040px){
-      .stage { grid-template-columns: 1fr; }
+      .stage{ grid-template-columns: 1fr; }
     }
 
-    /* ===== Sheet ===== */
+    /* ===== Sheet preview (screen) ===== */
     .sheet-wrap{
-      display: grid;
-      place-items: start center;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
     }
-
-    .sheet {
+    .sheet{
       width: var(--pageW);
-      height: var(--pageH);
+      min-height: var(--pageH);
       background: #fff;
       border-radius: var(--sheetRadius);
       box-shadow: var(--sheetShadow);
-      overflow: hidden; /* helps reduce iOS phantom overflow */
-      position: relative;
-    }
-
-    .sheet-inner{
-      position: absolute;
-      inset: 0;
-      padding: var(--padY) var(--padX);
       box-sizing: border-box;
+      padding: var(--padY) var(--padX);
     }
 
-    /* Print scaling wrapper */
-    .print-scale {
-      transform-origin: top left;
-      transform: scale(var(--printScale));
-      width: calc(100% / var(--printScale));
-    }
-
-    /* ===== Resume Typography ===== */
+    /* ===== Resume typography ===== */
     .resume{
       font-size: var(--bodySize);
       line-height: var(--bodyLH);
@@ -229,14 +201,14 @@
 
     .name{
       font-size: 20px;
-      font-weight: 800;
+      font-weight: 850;
       letter-spacing: -0.02em;
       line-height: 1.05;
     }
     .headline{
       margin-top: 4px;
       font-size: 12px;
-      font-weight: 650;
+      font-weight: 700;
       color: var(--muted);
       letter-spacing: -0.01em;
     }
@@ -254,19 +226,7 @@
       line-height: 1.35;
       white-space: nowrap;
     }
-    .contact a { color: inherit; text-decoration: none; border-bottom: 1px dotted rgba(0,0,0,.25); }
-
-    .grid{
-      display: grid;
-      grid-template-columns: var(--leftCol) var(--rightCol);
-      gap: var(--colGap);
-      margin-top: 10px;
-    }
-
-    body[data-layout="ats"] .grid{
-      grid-template-columns: 1fr;
-      gap: 10px;
-    }
+    .contact a{ color: inherit; text-decoration: none; border-bottom: 1px dotted rgba(0,0,0,.25); }
 
     h2{
       margin: 0 0 6px 0;
@@ -292,14 +252,11 @@
       gap: 8px;
       align-items: baseline;
     }
-    .org{ font-weight: 800; }
-    .role{ font-weight: 650; color: #111827; margin-top: 2px; }
+    .org{ font-weight: 850; }
+    .role{ font-weight: 700; color: #111827; margin-top: 2px; }
     .meta{ color: var(--muted); font-size: 10px; }
 
-    ul{
-      margin: 6px 0 0 0;
-      padding-left: 16px;
-    }
+    ul{ margin: 6px 0 0 0; padding-left: 16px; }
     li{ margin: 2px 0; }
 
     .chips{
@@ -324,7 +281,7 @@
       gap: 6px;
     }
     .kv .k{
-      font-weight: 750;
+      font-weight: 800;
       color: #0f172a;
       font-size: 10.3px;
     }
@@ -338,7 +295,49 @@
       border-top: 1px solid rgba(17,18,20,.08);
     }
 
-    /* ===== Side Panel (Web only) ===== */
+    /* ===== EN layout (2-col) ===== */
+    .grid.en{
+      display: grid;
+      grid-template-columns: var(--leftCol) var(--rightCol);
+      gap: var(--colGap);
+      margin-top: 10px;
+    }
+
+    /* ===== KO layout (A4, 1-col) ===== */
+    body[data-lang="ko"]{
+      font-family: var(--font-ko);
+      /* KO는 1페이지 안정성을 위해 조금 더 조밀하게 */
+      --bodySize: 9.9px;
+      --bodyLH: 1.22;
+      --h2Size: 11.2px;
+      --h2LH: 1.12;
+      --padX: 12mm;
+      --padY: 11mm;
+    }
+    body[data-lang="ko"] h2{
+      text-transform: none;
+      letter-spacing: -0.01em;
+      font-weight: 900;
+    }
+    .grid.ko{
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .ko-top-skills{
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px 10px;
+      padding: 8px 0 2px;
+      border-top: 1px solid rgba(17,18,20,.08);
+      border-bottom: 1px solid rgba(17,18,20,.08);
+      margin-top: 10px;
+    }
+    .ko-top-skills .k{ font-weight: 900; font-size: 10.2px; color: #0f172a; }
+    .ko-top-skills .v{ color: var(--muted); font-size: 10px; line-height: 1.25; }
+
+    /* ===== Side panel (web only) ===== */
     .panel{
       position: sticky;
       top: 86px;
@@ -376,112 +375,65 @@
       font-size: 11px;
     }
 
-    /* ===== Language styling ===== */
-    body[data-lang="en"] { font-family: var(--font-en); }
-    body[data-lang="ko"] { font-family: var(--font-ko); }
-
-    body[data-lang="ko"] h2{
-      text-transform: none;
-      letter-spacing: -0.01em;
-      font-weight: 900;
-    }
-
-    body[data-lang="ko"]{
-      --bodySize: 9.9px;
-      --bodyLH: 1.20;
-      --h2Size: 11.2px;
-    }
-
-    /* ===== PRINT RULES (hard 1-page) ===== */
+    /* ===== PRINT (ultra-stable) ===== */
     @media print{
+      /* 인쇄 시에는 UI/패널 전부 제거하고, sheet만 출력 */
+      body{ background:#fff !important; }
       .topbar, .panel { display: none !important; }
-      body { background: #fff !important; }
-
-      @page { margin: 0; }
-
-      /* Use page-relative sizing in print to avoid iOS/Safari mm rounding → blank extra pages */
-      html, body{
-        width: 100% !important;
-        height: 100% !important;
-        margin: 0 !important;
-        padding: 0 !important;
-        overflow: hidden !important;
-        -webkit-print-color-adjust: exact;
-        print-color-adjust: exact;
-      }
-
       .main{ padding: 0 !important; }
-      .stage{
-        max-width: none !important;
-        grid-template-columns: 1fr !important;
-        gap: 0 !important;
-      }
+      .stage{ max-width: none !important; grid-template-columns: 1fr !important; gap: 0 !important; }
+      .sheet-wrap{ justify-content: flex-start !important; }
 
-      .sheet-wrap{ place-items: start !important; }
-
+      /* 화면용 둥근 모서리/그림자 제거 */
       .sheet{
-        width: 100% !important;
-        height: 100% !important;
         border-radius: 0 !important;
         box-shadow: none !important;
-        overflow: hidden !important;
-        position: relative !important;
-        left: auto !important;
-        top: auto !important;
+        width: var(--pageW) !important;
+        min-height: var(--pageH) !important;
       }
 
+      /* 인쇄 공간 절약: 칩 숨김 */
       .chips{ display: none !important; }
 
-      *{
-        break-inside: avoid;
-        page-break-inside: avoid;
+      /* 여백/헤더푸터는 사용자가 Chrome/Safari 옵션에서 꺼도 되지만,
+         우리는 margin 0로 @page를 강제하고, padding은 sheet 내부에서 관리 */
+      html, body{
+        margin: 0 !important;
+        padding: 0 !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
       }
     }
   </style>
 </head>
 
-<body data-lang="en" data-paper="LETTER" data-fit="on" data-layout="classic">
-  <div class="app" id="app">
+<body data-lang="en" data-paper="LETTER">
+  <div class="app">
+    <!-- ===== Topbar ===== -->
     <div class="topbar">
       <div class="topbar-inner">
         <div class="brand">
           <div class="dot"></div>
           <div>
             <div class="brand-title" id="brandTitle">Resume</div>
-            <div class="brand-sub" id="brandSub">North America default (Letter) · EN/KR · Fit-to-1-page</div>
+            <div class="brand-sub" id="brandSub">North America (Letter) · EN template · Print-stable</div>
           </div>
         </div>
 
         <div class="controls">
           <div class="pill">
-            <label id="lblLang">Language</label>
+            <label id="lblLang">Template</label>
             <select id="langSel">
-              <option value="en">EN</option>
-              <option value="ko">KO</option>
+              <option value="en">EN (Letter)</option>
+              <option value="ko">KO (A4)</option>
             </select>
           </div>
 
-          <div class="pill">
+          <div class="pill" id="paperPill">
             <label id="lblPaper">Paper</label>
             <select id="paperSel">
               <option value="LETTER">US Letter</option>
               <option value="A4">A4</option>
-            </select>
-          </div>
-
-          <div class="pill">
-            <label id="lblLayout">Layout</label>
-            <select id="layoutSel">
-              <option value="classic">Classic (2-col)</option>
-              <option value="ats">ATS (1-col)</option>
-            </select>
-          </div>
-
-          <div class="pill">
-            <label id="lblFit">Fit to 1 page</label>
-            <select id="fitSel">
-              <option value="on">ON</option>
-              <option value="off">OFF</option>
             </select>
           </div>
 
@@ -490,30 +442,21 @@
       </div>
     </div>
 
+    <!-- ===== Main ===== -->
     <div class="main">
       <div class="stage">
+        <!-- Sheet -->
         <div class="sheet-wrap">
-          <div class="sheet" id="sheet">
-            <div class="sheet-inner">
-              <div class="print-scale" id="printScale">
-                <div class="resume" id="resumeRoot"></div>
-              </div>
-            </div>
+          <div class="sheet">
+            <div class="resume" id="resumeRoot"></div>
           </div>
         </div>
 
-        <!-- Web-only memo panel (NOT printed) -->
+        <!-- Web-only help panel -->
         <aside class="panel" id="helpPanel">
-          <h3 id="helpTitle">Print tips (iPad / Safari)</h3>
-          <p id="helpBody">
-            1) Set <code>Paper</code> to match the PDF target (Letter for NA, A4 for KR).<br/>
-            2) Keep <code>Fit to 1 page</code> ON.<br/>
-            3) In print dialog, set margins to <code>None</code> or <code>Minimum</code> if available.
-          </p>
-          <div class="hint" id="helpHint">
-            If you apply via ATS-heavy portals, switch <code>Layout</code> → <code>ATS (1-col)</code>.
-            (Some ATS dislike multi-column PDFs.)
-          </div>
+          <h3 id="helpTitle">Print tips</h3>
+          <p id="helpBody"></p>
+          <div class="hint" id="helpHint"></div>
         </aside>
       </div>
     </div>
@@ -521,21 +464,24 @@
 
   <script>
     /* =========================
-       Content: EN vs KO are NOT direct translations.
-       Two separate versions (tone + structure) for 2025-26 norms.
+       EN vs KO are separate (not translations)
+       KO: A4 + Korean 1-col layout
+       EN: Letter + 2-col layout
        ========================= */
+
+    const $ = (id) => document.getElementById(id);
 
     const DATA = {
       en: {
         brandTitle: "Resume",
-        brandSub: "North America default (Letter) · EN/KR · Fit-to-1-page",
-        helpTitle: "Print tips (iPad / Safari)",
+        brandSub: "North America (Letter) · EN template · Print-stable",
+        helpTitle: "Print tips (Chrome / Safari)",
         helpBody: [
-          "1) Set Paper to match the target PDF (Letter for NA, A4 if needed).",
-          "2) Keep Fit to 1 page ON.",
-          "3) In the print dialog, set margins to None/Minimum when possible."
+          "1) Use Paper = US Letter for NA applications.",
+          "2) In the print dialog: turn OFF 'Headers and footers'.",
+          "3) Set Margins = None (or Minimum) if available. Keep Scale = 100%."
         ],
-        helpHint: "If you're applying through ATS-heavy portals, try Layout → ATS (1-col). Some ATS struggle with multi-column resumes.",
+        helpHint: "If an ATS is picky, export as 1-column version later. (This template keeps print stable and clean.)",
         headings: {
           experience: "Experience",
           skills: "Skills",
@@ -548,14 +494,14 @@
           name: "Andy Yun",
           headline: "Backend / AI Tooling Engineer (Co-op / Intern)",
           summary:
-            "Backend-focused ECE student who builds internal AI tooling and production backends. Recently led a Windows + FastAPI internal LLM assistant with governance (RBAC/audit/versioned distribution), a prompt marketplace, and leakage-risk monitoring for a ~50-person org."
+            "Backend-focused ECE student shipping internal AI tooling and production backends. Led a Windows + FastAPI internal LLM assistant with governance (RBAC/audit/versioned distribution), a prompt marketplace, and leakage-risk monitoring for a ~50-person org."
         },
         contact: {
+          siteLabel: "site",
+          site: "git.io/JXa1p",
           email1: "andy.yun@uwaterloo.ca",
           email2: "a2yun@uwaterloo.ca",
-          phone: "+1 (226) 507-9755",
-          siteLabel: "site",
-          site: "git.io/JXa1p"
+          phone: "+1 (226) 507-9755"
         },
         experience: [
           {
@@ -563,12 +509,12 @@
             role: "AI Researcher / Internal Tooling (Intern)",
             date: "Jan 2024 – Apr 2024",
             bullets: [
-              "Led end-to-end build of an internal LLM assistant for a ~50-person org: Windows desktop client (PySide6) + FastAPI service, always-on in a server room.",
-              "Implemented DB-backed governance: login, role-based admin controls, versioned client distribution, and audit logging (usage/prompts) with metadata capture (IP/MAC/app version).",
-              "Shipped a prompt marketplace (~10 templates) with attribution + moderation; added A/B/C keyword thresholds that trigger admin alerts when leakage-risk indicators exceed limits.",
-              "Integrated internal sources (news, Excel, fund documents) via SQL Server connectors (SQLAlchemy/pyodbc); added optional local LLM summarization to reduce token overflow and improve UI responsiveness."
+              "Built an internal LLM assistant for a ~50-person org: Windows desktop client (PySide6) + always-on FastAPI service.",
+              "Implemented DB-backed governance: login, RBAC admin controls, versioned client distribution, and audit logging (usage/prompts + IP/MAC/app version).",
+              "Shipped a prompt marketplace (~10 templates) with attribution/moderation; added A/B/C keyword thresholds to trigger admin alerts for leakage-risk indicators.",
+              "Integrated internal sources (news, Excel, fund documents) via SQL Server connectors (SQLAlchemy/pyodbc); added optional local summarization to reduce token overflow and UI stalls."
             ],
-            tech: ["Python","FastAPI","PySide6","LangChain","OpenAI API","SQLAlchemy","SQL Server","PyInstaller"]
+            tech: ["Python","FastAPI","PySide6","SQLAlchemy","SQL Server","LangChain","OpenAI API","PyInstaller"]
           },
           {
             org: "Escape Platforms",
@@ -576,7 +522,7 @@
             date: "Jun 2023 – Aug 2023",
             bullets: [
               "Developed ~10 REST API endpoints (comments/chat/internal) and implemented serverless data flows on AWS.",
-              "Built AppSync + Lambda + DynamoDB pipelines with Node.js/TypeScript; used GraphQL to streamline operations; shipped unit tests to improve reliability."
+              "Built AppSync + Lambda + DynamoDB pipelines with Node.js/TypeScript; used GraphQL to streamline operations; shipped Jest tests."
             ],
             tech: ["TypeScript","Node.js","GraphQL","AWS AppSync","Lambda","DynamoDB","Jest"]
           },
@@ -585,7 +531,7 @@
             role: "6G R&D Engineer (Co-op)",
             date: "Sep 2022 – Dec 2022",
             bullets: [
-              "Developed internal APIs (C++14/Boost) callable from Python; interfaced with a CARLA server for simulation workflows.",
+              "Developed internal APIs (C++14/Boost) callable from Python; integrated with a CARLA server for simulation workflows.",
               "Built a PyQt GUI to monitor/control Unreal Engine simulation; implemented ray-tracing logic in a CARLA context."
             ],
             tech: ["C++14","Boost","Python","PyQt","CARLA","Unreal Engine"]
@@ -637,24 +583,24 @@
           ],
           volunteering: [
             { k: "FIRST Robotics Team 7722", v: "Programming & Computing Mentor · Jan 2023 – Aug 2023" },
-            { k: "", v: "Mentored 9 high school students in embedded programming, sensor fusion, and robot motion planning; improved autonomous movement reliability (reported 93% success)." }
+            { k: "", v: "Mentored 9 students in embedded programming, sensor fusion, and robot motion planning; improved autonomous movement reliability (reported 93% success)." }
           ]
         }
       },
 
       ko: {
         brandTitle: "이력서",
-        brandSub: "한국 기본(A4 권장) · 한/영 분리 · 자동 1페이지 맞춤",
-        helpTitle: "인쇄/저장 팁 (iPad / Safari)",
+        brandSub: "한국 (A4) · 한글 전용 1열 레이아웃 · Print-stable",
+        helpTitle: "인쇄/저장 팁 (Chrome / Safari)",
         helpBody: [
-          "1) 한국 제출용이면 Paper를 A4로 맞추세요.",
-          "2) 1페이지 맞춤은 ON 유지.",
-          "3) 인쇄 옵션에서 ‘여백 없음/최소 여백’을 선택(가능한 경우)."
+          "1) Paper = A4로 맞추세요.",
+          "2) 인쇄 옵션에서 ‘머리글/바닥글’은 OFF.",
+          "3) 여백 = 없음(또는 최소), 배율 = 100% 권장."
         ],
-        helpHint: "채용 시스템(ATS) 제출이 목적이면 Layout을 ATS(1열)로 바꾸는 걸 추천합니다.",
+        helpHint: "KO 템플릿은 한글 ‘전용 1열(A4)’로 구성해서 오른쪽 여백/밸런스 문제를 없앴습니다.",
         headings: {
+          skillsTop: "핵심역량",
           experience: "경력",
-          skills: "핵심역량",
           projects: "프로젝트",
           education: "학력",
           service: "병역",
@@ -664,27 +610,33 @@
           name: "윤홍준 (Andy Yun)",
           headline: "백엔드 · 사내 AI 업무도구/플랫폼 엔지니어",
           summary:
-            "사내 사용자가 실제로 쓰는 업무도구를 ‘운영 가능한 형태’로 만드는 데 강점이 있습니다. (권한/RBAC, 감사로그, 버전관리·배포, 민감정보 유출 위험 알림) 백엔드 중심으로 설계·구현하고, 현업 워크플로우에 자연스럽게 녹이는 방향을 선호합니다."
+            "사내 사용자(비개발자 포함)가 ‘실제로 쓰는’ 업무도구를 운영 가능한 형태로 설계/구현/배포해온 백엔드 엔지니어입니다. 권한(RBAC)·감사로그·버전/배포·민감정보 유출 위험 감지(알림)까지 포함한 거버넌스 기반 업무도구 구축 경험이 있습니다."
         },
         contact: {
+          siteLabel: "웹",
+          site: "git.io/JXa1p",
           email1: "andy.yun@uwaterloo.ca",
           email2: "a2yun@uwaterloo.ca",
-          phone: "+1 (226) 507-9755",
-          siteLabel: "웹",
-          site: "git.io/JXa1p"
+          phone: "+1 (226) 507-9755"
         },
+        topSkills: [
+          { k: "백엔드", v: "Python(FastAPI), Node.js/TypeScript, SQL, REST, GraphQL" },
+          { k: "데이터/연동", v: "SQL Server, SQLAlchemy/pyodbc, 문서/엑셀/뉴스 연동" },
+          { k: "사내 AI 도구", v: "LangChain, OpenAI API, 로컬 요약 옵션, 프롬프트 마켓" },
+          { k: "거버넌스/운영", v: "RBAC, 감사로그, 버전관리·배포, 위험 키워드 알림" }
+        ],
         experience: [
           {
             org: "한국펀드평가 (KFR)",
             role: "AI 도입 연구원 / 사내 툴 개발 (인턴)",
             date: "2024.01 – 2024.04",
             bullets: [
-              "약 50명 조직 대상 사내 LLM 업무보조 도구(베타) 주도 개발: Windows(PySide6) + FastAPI 서버, 서버실 상시 구동.",
-              "거버넌스/감사 체계 구축: DB 기반 로그인·권한(RBAC), 버전관리·배포, 사용/프롬프트 감사로그(사용자·IP/MAC·앱 버전)로 컴플라이언스/디버깅 지원.",
-              "프롬프트 마켓(약 10개 템플릿) 오픈: 작성자 표시/관리자 삭제 + 민감정보 유출 위험 알림(A/B/C 키워드 임계치) 연동.",
-              "뉴스/엑셀/펀드 설명서 등 내부자료를 DB 연동(SQLAlchemy/pyodbc)으로 조회·요약(로컬 LLM 옵션)하여 토큰 초과/멈춤 이슈를 완화."
+              "약 50명 규모 조직 대상 사내 LLM 업무보조 도구(베타) 주도 개발: Windows 데스크톱(PySide6) + FastAPI 서버(서버실 상시 구동).",
+              "DB 기반 거버넌스 구축: 로그인/권한(RBAC), 버전 관리·배포, 사용/프롬프트 감사로그(사용자·IP/MAC·앱 버전)로 컴플라이언스·디버깅 지원.",
+              "프롬프트 마켓(약 10개 템플릿) 구축: 사용자 기여 + 작성자 표시 + 관리자 삭제/검수, 민감정보 유출 위험(A/B/C 키워드 임계치) 감지 시 관리자 팝업/알림.",
+              "뉴스/엑셀/펀드 설명서 등 내부자료를 DB 연동(SQLAlchemy/pyodbc)으로 조회·요약(로컬 LLM 옵션)하여 토큰 초과/멈춤 이슈 완화."
             ],
-            tech: ["Python","FastAPI","PySide6","LangChain","OpenAI API","SQLAlchemy","SQL Server","PyInstaller"]
+            tech: ["Python","FastAPI","PySide6","SQLAlchemy","SQL Server","LangChain","OpenAI API","PyInstaller"]
           },
           {
             org: "Escape Platforms",
@@ -692,7 +644,7 @@
             date: "2023.06 – 2023.08",
             bullets: [
               "댓글/채팅/내부 기능 등 REST API(약 10개) 및 AWS 서버리스 데이터 플로우 구현.",
-              "Node.js/TypeScript로 AppSync + Lambda + DynamoDB 파이프라인 구축, GraphQL 기반 운영 단순화 및 테스트(Jest)로 신뢰성 강화."
+              "Node.js/TypeScript로 AppSync + Lambda + DynamoDB 파이프라인 구축, GraphQL 기반 운영 단순화 및 Jest 테스트로 신뢰성 강화."
             ],
             tech: ["TypeScript","Node.js","GraphQL","AWS AppSync","Lambda","DynamoDB","Jest"]
           },
@@ -737,35 +689,23 @@
             tech: ["Python","Flask","SQL","REST"]
           }
         ],
-        right: {
-          skills: [
-            { k: "백엔드", v: "Python(FastAPI), Node.js/TypeScript, SQL, GraphQL, REST" },
-            { k: "클라우드/데이터", v: "AWS(Lambda/AppSync/DynamoDB), SQLAlchemy/pyodbc, UNIX/Linux" },
-            { k: "사내 AI 도구", v: "LangChain, OpenAI API, 로컬 요약 옵션, 거버넌스(권한/감사로그)" },
-            { k: "시스템/배포", v: "C/C++(Boost), Qt(PySide6/PyQt), PyInstaller 기반 사내 배포" }
-          ],
-          education: [
-            { k: "워털루 대학교", v: "공학사 과정(Computer Engineering, ECE) · 2021.09 – 2026.06" },
-            { k: "장학", v: "University of Waterloo President’s Scholarship (2021)" }
-          ],
-          service: [
-            { k: "대한민국 육군", v: "전술 C4I 정비/운용 · 2024.09 – 2026.03" }
-          ],
-          volunteering: [
-            { k: "FIRST 로보틱스 팀 7722", v: "프로그래밍/컴퓨팅 멘토 · 2023.01 – 2023.08" },
-            { k: "", v: "고등학생 9명 대상 임베디드/센서퓨전/모션플래닝 멘토링, 자율주행 신뢰성 향상(보고 성공률 93%)." }
-          ]
-        }
+        education: [
+          { k: "워털루 대학교", v: "공학사 과정(Computer Engineering, ECE) · 2021.09 – 2026.06" },
+          { k: "장학", v: "University of Waterloo President’s Scholarship (2021)" }
+        ],
+        service: [
+          { k: "대한민국 육군", v: "전술 C4I 정비/운용 · 2024.09 – 2026.03" }
+        ],
+        volunteering: [
+          { k: "FIRST 로보틱스 팀 7722", v: "프로그래밍/컴퓨팅 멘토 · 2023.01 – 2023.08" },
+          { k: "", v: "고등학생 9명 대상 임베디드/센서퓨전/모션플래닝 멘토링, 자율주행 신뢰성 향상(보고 성공률 93%)." }
+        ]
       }
     };
 
-    const $ = (id) => document.getElementById(id);
-
     const state = {
-      lang: "en",
-      paper: "LETTER",
-      fit: "on",
-      layout: "classic"
+      lang: "en",     // en | ko
+      paper: "LETTER" // LETTER | A4
     };
 
     function setPaperVars(paper){
@@ -779,44 +719,36 @@
       }
     }
 
+    function applyPageRule(){
+      // @page는 CSS selector로 토글하기가 불안정해서, JS로 확정 주입합니다.
+      const page = (state.paper === "A4") ? "A4" : "letter";
+      $("pageStyle").textContent = `@page { size: ${page}; margin: 0; }`;
+    }
+
     function escapeHtml(s){
       return (s ?? "").replace(/[&<>"']/g, (c)=>({
         "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
       }[c]));
     }
 
-    function render(){
-      const d = DATA[state.lang];
-
-      document.body.dataset.lang = state.lang;
-      document.body.dataset.paper = state.paper;
-      document.body.dataset.fit = state.fit;
-      document.body.dataset.layout = state.layout;
-
-      setPaperVars(state.paper);
-
-      $("brandTitle").textContent = d.brandTitle;
-      $("brandSub").textContent = d.brandSub;
-
-      $("helpTitle").textContent = d.helpTitle;
-      $("helpBody").innerHTML = d.helpBody.map(line => escapeHtml(line)).join("<br/>");
-      $("helpHint").textContent = d.helpHint;
-
-      $("lblLang").textContent = state.lang === "ko" ? "언어" : "Language";
-      $("lblPaper").textContent = state.lang === "ko" ? "용지" : "Paper";
-      $("lblLayout").textContent = state.lang === "ko" ? "레이아웃" : "Layout";
-      $("lblFit").textContent = state.lang === "ko" ? "1페이지 맞춤" : "Fit to 1 page";
-      $("printBtn").textContent = state.lang === "ko" ? "인쇄 / PDF 저장" : "Print / Save PDF";
-
-      $("resumeRoot").innerHTML = buildResume(d);
+    function buildContact(c, lang){
+      const siteUrl = `https://${c.site}`;
+      const phoneLabel = (lang === "ko") ? "전화" : "phone";
+      const emailLabel = (lang === "ko") ? "이메일" : "email";
+      return `
+        <div>${escapeHtml(c.siteLabel)}: <a href="${escapeHtml(siteUrl)}" target="_blank" rel="noopener">${escapeHtml(c.site)}</a></div>
+        <div>${emailLabel}: <a href="mailto:${escapeHtml(c.email1)}">${escapeHtml(c.email1)}</a></div>
+        <div>${escapeHtml(c.email2)}</div>
+        <div>${phoneLabel}: ${escapeHtml(c.phone)}</div>
+      `;
     }
 
-    function buildResume(d){
+    function buildEN(d){
       const h = d.headings;
       const p = d.profile;
       const c = d.contact;
 
-      const experienceHTML = d.experience.map(job => `
+      const exp = d.experience.map(job => `
         <div class="item">
           <div class="row">
             <div>
@@ -825,16 +757,12 @@
             </div>
             <div class="meta">${escapeHtml(job.date)}</div>
           </div>
-          <ul>
-            ${job.bullets.map(b => `<li>${escapeHtml(b)}</li>`).join("")}
-          </ul>
-          <div class="chips">
-            ${job.tech.map(t => `<span class="chip">${escapeHtml(t)}</span>`).join("")}
-          </div>
+          <ul>${job.bullets.map(b => `<li>${escapeHtml(b)}</li>`).join("")}</ul>
+          <div class="chips">${job.tech.map(t => `<span class="chip">${escapeHtml(t)}</span>`).join("")}</div>
         </div>
       `).join("");
 
-      const projectsHTML = d.projects.map(pr => `
+      const projects = d.projects.map(pr => `
         <div class="item">
           <div class="row">
             <div>
@@ -843,49 +771,38 @@
             </div>
             <div class="meta">${escapeHtml(pr.meta)}</div>
           </div>
-          ${pr.desc && pr.desc.length > 1 ? `
-            <ul>${pr.desc.slice(1).map(x => `<li>${escapeHtml(x)}</li>`).join("")}</ul>
-          ` : ``}
-          <div class="chips">
-            ${pr.tech.map(t => `<span class="chip">${escapeHtml(t)}</span>`).join("")}
-          </div>
+          ${pr.desc && pr.desc.length > 1 ? `<ul>${pr.desc.slice(1).map(x => `<li>${escapeHtml(x)}</li>`).join("")}</ul>` : ``}
+          <div class="chips">${pr.tech.map(t => `<span class="chip">${escapeHtml(t)}</span>`).join("")}</div>
         </div>
       `).join("");
 
-      const skillsHTML = d.right.skills.map(x => `
+      const skills = d.right.skills.map(x => `
         <div>
           <div class="k">${escapeHtml(x.k)}</div>
           <div class="v">${escapeHtml(x.v)}</div>
         </div>
       `).join("");
 
-      const eduHTML = d.right.education.map((x,i) => `
-        <div class="${i===0 ? "" : "line"}">
+      const edu = d.right.education.map((x,i) => `
+        <div class="${i===0?"":"line"}">
           <div class="k">${escapeHtml(x.k)}</div>
           <div class="v">${escapeHtml(x.v)}</div>
         </div>
       `).join("");
 
-      const svcHTML = d.right.service.map((x,i) => `
-        <div class="${i===0 ? "" : "line"}">
+      const svc = d.right.service.map((x,i) => `
+        <div class="${i===0?"":"line"}">
           <div class="k">${escapeHtml(x.k)}</div>
           <div class="v">${escapeHtml(x.v)}</div>
         </div>
       `).join("");
 
-      const volHTML = d.right.volunteering.map((x,i) => `
-        <div class="${i===0 ? "" : "line"}">
+      const vol = d.right.volunteering.map((x,i) => `
+        <div class="${i===0?"":"line"}">
           ${x.k ? `<div class="k">${escapeHtml(x.k)}</div>` : ``}
           <div class="v">${escapeHtml(x.v)}</div>
         </div>
       `).join("");
-
-      const contactLines = `
-        <div>${escapeHtml(c.siteLabel)}: <a href="https://${escapeHtml(c.site)}" target="_blank" rel="noopener">${escapeHtml(c.site)}</a></div>
-        <div>email: <a href="mailto:${escapeHtml(c.email1)}">${escapeHtml(c.email1)}</a></div>
-        <div>${escapeHtml(c.email2)}</div>
-        <div>${state.lang === "ko" ? "전화" : "phone"}: ${escapeHtml(c.phone)}</div>
-      `;
 
       return `
         <div class="header">
@@ -894,137 +811,215 @@
             <div class="headline">${escapeHtml(p.headline)}</div>
             <div class="summary">${escapeHtml(p.summary)}</div>
           </div>
-          <div class="contact">${contactLines}</div>
+          <div class="contact">${buildContact(c,"en")}</div>
         </div>
 
-        <div class="grid">
+        <div class="grid en">
           <div>
             <div class="sec">
               <h2>${escapeHtml(h.experience)}</h2>
-              ${experienceHTML}
+              ${exp}
             </div>
-
             <div class="sec">
               <h2>${escapeHtml(h.projects)}</h2>
-              ${projectsHTML}
+              ${projects}
             </div>
           </div>
 
           <div>
             <div class="sec">
               <h2>${escapeHtml(h.skills)}</h2>
-              <div class="kv">${skillsHTML}</div>
+              <div class="kv">${skills}</div>
             </div>
-
             <div class="sec">
               <h2>${escapeHtml(h.education)}</h2>
-              <div class="kv">${eduHTML}</div>
+              <div class="kv">${edu}</div>
             </div>
-
             <div class="sec">
               <h2>${escapeHtml(h.service)}</h2>
-              <div class="kv">${svcHTML}</div>
+              <div class="kv">${svc}</div>
             </div>
-
             <div class="sec">
               <h2>${escapeHtml(h.volunteering)}</h2>
-              <div class="kv">${volHTML}</div>
+              <div class="kv">${vol}</div>
             </div>
           </div>
         </div>
       `;
     }
 
-    function computeFitScale(){
-      if(state.fit !== "on"){
-        document.documentElement.style.setProperty("--printScale", "1");
-        return 1;
+    function buildKO(d){
+      const h = d.headings;
+      const p = d.profile;
+      const c = d.contact;
+
+      const topSkills = d.topSkills.map(x => `
+        <div>
+          <div class="k">${escapeHtml(x.k)}</div>
+          <div class="v">${escapeHtml(x.v)}</div>
+        </div>
+      `).join("");
+
+      const exp = d.experience.map(job => `
+        <div class="item">
+          <div class="row">
+            <div>
+              <div class="org">${escapeHtml(job.org)}</div>
+              <div class="role">${escapeHtml(job.role)}</div>
+            </div>
+            <div class="meta">${escapeHtml(job.date)}</div>
+          </div>
+          <ul>${job.bullets.map(b => `<li>${escapeHtml(b)}</li>`).join("")}</ul>
+          <div class="chips">${job.tech.map(t => `<span class="chip">${escapeHtml(t)}</span>`).join("")}</div>
+        </div>
+      `).join("");
+
+      const projects = d.projects.map(pr => `
+        <div class="item">
+          <div class="row">
+            <div>
+              <div class="org">${escapeHtml(pr.name)}</div>
+              <div class="role">${escapeHtml(pr.desc?.[0] ?? "")}</div>
+            </div>
+            <div class="meta">${escapeHtml(pr.meta)}</div>
+          </div>
+          ${pr.desc && pr.desc.length > 1 ? `<ul>${pr.desc.slice(1).map(x => `<li>${escapeHtml(x)}</li>`).join("")}</ul>` : ``}
+          <div class="chips">${pr.tech.map(t => `<span class="chip">${escapeHtml(t)}</span>`).join("")}</div>
+        </div>
+      `).join("");
+
+      const edu = d.education.map((x,i) => `
+        <div class="${i===0?"":"line"}">
+          <div class="k">${escapeHtml(x.k)}</div>
+          <div class="v">${escapeHtml(x.v)}</div>
+        </div>
+      `).join("");
+
+      const svc = d.service.map((x,i) => `
+        <div class="${i===0?"":"line"}">
+          <div class="k">${escapeHtml(x.k)}</div>
+          <div class="v">${escapeHtml(x.v)}</div>
+        </div>
+      `).join("");
+
+      const vol = d.volunteering.map((x,i) => `
+        <div class="${i===0?"":"line"}">
+          ${x.k ? `<div class="k">${escapeHtml(x.k)}</div>` : ``}
+          <div class="v">${escapeHtml(x.v)}</div>
+        </div>
+      `).join("");
+
+      return `
+        <div class="header">
+          <div>
+            <div class="name">${escapeHtml(p.name)}</div>
+            <div class="headline">${escapeHtml(p.headline)}</div>
+            <div class="summary">${escapeHtml(p.summary)}</div>
+          </div>
+          <div class="contact">${buildContact(c,"ko")}</div>
+        </div>
+
+        <div class="ko-top-skills" aria-label="${escapeHtml(h.skillsTop)}">
+          ${topSkills}
+        </div>
+
+        <div class="grid ko">
+          <div class="sec">
+            <h2>${escapeHtml(h.experience)}</h2>
+            ${exp}
+          </div>
+
+          <div class="sec">
+            <h2>${escapeHtml(h.projects)}</h2>
+            ${projects}
+          </div>
+
+          <div class="sec">
+            <h2>${escapeHtml(h.education)}</h2>
+            <div class="kv">${edu}</div>
+          </div>
+
+          <div class="sec">
+            <h2>${escapeHtml(h.service)}</h2>
+            <div class="kv">${svc}</div>
+          </div>
+
+          <div class="sec">
+            <h2>${escapeHtml(h.volunteering)}</h2>
+            <div class="kv">${vol}</div>
+          </div>
+        </div>
+      `;
+    }
+
+    function render(){
+      const d = DATA[state.lang];
+
+      // KO 선택 시 기본값 강제: A4
+      if(state.lang === "ko") state.paper = "A4";
+
+      // body dataset
+      document.body.dataset.lang = state.lang;
+      document.body.dataset.paper = state.paper;
+
+      // paper vars + @page size 주입
+      setPaperVars(state.paper);
+      applyPageRule();
+
+      // topbar texts
+      $("brandTitle").textContent = d.brandTitle;
+      $("brandSub").textContent = d.brandSub;
+
+      // help panel
+      $("helpTitle").textContent = d.helpTitle;
+      $("helpBody").innerHTML = d.helpBody.map(x => escapeHtml(x)).join("<br/>");
+      $("helpHint").textContent = d.helpHint;
+
+      // paper UI: KO는 A4 고정 (사용자 실수 방지)
+      $("paperSel").value = state.paper;
+      if(state.lang === "ko"){
+        $("paperPill").style.opacity = "0.55";
+        $("paperSel").disabled = true;
+      } else {
+        $("paperPill").style.opacity = "1";
+        $("paperSel").disabled = false;
       }
 
-      const sheet = $("sheet");
-      const inner = sheet.querySelector(".sheet-inner");
-      const content = $("resumeRoot");
-
-      document.documentElement.style.setProperty("--printScale", "1");
-      void content.offsetHeight;
-
-      // Use clientHeight/scrollHeight for more stable results across iPad/Safari
-      const availableH = inner.clientHeight - 2; // px
-      const contentH = content.scrollHeight;
-
-      if(contentH <= 0) return 1;
-
-      const raw = availableH / contentH;
-      const safety = 0.94; // extra safety for iPad/Safari print rounding
-      const scale = Math.min(1, raw * safety);
-
-      document.documentElement.style.setProperty("--printScale", String(scale));
-      return scale;
+      // resume html
+      $("resumeRoot").innerHTML = (state.lang === "ko") ? buildKO(d) : buildEN(d);
     }
 
-    function beforePrint(){
-      computeFitScale();
-    }
-
-    function afterPrint(){
-      if(state.fit !== "on"){
-        document.documentElement.style.setProperty("--printScale", "1");
-      }
-    }
-
-    const mql = window.matchMedia("print");
-    mql.addEventListener?.("change", (e)=>{
-      if(e.matches) beforePrint();
-      else afterPrint();
-    });
-
-    window.addEventListener?.("beforeprint", beforePrint);
-    window.addEventListener?.("afterprint", afterPrint);
-
+    // Events
     $("langSel").addEventListener("change", (e)=>{
       state.lang = e.target.value;
+      if(state.lang === "en") state.paper = "LETTER";
       render();
-      computeFitScale();
     });
 
     $("paperSel").addEventListener("change", (e)=>{
       state.paper = e.target.value;
       render();
-      computeFitScale();
     });
 
-    $("fitSel").addEventListener("change", (e)=>{
-      state.fit = e.target.value;
-      render();
-      computeFitScale();
-    });
-
-    $("layoutSel").addEventListener("change", (e)=>{
-      state.layout = e.target.value;
-      render();
-      computeFitScale();
+    // Print: beforeprint에서 @page 다시 주입 (브라우저별 타이밍 이슈 방지)
+    window.addEventListener("beforeprint", ()=> applyPageRule());
+    const mql = window.matchMedia("print");
+    mql.addEventListener?.("change", (e)=>{
+      if(e.matches) applyPageRule();
     });
 
     $("printBtn").addEventListener("click", ()=>{
-      beforePrint();
-      // iPad/Safari: give the browser a couple frames to apply CSS var scaling
-      requestAnimationFrame(()=>{
-        requestAnimationFrame(()=>{
-          window.print();
-        });
-      });
+      applyPageRule();
+      // Safari/Chrome 모두에서 적용되도록 약간의 딜레이
+      setTimeout(()=> window.print(), 80);
     });
 
+    // Init
     function init(){
       $("langSel").value = state.lang;
       $("paperSel").value = state.paper;
-      $("fitSel").value = state.fit;
-      $("layoutSel").value = state.layout;
       render();
-      computeFitScale();
     }
-
-    window.addEventListener("resize", ()=> computeFitScale());
     init();
   </script>
 </body>
