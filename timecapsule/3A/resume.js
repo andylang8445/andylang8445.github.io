@@ -1,7 +1,8 @@
 /* =========================================================
    Resume renderer (EN + KO)
-   - Paper size (A4/Letter) + stable print
-   - Avoid blank PDF / hairline artifacts
+   - Stable paper size (A4/Letter)
+   - Print-safe (no transform scaling)
+   - ATS-friendly copy (short, scannable)
    ========================================================= */
 
 const $ = (id) => document.getElementById(id);
@@ -11,12 +12,12 @@ const DATA = {
     brandTitle: "Resume",
     helpTitle: "Print tips (Chrome / Safari)",
     helpBody: [
-      "1) For North America, prefer US Letter unless instructed otherwise.",
-      "2) In print dialog: turn OFF 'Headers and footers'.",
-      "3) Set Margins = None (or Minimum), Scale = 100%."
+      "1) Prefer US Letter unless instructed otherwise.",
+      "2) Print dialog: turn OFF 'Headers and footers'.",
+      "3) Margins = None (or Minimum), Scale = 100%."
     ],
     helpHint:
-      "If an ATS is picky, try a 1-column layout. This EN template stays print-stable and avoids weird PDF artifacts.",
+      "If an ATS is picky, consider a 1-column export. This template avoids blank pages and hairline artifacts.",
     headings: {
       experience: "Experience",
       skills: "Skills",
@@ -29,7 +30,7 @@ const DATA = {
       name: "Andy Yun",
       headline: "Backend / AI Tooling Engineer (Co-op / Intern)",
       summary:
-        "Backend-focused ECE student shipping internal AI tooling and production backends. Led a Windows + FastAPI internal LLM assistant with governance (RBAC/audit/versioned distribution), a prompt marketplace, and leakage-risk monitoring for a ~50-person org."
+        "Backend-focused ECE student who ships internal AI tooling and production backends. Built a Windows + FastAPI LLM assistant with governance (RBAC/audit/versioned distribution), prompt templates, and leakage-risk monitoring for a ~50-person org."
     },
     contact: {
       siteLabel: "site",
@@ -42,29 +43,29 @@ const DATA = {
       {
         org: "Korea Fund Ratings (KFR)",
         role: "AI Researcher / Internal Tooling (Intern)",
-        date: "Jan 2024 – Apr 2024",
+        date: "2024.01–2024.04",
         bullets: [
-          "Built an internal LLM assistant for a ~50-person org: Windows desktop client (PySide6) + always-on FastAPI service.",
-          "Implemented DB-backed governance: login, RBAC admin controls, versioned client distribution, and audit logging (usage/prompts + IP/MAC/app version).",
-          "Shipped a prompt marketplace (~10 templates) with attribution + moderation; added A/B/C keyword thresholds to trigger admin alerts for leakage-risk indicators.",
-          "Integrated internal sources (news, Excel, fund documents) via SQL Server connectors (SQLAlchemy/pyodbc); added optional local summarization to reduce token overflow and UI stalls."
+          "Led an internal LLM assistant for a ~50-person org: Windows client (PySide6) + always-on FastAPI service.",
+          "Built governance: authentication, RBAC admin tools, versioned client distribution, and audit logs (usage + IP/MAC/app version).",
+          "Shipped a prompt template library (~10) with attribution + moderation; added leakage-risk keyword thresholds (A/B/C) with admin alerts.",
+          "Connected internal sources (news/Excel/fund docs) via SQL Server (SQLAlchemy/pyodbc); added optional local summarization to reduce token overflow and UI stalls."
         ],
         tech: ["Python","FastAPI","PySide6","SQLAlchemy","SQL Server","LangChain","OpenAI API","PyInstaller"]
       },
       {
         org: "Escape Platforms",
         role: "Software Backend Developer (Co-op)",
-        date: "Jun 2023 – Aug 2023",
+        date: "2023.06–2023.08",
         bullets: [
-          "Developed ~10 REST API endpoints (comments/chat/internal) and implemented serverless data flows on AWS.",
-          "Built AppSync + Lambda + DynamoDB pipelines with Node.js/TypeScript; used GraphQL to streamline operations; shipped Jest tests."
+          "Built ~10 REST endpoints and serverless data flows on AWS.",
+          "Implemented AppSync + Lambda + DynamoDB pipelines with Node.js/TypeScript; streamlined ops via GraphQL; shipped Jest tests."
         ],
         tech: ["TypeScript","Node.js","GraphQL","AWS AppSync","Lambda","DynamoDB","Jest"]
       },
       {
         org: "Huawei Technologies Canada",
         role: "6G R&D Engineer (Co-op)",
-        date: "Sep 2022 – Dec 2022",
+        date: "2022.09–2022.12",
         bullets: [
           "Developed internal APIs (C++14/Boost) callable from Python; integrated with a CARLA server for simulation workflows.",
           "Built a PyQt GUI to monitor/control Unreal Engine simulation; implemented ray-tracing logic in a CARLA context."
@@ -74,11 +75,11 @@ const DATA = {
       {
         org: "Stackpole International",
         role: "Software Developer (Co-op)",
-        date: "Jan 2022 – Apr 2022",
+        date: "2022.01–2022.04",
         bullets: [
           "Reduced PLC↔Host communication overhead by ~30% via a caching mechanism.",
-          "Built GUI + ML + telemetry tooling using Python (Qt), OpenCV, and PyTorch; supported PLC and GPU servers.",
-          "Constructed a lightweight ANN model for Jetson Nano paired with PLC to reduce server load and improve response time."
+          "Built GUI/ML/telemetry tooling with Python (Qt), OpenCV, and PyTorch; supported PLC and GPU servers.",
+          "Built a lightweight ANN model for Jetson Nano + PLC to reduce server load and improve response time."
         ],
         tech: ["Python","Qt","OpenCV","PyTorch","PLC","Jetson"]
       }
@@ -86,18 +87,18 @@ const DATA = {
     projects: [
       {
         name: "Logic.Gate Tutoring Platform",
-        meta: "2021 – Present",
+        meta: "2021–Present",
         desc: [
-          "STEM education platform; prototyping tutoring workflows and evaluation-first improvements with a reliability/UX focus."
+          "STEM tutoring platform; prototyping tutoring workflows and evaluation-first improvements with a reliability/UX focus."
         ],
         tech: ["RAG","Agents","Backend"]
       },
       {
         name: "Find My Pill Platform",
-        meta: "Oct 2022 – Dec 2023",
+        meta: "2022.10–2023.12",
         desc: [
           "Built REST API and data model; improved response time by ~23.7% via 3NF normalization.",
-          "Designed a microservice-friendly architecture and a custom recommendation approach for user text input."
+          "Designed a microservice-friendly architecture and a custom recommendation approach for text input."
         ],
         tech: ["Python","Flask","SQL","REST"]
       }
@@ -106,19 +107,19 @@ const DATA = {
       skills: [
         { k: "Backend", v: "Python (FastAPI), Node.js/TypeScript, SQL, GraphQL, REST" },
         { k: "Cloud / Data", v: "AWS (Lambda/AppSync/DynamoDB), SQLAlchemy/pyodbc, UNIX/Linux" },
-        { k: "AI Tooling", v: "LangChain, OpenAI API, optional local summarization, governance/audit" },
+        { k: "AI Tooling", v: "LangChain, OpenAI API, governance/audit, optional local summarization" },
         { k: "Systems", v: "C/C++ (Boost), Qt (PySide6/PyQt), packaging & internal distribution" }
       ],
       education: [
-        { k: "University of Waterloo", v: "BASc Candidate, Computer Engineering (ECE) · Sep 2021 – Jun 2026" },
+        { k: "University of Waterloo", v: "BASc Candidate, Computer Engineering (ECE) · 2021.09–2026.06" },
         { k: "Scholarship", v: "University of Waterloo President’s Scholarship (2021)" }
       ],
       service: [
-        { k: "Republic of Korea Army", v: "Tactical C4I Maintenance & Operation · Sep 2024 – Mar 2026" }
+        { k: "Republic of Korea Army", v: "Tactical C4I Maintenance & Operation · 2024.09–2026.03" }
       ],
       volunteering: [
-        { k: "FIRST Robotics Team 7722", v: "Programming & Computing Mentor · Jan 2023 – Aug 2023" },
-        { k: "", v: "Mentored 9 students in embedded programming, sensor fusion, and robot motion planning; improved autonomous movement reliability (reported 93% success)." }
+        { k: "FIRST Robotics Team 7722", v: "Programming & Computing Mentor · 2023.01–2023.08" },
+        { k: "", v: "Mentored 9 students in embedded programming, sensor fusion, and motion planning; improved autonomous reliability (reported 93% success)." }
       ]
     }
   },
@@ -128,7 +129,7 @@ const DATA = {
     helpTitle: "인쇄/저장 팁 (Chrome / Safari)",
     helpBody: [
       "1) 한국 기업 제출은 보통 A4를 권장합니다.",
-      "2) 인쇄 옵션에서 ‘머리글/바닥글’은 OFF.",
+      "2) 인쇄 옵션에서 ‘머리글/바닥글(머리말/꼬리말)’은 반드시 OFF.",
       "3) 여백 = 없음(또는 최소), 배율 = 100% 권장.",
       "4) 제출처가 Letter를 요구하면 Paper를 Letter로 바꿔 출력하세요."
     ],
@@ -158,50 +159,50 @@ const DATA = {
     topSkills: [
       { k: "백엔드", v: "Python(FastAPI), Node.js/TypeScript, SQL, REST, GraphQL" },
       { k: "데이터/연동", v: "SQL Server, SQLAlchemy/pyodbc, 문서·엑셀·뉴스 연동" },
-      { k: "사내 AI 도구", v: "LangChain, OpenAI API, 로컬 요약 옵션, 프롬프트 마켓" },
+      { k: "사내 AI 도구", v: "LangChain, OpenAI API, 로컬 요약 옵션, 프롬프트 템플릿" },
       { k: "거버넌스/운영", v: "RBAC, 감사 로그, 버전 관리·배포, 위험 키워드 알림" }
     ],
     experience: [
       {
         org: "한국펀드평가 (KFR)",
         role: "AI 도입 연구원 / 사내 툴 개발 (인턴)",
-        date: "2024.01 – 2024.04",
+        date: "2024.01–2024.04",
         bullets: [
-          "약 50명 규모 조직을 대상으로 사내 LLM 업무보조 도구(베타) 개발을 주도: Windows 데스크톱(PySide6) + FastAPI 서버(상시 구동).",
-          "DB 기반 거버넌스 구현: 로그인/권한(RBAC), 버전 관리·배포, 사용/프롬프트 감사 로그(사용자·IP/MAC·앱 버전)로 컴플라이언스 및 디버깅 지원.",
-          "프롬프트 마켓(약 10개 템플릿) 구축: 작성자 표시(기여 추적) + 관리자 검수/삭제. 민감정보 유출 위험 A/B/C 키워드 임계치 초과 시 관리자 알림 제공.",
-          "뉴스/엑셀/펀드 설명서 등 내부 자료를 SQL Server(SQLAlchemy/pyodbc)로 연동해 조회하고, 로컬 LLM 요약 옵션을 추가해 토큰 초과·UI 멈춤 이슈를 완화."
+          "약 50명 규모 조직 대상 사내 LLM 업무보조 도구(베타) 개발 주도: Windows(PySide6) + FastAPI 서버(상시 구동).",
+          "로그인/권한(RBAC), 버전 관리·배포, 감사 로그(사용자·IP/MAC·앱 버전)로 운영·컴플라이언스 기반 구축.",
+          "프롬프트 템플릿(약 10개) 제공: 작성자 표시 + 관리자 검수/삭제. 민감정보 유출 위험 키워드 임계치 초과 시 관리자 알림.",
+          "뉴스/엑셀/펀드 설명서 등 내부 자료를 SQL Server(SQLAlchemy/pyodbc)로 연동. 로컬 요약 옵션으로 토큰 초과·UI 멈춤 이슈 완화."
         ],
         tech: ["Python","FastAPI","PySide6","SQLAlchemy","SQL Server","LangChain","OpenAI API","PyInstaller"]
       },
       {
         org: "Escape Platforms",
         role: "백엔드 개발 (Co-op)",
-        date: "2023.06 – 2023.08",
+        date: "2023.06–2023.08",
         bullets: [
           "댓글/채팅/내부 기능 등 REST API(약 10개) 및 AWS 서버리스 데이터 플로우 구현.",
-          "Node.js/TypeScript로 AppSync + Lambda + DynamoDB 파이프라인 구축, GraphQL 기반 운영 단순화 및 Jest 테스트로 신뢰성 강화."
+          "Node.js/TypeScript로 AppSync + Lambda + DynamoDB 파이프라인 구축. GraphQL 기반 운영 단순화 및 Jest 테스트로 신뢰성 강화."
         ],
         tech: ["TypeScript","Node.js","GraphQL","AWS AppSync","Lambda","DynamoDB","Jest"]
       },
       {
         org: "Huawei Technologies Canada",
         role: "6G R&D 엔지니어 (Co-op)",
-        date: "2022.09 – 2022.12",
+        date: "2022.09–2022.12",
         bullets: [
-          "Python에서 호출 가능한 내부 API(C++14/Boost) 개발, CARLA 서버 연동을 통해 시뮬레이션 워크플로우 구성.",
-          "Unreal Engine 시뮬레이션 모니터링/제어용 PyQt GUI 제작, CARLA 환경에서 레이 트레이싱 로직 구현."
+          "Python에서 호출 가능한 내부 API(C++14/Boost) 개발 및 CARLA 서버 연동으로 시뮬레이션 워크플로우 구성.",
+          "Unreal Engine 시뮬레이션 모니터링/제어용 PyQt GUI 제작, CARLA 환경 레이 트레이싱 로직 구현."
         ],
         tech: ["C++14","Boost","Python","PyQt","CARLA","Unreal Engine"]
       },
       {
         org: "Stackpole International",
         role: "소프트웨어 개발 (Co-op)",
-        date: "2022.01 – 2022.04",
+        date: "2022.01–2022.04",
         bullets: [
           "캐싱 메커니즘 도입으로 PLC↔Host 통신 오버헤드 약 30% 절감.",
-          "Python(Qt), OpenCV, PyTorch 기반 GUI/ML/텔레메트리 툴 개발, PLC 및 GPU 서버 운영 지원.",
-          "Jetson Nano + PLC 환경에서 동작하는 경량 ANN 모델 구축으로 서버 부하 및 응답시간 개선."
+          "Python(Qt), OpenCV, PyTorch 기반 GUI/ML/텔레메트리 툴 개발 및 PLC·GPU 서버 운영 지원.",
+          "Jetson Nano + PLC 환경 경량 ANN 모델 구축으로 서버 부하 및 응답시간 개선."
         ],
         tech: ["Python","Qt","OpenCV","PyTorch","PLC","Jetson"]
       }
@@ -209,7 +210,7 @@ const DATA = {
     projects: [
       {
         name: "Logic.Gate 튜터링 플랫폼",
-        meta: "2021 – 현재",
+        meta: "2021–현재",
         desc: [
           "STEM 교육 플랫폼: 튜터링 워크플로우를 프로토타이핑하고 평가 중심으로 개선(신뢰성/UX)."
         ],
@@ -217,7 +218,7 @@ const DATA = {
       },
       {
         name: "Find My Pill 플랫폼",
-        meta: "2022.10 – 2023.12",
+        meta: "2022.10–2023.12",
         desc: [
           "REST API + 데이터 모델 구축, 3NF 정규화로 응답시간 약 23.7% 개선.",
           "마이크로서비스 친화 아키텍처 및 텍스트 입력 기반 추천 로직 설계."
@@ -226,14 +227,14 @@ const DATA = {
       }
     ],
     education: [
-      { k: "워털루 대학교", v: "공학사 과정(Computer Engineering, ECE) · 2021.09 – 2026.06" },
+      { k: "워털루 대학교", v: "공학사 과정(Computer Engineering, ECE) · 2021.09–2026.06" },
       { k: "장학", v: "University of Waterloo President’s Scholarship (2021)" }
     ],
     service: [
-      { k: "대한민국 육군", v: "전술 C4I 정비/운용 · 2024.09 – 2026.03" }
+      { k: "대한민국 육군", v: "전술 C4I 정비/운용 · 2024.09–2026.03" }
     ],
     volunteering: [
-      { k: "FIRST 로보틱스 팀 7722", v: "프로그래밍/컴퓨팅 멘토 · 2023.01 – 2023.08" },
+      { k: "FIRST 로보틱스 팀 7722", v: "프로그래밍/컴퓨팅 멘토 · 2023.01–2023.08" },
       { k: "", v: "고등학생 9명을 대상으로 임베디드/센서퓨전/모션 플래닝을 멘토링했으며, 자율주행 신뢰성을 향상(보고 성공률 93%)." }
     ]
   }
@@ -525,7 +526,6 @@ $("paperSel").addEventListener("change", (e)=>{
   render();
 });
 
-/* Print safety: ensure @page is correct at the moment of printing */
 window.addEventListener("beforeprint", ()=> applyPageRule());
 const mql = window.matchMedia("print");
 mql.addEventListener?.("change", (e)=>{ if(e.matches) applyPageRule(); });
@@ -544,8 +544,21 @@ function init(){
   state.paper = "LETTER";
   lastPaperByLang.en = "LETTER";
   lastPaperByLang.ko = "A4";
+
   $("langSel").value = state.lang;
   $("paperSel").value = state.paper;
   render();
 }
 init();
+
+/* keep these functions after init so they’re in scope */
+function setPaperVars(paper){
+  const root = document.documentElement.style;
+  if(paper === "A4"){
+    root.setProperty("--pageW", "var(--w-a4)");
+    root.setProperty("--pageH", "var(--h-a4)");
+  } else {
+    root.setProperty("--pageW", "var(--w-letter)");
+    root.setProperty("--pageH", "var(--h-letter)");
+  }
+}
