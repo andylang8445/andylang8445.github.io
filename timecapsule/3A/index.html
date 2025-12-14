@@ -1,0 +1,834 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Andy Yun — Resume</title>
+  <meta name="description" content="Resume (Backend / Backend+LLM) — single-column print/PDF + ATS-friendly" />
+
+  <style>
+    :root{
+      --paper:#ffffff;
+      --bg:#f8fafc;
+      --ink:#0f172a;
+      --muted:#475569;
+      --soft:#94a3b8;
+      --line:#e2e8f0;
+      --chip:#f1f5f9;
+      --chipHi:#e0f2fe;      /* light-blue */
+      --chipHiBorder:#7dd3fc;
+
+      --max: 880px;
+      --pad: 28px;
+      --radius: 16px;
+
+      --h1: 28px;
+      --h2: 12px;
+      --body: 13.5px;
+      --lead: 14.5px;
+
+      --s1: 6px;
+      --s2: 10px;
+      --s3: 14px;
+      --s4: 18px;
+      --s5: 22px;
+
+      /* Fit levels (auto) — defaults (level 0) */
+      --fit-body: var(--body);
+      --fit-lead: var(--lead);
+      --fit-pad: var(--pad);
+      --fit-s1: var(--s1);
+      --fit-s2: var(--s2);
+      --fit-s3: var(--s3);
+      --fit-s4: var(--s4);
+      --fit-s5: var(--s5);
+    }
+
+    /* Compact mode */
+    [data-compact="true"]{
+      --pad: 22px;
+      --body: 13.2px;
+      --lead: 14px;
+      --s1: 4px;
+      --s2: 8px;
+      --s3: 12px;
+      --s4: 14px;
+      --s5: 16px;
+    }
+
+    /* Fit levels (auto one-page) */
+    [data-fit="1"]{
+      --fit-body: 13.1px;
+      --fit-lead: 14px;
+      --fit-pad: calc(var(--pad) - 2px);
+      --fit-s1: calc(var(--s1) - 1px);
+      --fit-s2: calc(var(--s2) - 1px);
+      --fit-s3: calc(var(--s3) - 2px);
+      --fit-s4: calc(var(--s4) - 3px);
+      --fit-s5: calc(var(--s5) - 4px);
+    }
+    [data-fit="2"]{
+      --fit-body: 12.8px;
+      --fit-lead: 13.7px;
+      --fit-pad: calc(var(--pad) - 4px);
+      --fit-s1: calc(var(--s1) - 2px);
+      --fit-s2: calc(var(--s2) - 2px);
+      --fit-s3: calc(var(--s3) - 3px);
+      --fit-s4: calc(var(--s4) - 4px);
+      --fit-s5: calc(var(--s5) - 6px);
+    }
+    [data-fit="3"]{
+      --fit-body: 12.5px;
+      --fit-lead: 13.4px;
+      --fit-pad: calc(var(--pad) - 6px);
+      --fit-s1: calc(var(--s1) - 2px);
+      --fit-s2: calc(var(--s2) - 3px);
+      --fit-s3: calc(var(--s3) - 4px);
+      --fit-s4: calc(var(--s4) - 6px);
+      --fit-s5: calc(var(--s5) - 8px);
+    }
+
+    html, body { height: 100%; }
+    body{
+      margin:0;
+      background: var(--bg);
+      color: var(--ink);
+      font: 400 var(--fit-body)/1.48 ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial,
+            "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
+      letter-spacing: 0.1px;
+    }
+
+    /* Toolbar (not printed) */
+    .toolbar{
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(10px);
+      background: rgba(248,250,252,0.9);
+      border-bottom: 1px solid var(--line);
+    }
+    .toolbar-inner{
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 10px 16px;
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap: 12px;
+      flex-wrap:wrap;
+    }
+    .left, .right{
+      display:flex;
+      align-items:center;
+      gap: 10px;
+      flex-wrap:wrap;
+    }
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding: 8px 10px;
+      border: 1px solid var(--line);
+      background: white;
+      border-radius: 999px;
+      font-size: 12px;
+      color: var(--muted);
+      box-shadow: 0 1px 0 rgba(15,23,42,0.02);
+      user-select:none;
+      white-space:nowrap;
+    }
+    .btn{
+      cursor:pointer;
+      border: 1px solid var(--line);
+      background: white;
+      color: var(--ink);
+      padding: 8px 10px;
+      border-radius: 10px;
+      font-size: 12px;
+      transition: transform .04s ease, box-shadow .15s ease;
+      box-shadow: 0 1px 0 rgba(15,23,42,0.02);
+      user-select:none;
+      white-space:nowrap;
+    }
+    .btn:hover{ box-shadow: 0 10px 24px rgba(15,23,42,0.08); }
+    .btn:active{ transform: translateY(1px); }
+    .btn.primary{
+      background: #0f172a;
+      color: white;
+      border-color: #0f172a;
+    }
+    .toggle{
+      display:inline-flex;
+      align-items:center;
+      gap: 8px;
+      padding: 8px 10px;
+      border: 1px solid var(--line);
+      background: white;
+      border-radius: 10px;
+      font-size: 12px;
+      color: var(--muted);
+      user-select:none;
+      white-space:nowrap;
+    }
+    .toggle input{ transform: translateY(0.5px); }
+
+    .jdbox{
+      display:flex;
+      gap: 8px;
+      align-items:stretch;
+      flex-wrap:wrap;
+      width: min(520px, 100%);
+    }
+    .jdbox textarea{
+      width: min(360px, 100%);
+      min-width: 260px;
+      height: 38px;
+      resize: vertical;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 8px 10px;
+      font: 400 12px/1.3 ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      color: var(--ink);
+      background: white;
+      box-shadow: 0 1px 0 rgba(15,23,42,0.02);
+    }
+    .mini{
+      font-size: 11.5px;
+      color: var(--muted);
+    }
+
+    /* Page container */
+    .page{
+      max-width: var(--max);
+      margin: 18px auto 32px;
+      padding: var(--fit-pad);
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: 0 24px 70px rgba(15,23,42,0.08);
+    }
+
+    .top{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap: 14px;
+      padding-bottom: var(--fit-s4);
+      border-bottom: 1px solid var(--line);
+      flex-wrap:wrap;
+    }
+    .name{
+      margin:0 0 var(--fit-s1) 0;
+      font-size: var(--h1);
+      line-height: 1.1;
+      font-weight: 780;
+      letter-spacing: -0.6px;
+    }
+    .tagline{
+      margin:0;
+      font-size: var(--fit-lead);
+      color: var(--muted);
+      max-width: 72ch;
+    }
+    .contact{
+      text-align:right;
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.4;
+      white-space:nowrap;
+    }
+    .contact a{
+      color: inherit;
+      text-decoration: none;
+      border-bottom: 1px dotted var(--soft);
+    }
+
+    section{ padding-top: var(--fit-s4); }
+    .section-title{
+      margin: 0 0 var(--fit-s2) 0;
+      font-size: var(--h2);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 750;
+    }
+    .summary{ margin:0; max-width: 105ch; }
+
+    .chips{
+      display:flex;
+      flex-wrap:wrap;
+      gap: 8px;
+    }
+    .chip{
+      background: var(--chip);
+      border: 1px solid var(--line);
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      color: #0b1220;
+      display:inline-flex;
+      gap: 6px;
+      align-items:center;
+    }
+    .chip strong{ font-weight: 800; }
+    .chip[data-hit="true"]{
+      background: var(--chipHi);
+      border-color: var(--chipHiBorder);
+    }
+    .chip .score{
+      font-size: 11px;
+      color: var(--muted);
+      margin-left: 2px;
+      display:none;
+    }
+    [data-show-scores="true"] .chip .score{ display:inline; }
+
+    .item{ padding-top: var(--fit-s2); }
+    .item + .item{
+      margin-top: var(--fit-s3);
+      padding-top: var(--fit-s3);
+      border-top: 1px dashed var(--line);
+    }
+    .item-head{
+      display:flex;
+      justify-content:space-between;
+      align-items:baseline;
+      gap: 12px;
+      flex-wrap:wrap;
+    }
+    .role{
+      margin:0;
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: -0.2px;
+    }
+    .meta{
+      margin: var(--fit-s1) 0 0 0;
+      color: var(--muted);
+      font-size: 12px;
+    }
+    .date{
+      color: var(--muted);
+      font-size: 12px;
+      white-space:nowrap;
+    }
+
+    ul.bullets{
+      margin: var(--fit-s2) 0 0 18px;
+      padding: 0;
+    }
+    ul.bullets li{ margin: 4px 0; }
+    li.optional{ }
+    li.hidden-by-fit{ display:none !important; }
+
+    .note{
+      margin-top: var(--fit-s2);
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .fine{
+      margin-top: var(--fit-s4);
+      padding-top: var(--fit-s3);
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 11.5px;
+      display:flex;
+      justify-content:space-between;
+      gap: 10px;
+      flex-wrap:wrap;
+    }
+
+    /* Version visibility */
+    [data-version="backend"] .only-llm { display:none !important; }
+    [data-version="hybrid"]  .only-backend { display:none !important; }
+
+    /* Additional experience visibility */
+    [data-additional="false"] .additional { display:none !important; }
+
+    /* Responsive */
+    @media (max-width: 760px){
+      .page{ border-radius: 0; margin: 0; border-left:0; border-right:0; }
+      .contact{ text-align:left; white-space:normal; }
+      .jdbox textarea{ width: 100%; }
+    }
+
+    /* Print */
+    @media print{
+      body{ background: white; }
+      .toolbar{ display:none !important; }
+      .page{
+        margin: 0;
+        border: none;
+        box-shadow:none;
+        border-radius:0;
+        padding: 0;
+      }
+      a{ text-decoration:none; border-bottom:none; }
+      @page { size: A4; margin: 12mm; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="toolbar">
+    <div class="toolbar-inner">
+      <div class="left">
+        <div class="pill">Version: <strong id="vLabel">Backend</strong></div>
+
+        <label class="toggle" title="Tighten spacing (manual)">
+          <input id="compactToggle" type="checkbox" />
+          Compact
+        </label>
+
+        <label class="toggle" title="Auto-fit by shrinking typography/spacing and hiding optional bullets last">
+          <input id="fitToggle" type="checkbox" />
+          Fit 1 page
+        </label>
+
+        <label class="toggle" title="Show/Hide Huawei + Stackpole in Additional Experience">
+          <input id="additionalToggle" type="checkbox" checked />
+          Additional
+        </label>
+
+        <label class="toggle" title="Show match scores on skill chips">
+          <input id="scoreToggle" type="checkbox" />
+          Show scores
+        </label>
+      </div>
+
+      <div class="right">
+        <div class="jdbox">
+          <textarea id="jdInput" placeholder="Paste job description / keywords here (e.g., FastAPI, SQL, AWS, REST, JWT)"></textarea>
+          <button class="btn" id="applyJdBtn" type="button">Apply JD Reorder</button>
+          <button class="btn" id="resetJdBtn" type="button" title="Restore original skill order">Reset</button>
+        </div>
+
+        <button class="btn" id="versionBtn" type="button">Toggle Backend ⇄ Backend+LLM</button>
+        <button class="btn" id="copyBtn" type="button">Copy Plain Text</button>
+        <button class="btn primary" type="button" onclick="window.print()">Print / Save as PDF</button>
+        <div class="mini" id="fitStatus"></div>
+      </div>
+    </div>
+  </div>
+
+  <main class="page" id="resume"
+        data-version="backend"
+        data-additional="true"
+        data-compact="false"
+        data-fit="0"
+        data-show-scores="false">
+
+    <div class="top">
+      <div>
+        <h1 class="name">Andy Yun</h1>
+        <p class="tagline">
+          Backend-leaning engineer (Python/FastAPI/SQL) who ships reliable internal tools with governance, audit logging, and clean API design.
+          <span class="only-llm"> Experienced in enabling safe, company-funded LLM usage through role-based controls and risk-tier safeguards.</span>
+        </p>
+      </div>
+
+      <div class="contact">
+        Seoul, KR<br/>
+        +82-XXX-XXXX-XXXX<br/>
+        <a href="mailto:andy@email.com">andy@email.com</a><br/>
+        <a href="https://linkedin.com/in/your-id">linkedin.com/in/your-id</a><br/>
+        <a href="https://github.com/your-id">github.com/your-id</a><br/>
+        <a href="https://andylang8445.github.io/">andylang8445.github.io</a>
+      </div>
+    </div>
+
+    <section>
+      <h2 class="section-title">Summary</h2>
+      <p class="summary">
+        Built and deployed a department-wide internal assistant used by ~50 users (~50 queries/day beta), with Windows distribution,
+        SQL-backed audit logging (user/version/IP/MAC), role-based controls, and an always-on FastAPI service.
+        <span class="only-llm"> Focused on governance and safe adoption for users unfamiliar with LLMs.</span>
+      </p>
+    </section>
+
+    <section>
+      <h2 class="section-title">Skills</h2>
+
+      <div class="chips" id="skillsChips" aria-label="skills">
+        <!-- Add data-keywords to drive JD matching -->
+        <span class="chip" data-skill="python" data-keywords="python fastapi sqlalchemy pydantic pandas pysid e pyside6 pyqt pyqt6">
+          <strong>Python</strong> • FastAPI • SQLAlchemy <span class="score"></span>
+        </span>
+        <span class="chip" data-skill="sql" data-keywords="sql sql server mssql t-sql odbc pyodbc database">
+          SQL Server • ODBC/pyodbc <span class="score"></span>
+        </span>
+        <span class="chip" data-skill="auth" data-keywords="oauth oauth2 jwt bearer token authentication authorization security">
+          Auth: OAuth2 • JWT <span class="score"></span>
+        </span>
+        <span class="chip" data-skill="api" data-keywords="rest api graphql appsync resolver endpoint openapi">
+          APIs: REST • GraphQL <span class="score"></span>
+        </span>
+        <span class="chip" data-skill="aws" data-keywords="aws lambda dynamodb appsync serverless iam cloudwatch">
+          AWS: Lambda • AppSync • DynamoDB <span class="score"></span>
+        </span>
+        <span class="chip" data-skill="test" data-keywords="jest unit test testing tdd">
+          Testing: Jest <span class="score"></span>
+        </span>
+        <span class="chip" data-skill="tools" data-keywords="git linux docker ci cd github actions">
+          Git • Linux <span class="score"></span>
+        </span>
+        <span class="chip only-llm" data-skill="llm" data-keywords="langchain llm openai prompt governance logging r ag retrieval">
+          LangChain • LLM Ops (governance/logging) <span class="score"></span>
+        </span>
+      </div>
+
+      <div class="note">JD Reorder will sort these chips by keyword match score.</div>
+    </section>
+
+    <section>
+      <h2 class="section-title">Work Experience</h2>
+
+      <div class="item">
+        <div class="item-head">
+          <div>
+            <p class="role">Korea Fund Ratings (한국펀드평가) — AI Adoption Researcher / Intern (Main Developer)</p>
+            <p class="meta">Windows desktop internal tool • SQL governance • Always-on FastAPI service</p>
+          </div>
+          <div class="date">2024.01 – 2024.04</div>
+        </div>
+
+        <ul class="bullets">
+          <li>Deployed an internal assistant to a ~50-person org; supported ~50 queries/day (beta) across DB records, Excel files, news articles, and fund/prospectus documents.</li>
+          <li>Implemented search-based retrieval (DB query + keyword filtering) and user workflows in a Windows PySide6 client; packaged via PyInstaller and distributed via intranet download (~95% usage via desktop).</li>
+          <li>Built SQL Server–backed presets/templates and audit logging (user/version/time/IP/MAC) to support traceability, incident reproduction, and governance; admin alerts surfaced as in-app pop-ups via DB flag detection.</li>
+
+          <!-- Optional bullets: auto hidden when Fit-to-one-page needs more space -->
+          <li class="optional only-llm" data-optional="true">
+            Designed A/B/C data-exposure risk tiers (A=1, B=3, C=10 keywords) to detect potential oversharing and trigger admin review; stored summarized logs via a local LLM to avoid persisting raw sensitive content.
+          </li>
+          <li data-optional="false">Developed an always-on internal FastAPI service (remote-managed server) with OAuth2+JWT and endpoints for preset CRUD and run execution; added CORS controls and server-side logging for web integration.</li>
+          <li class="optional only-llm" data-optional="true">
+            Launched a user-contributed “Prompt Market” (~10 prompts at launch) with author attribution and admin moderation (delete), enabling standard workflows and faster adoption.
+          </li>
+        </ul>
+      </div>
+
+      <div class="item">
+        <div class="item-head">
+          <div>
+            <p class="role">Escape Platforms — Software Backend Developer (Co-op)</p>
+            <p class="meta">Serverless backend • REST + GraphQL • Testing</p>
+          </div>
+          <div class="date">2023.06 – 2023.08</div>
+        </div>
+        <ul class="bullets">
+          <li>Built REST + GraphQL endpoints for comments/chat/internal tools using AWS Lambda + AppSync + DynamoDB (TypeScript/JavaScript) for a pre-launch product.</li>
+          <li class="optional" data-optional="true">Wrote and ran local Jest test cases to validate Lambda/resolver behavior and reduce regressions during rapid iteration.</li>
+        </ul>
+      </div>
+
+      <div class="item">
+        <div class="item-head">
+          <div>
+            <p class="role">ROK Army — Tactical C4I Maintenance &amp; Ops (Signal)</p>
+            <p class="meta">Procedure-driven operations • Reliability</p>
+          </div>
+          <div class="date">2024.09 – 2025.03</div>
+        </div>
+        <ul class="bullets">
+          <li class="optional" data-optional="true">Maintained and operated tactical C4I/communications systems in a structured, procedure-driven environment.</li>
+        </ul>
+      </div>
+
+      <!-- Additional Experience (toggleable) -->
+      <div class="additional">
+        <div class="item">
+          <div class="item-head">
+            <div>
+              <p class="role">Huawei Technologies Canada — 6G R&amp;D Engineer (Co-op)</p>
+              <p class="meta">C++14 APIs • Python-callable interfaces • CARLA/Unreal simulation tooling</p>
+            </div>
+            <div class="date">2022.09 – 2022.12</div>
+          </div>
+          <ul class="bullets">
+            <li class="optional" data-optional="true">Developed C++14 internal APIs callable from Python and interfaced with CARLA server; built a PyQt monitoring/control GUI for Unreal Engine simulation workflows.</li>
+            <li class="optional" data-optional="true">Designed ray tracing logic for object interaction with high-frequency radio signals and improved simulation fidelity for antenna development.</li>
+          </ul>
+        </div>
+
+        <div class="item">
+          <div class="item-head">
+            <div>
+              <p class="role">Stackpole International — Software Developer (Co-op)</p>
+              <p class="meta">Performance optimization • PLC ↔ host comms • ML/telemetry tooling</p>
+            </div>
+            <div class="date">2022.01 – 2022.04</div>
+          </div>
+          <ul class="bullets">
+            <li class="optional" data-optional="true">Reduced PLC–host communication overhead by <strong>30%</strong> via caching and workflow improvements.</li>
+            <li class="optional" data-optional="true">Built GUI/ML/telemetry software (Python, PyQt6, OpenCV, PyTorch) reducing final product defects by <strong>21%</strong>; prototyped a lightweight ANN for Jetson Nano to reduce server load.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="section-title">Projects</h2>
+      <div class="item" style="padding-top:0;">
+        <div class="item-head">
+          <div>
+            <p class="role">Find My Pill Platform</p>
+            <p class="meta">Python • Computer Vision • SQL</p>
+          </div>
+          <div class="date">—</div>
+        </div>
+        <ul class="bullets">
+          <li class="optional" data-optional="true">Built an image-based pill detection/classification workflow and lookup pipeline to reduce manual effort.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="section-title">Education</h2>
+      <div class="item" style="padding-top:0;">
+        <div class="item-head">
+          <div>
+            <p class="role">University of Waterloo — BASc, Electrical and Computer Engineering (ECE)</p>
+            <p class="meta">2021 – 2024 (3A completed)</p>
+          </div>
+          <div class="date"></div>
+        </div>
+      </div>
+    </section>
+
+    <div class="fine">
+      <div>Version: <span id="printVersion">Backend</span></div>
+      <div>Single-column • Print-optimized • JD keyword reorder • Auto-fit option</div>
+    </div>
+  </main>
+
+  <script>
+    const resume = document.getElementById("resume");
+    const vLabel = document.getElementById("vLabel");
+    const pLabel = document.getElementById("printVersion");
+
+    const versionBtn = document.getElementById("versionBtn");
+    const compactToggle = document.getElementById("compactToggle");
+    const fitToggle = document.getElementById("fitToggle");
+    const additionalToggle = document.getElementById("additionalToggle");
+    const copyBtn = document.getElementById("copyBtn");
+
+    const jdInput = document.getElementById("jdInput");
+    const applyJdBtn = document.getElementById("applyJdBtn");
+    const resetJdBtn = document.getElementById("resetJdBtn");
+    const scoreToggle = document.getElementById("scoreToggle");
+    const skillsChips = document.getElementById("skillsChips");
+    const fitStatus = document.getElementById("fitStatus");
+
+    // Save original skill order for reset
+    const originalSkills = Array.from(skillsChips.children).map(el => el);
+
+    function setVersion(v){
+      resume.setAttribute("data-version", v);
+      const txt = (v === "backend") ? "Backend" : "Backend+LLM";
+      vLabel.textContent = txt;
+      pLabel.textContent = txt;
+      // Re-fit after version change if Fit is on
+      if (fitToggle.checked) requestFit();
+    }
+
+    function setCompact(isCompact){
+      resume.setAttribute("data-compact", String(isCompact));
+      if (fitToggle.checked) requestFit();
+    }
+
+    function setAdditional(isOn){
+      resume.setAttribute("data-additional", String(isOn));
+      if (fitToggle.checked) requestFit();
+    }
+
+    function setShowScores(on){
+      resume.setAttribute("data-show-scores", String(on));
+    }
+
+    versionBtn.addEventListener("click", () => {
+      const cur = resume.getAttribute("data-version");
+      setVersion(cur === "backend" ? "hybrid" : "backend");
+    });
+
+    compactToggle.addEventListener("change", (e) => setCompact(e.target.checked));
+    additionalToggle.addEventListener("change", (e) => setAdditional(e.target.checked));
+    scoreToggle.addEventListener("change", (e) => setShowScores(e.target.checked));
+
+    // Copy plain text (ATS sanity check)
+    copyBtn.addEventListener("click", async () => {
+      const text = resume.innerText.replace(/\n{3,}/g, "\n\n").trim();
+      try{
+        await navigator.clipboard.writeText(text);
+        copyBtn.textContent = "Copied ✓";
+        setTimeout(() => copyBtn.textContent = "Copy Plain Text", 1000);
+      }catch{
+        alert("Clipboard copy blocked by browser. Select all text and copy manually.");
+      }
+    });
+
+    // -------- JD keyword reorder (skills) --------
+    function tokenize(text){
+      return text
+        .toLowerCase()
+        .replace(/[^a-z0-9#+.\s-]/g, " ")
+        .split(/\s+/)
+        .filter(Boolean);
+    }
+
+    function scoreSkill(skillEl, tokens){
+      const kw = (skillEl.getAttribute("data-keywords") || "").toLowerCase().split(/\s+/).filter(Boolean);
+      let score = 0;
+      for (const t of tokens){
+        // exact match boost
+        if (kw.includes(t)) score += 3;
+        // partial match (e.g., "sql" matches "sqlalchemy" less likely; so keep conservative)
+        else if (kw.some(k => k.length >= 4 && t.length >= 4 && (k.includes(t) || t.includes(k)))) score += 1;
+      }
+      return score;
+    }
+
+    function applyJdReorder(){
+      const tokens = tokenize(jdInput.value);
+      const els = Array.from(skillsChips.children);
+
+      // compute scores + mark highlights
+      const scored = els.map(el => {
+        const s = scoreSkill(el, tokens);
+        el.dataset.score = String(s);
+        el.querySelector(".score").textContent = s > 0 ? `(match ${s})` : "";
+        el.dataset.hit = String(s > 0);
+        return { el, s };
+      });
+
+      // stable sort: score desc, keep original relative order when tie
+      scored.sort((a,b) => b.s - a.s);
+
+      // re-append in sorted order
+      scored.forEach(x => skillsChips.appendChild(x.el));
+    }
+
+    function resetSkills(){
+      originalSkills.forEach(el => skillsChips.appendChild(el));
+      Array.from(skillsChips.children).forEach(el => {
+        el.dataset.score = "0";
+        el.dataset.hit = "false";
+        const sc = el.querySelector(".score");
+        if (sc) sc.textContent = "";
+      });
+    }
+
+    applyJdBtn.addEventListener("click", () => {
+      applyJdReorder();
+      if (fitToggle.checked) requestFit();
+    });
+
+    resetJdBtn.addEventListener("click", () => {
+      resetSkills();
+      if (fitToggle.checked) requestFit();
+    });
+
+    // -------- Auto Fit-to-one-page --------
+    // Strategy:
+    // 1) Start with fit level 0
+    // 2) Increase fit level up to 3 (shrinks typography/spacing)
+    // 3) If still too tall, hide optional bullets progressively (data-optional=true)
+    //
+    // Target height: approximate one printed A4 content height on screen.
+    // We use a conservative target: min(1050px, viewportHeight - toolbar - margins).
+    function getTargetHeightPx(){
+      const viewport = window.innerHeight || 1100;
+      // leave room for browser UI; resume itself should fit within viewport for "1-page-ish" preview
+      return Math.min(1050, Math.max(820, viewport - 140));
+    }
+
+    function clearHiddenByFit(){
+      document.querySelectorAll(".hidden-by-fit").forEach(li => li.classList.remove("hidden-by-fit"));
+    }
+
+    function optionalLisInOrder(){
+      // hide in a safe order: optional bullets first; Additional Experience optional bullets after if additional on
+      return Array.from(document.querySelectorAll('li[data-optional="true"]'))
+        .filter(li => {
+          // If its parent section is hidden by version/additional toggles, ignore
+          if (li.closest(".only-llm") && resume.getAttribute("data-version") === "backend") return false;
+          if (li.closest(".additional") && resume.getAttribute("data-additional") === "false") return false;
+          return true;
+        });
+    }
+
+    let fitRaf = null;
+    function requestFit(){
+      if (fitRaf) cancelAnimationFrame(fitRaf);
+      fitRaf = requestAnimationFrame(runFit);
+    }
+
+    function runFit(){
+      if (!fitToggle.checked){
+        resume.setAttribute("data-fit", "0");
+        fitStatus.textContent = "";
+        clearHiddenByFit();
+        return;
+      }
+
+      const target = getTargetHeightPx();
+
+      // reset
+      clearHiddenByFit();
+      let fitLevel = 0;
+      resume.setAttribute("data-fit", String(fitLevel));
+
+      // step 1: increase fit level
+      const tryFitLevel = (level) => {
+        resume.setAttribute("data-fit", String(level));
+        const h = resume.getBoundingClientRect().height;
+        return h <= target;
+      };
+
+      while (fitLevel < 3 && !tryFitLevel(fitLevel)){
+        fitLevel++;
+        resume.setAttribute("data-fit", String(fitLevel));
+      }
+
+      // step 2: if still too tall, hide optional bullets progressively
+      let hNow = resume.getBoundingClientRect().height;
+      const optionals = optionalLisInOrder();
+
+      let hiddenCount = 0;
+      for (const li of optionals){
+        if (hNow <= target) break;
+        li.classList.add("hidden-by-fit");
+        hiddenCount++;
+        hNow = resume.getBoundingClientRect().height;
+      }
+
+      const ok = hNow <= target;
+      fitStatus.textContent =
+        ok
+          ? `Fit OK (level ${fitLevel}, hidden ${hiddenCount})`
+          : `Still long (level ${fitLevel}, hidden ${hiddenCount}) — consider fewer bullets`;
+
+      // Keep the status subtle
+      fitStatus.style.color = ok ? "#475569" : "#b45309";
+    }
+
+    fitToggle.addEventListener("change", () => {
+      if (fitToggle.checked) requestFit();
+      else runFit();
+    });
+
+    // Refit on resize
+    window.addEventListener("resize", () => {
+      if (fitToggle.checked) requestFit();
+    });
+
+    // defaults
+    setVersion("backend");
+    setCompact(false);
+    setAdditional(true);
+    setShowScores(false);
+    resetSkills();
+  </script>
+</body>
+</html>
