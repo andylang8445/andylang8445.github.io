@@ -1,46 +1,36 @@
 /* =========================================================
    2025–26 Print-stable Resume (EN + KO separate templates)
-   - Screen: preview + controls + tips (panel is web-only)
-   - Print : ONLY the sheet content (no UI), stable size
    ========================================================= */
 
 :root{
-  /* Paper sizes */
   --w-a4: 210mm;   --h-a4: 297mm;
   --w-letter: 215.9mm; --h-letter: 279.4mm;
 
-  /* Active paper (default = Letter) */
   --pageW: var(--w-letter);
   --pageH: var(--h-letter);
 
-  /* Print padding */
   --padX: 11mm;
   --padY: 10mm;
 
-  /* Fonts */
   --font-en: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
   --font-ko: ui-sans-serif, system-ui, -apple-system, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", Segoe UI, Roboto, Helvetica, Arial;
 
   --text: #111214;
   --muted: #4b5563;
 
-  /* Screen-only cosmetics */
   --sheetRadius: 14px;
   --sheetShadow: 0 20px 60px rgba(0,0,0,.22);
 
-  /* Lines (screen) */
   --hair: rgba(17,18,20,.12);
   --hair2: rgba(17,18,20,.08);
 
   --chipBg: rgba(17,18,20,.05);
 
-  /* EN typography */
   --bodySize: 10.2px;
   --bodyLH: 1.24;
   --h2Size: 11.3px;
   --h2LH: 1.12;
 
-  /* EN 2-col layout widths */
   --colGap: 9.5mm;
   --leftCol: 63%;
   --rightCol: 37%;
@@ -48,15 +38,25 @@
 
 *, *::before, *::after{ box-sizing: border-box; }
 
-html, body { height: 100%; }
+/* ===== Background (fix “scroll makes bg change”) ===== */
+html, body { min-height: 100%; }
 body{
   margin: 0;
   font-family: var(--font-en);
   color: var(--text);
+  background: #0b0f1a;
+  position: relative;
+}
+body::before{
+  content:"";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
   background:
     radial-gradient(1200px 600px at 15% 5%, rgba(255,255,255,.10), rgba(255,255,255,0)),
     radial-gradient(800px 500px at 80% 20%, rgba(255,255,255,.07), rgba(255,255,255,0)),
     #0b0f1a;
+  background-repeat: no-repeat;
 }
 
 /* ===== App Shell ===== */
@@ -176,7 +176,7 @@ body{
   border-radius: var(--sheetRadius);
   box-shadow: var(--sheetShadow);
   padding: var(--padY) var(--padX);
-  overflow: hidden;
+  overflow: visible;
 }
 
 /* ===== Resume typography ===== */
@@ -215,7 +215,7 @@ body{
   line-height: 1.25;
 }
 
-/* Contact wrapping (avoid overflow) */
+/* Contact wrapping */
 .contact{
   text-align: right;
   font-size: 10px;
@@ -248,13 +248,24 @@ h2{
 
 .row{
   display: grid;
-  grid-template-columns: 1fr auto;
+  grid-template-columns: minmax(0, 1fr) max-content;
   gap: 8px;
   align-items: baseline;
+  min-width: 0;
 }
+
 .org{ font-weight: 900; }
 .role{ font-weight: 750; color: #111827; margin-top: 2px; }
-.meta{ color: var(--muted); font-size: 10px; }
+
+/* ✅ 날짜 잘림 방지: 오른쪽에 아주 얇은 안전 여백 */
+.meta{
+  color: var(--muted);
+  font-size: 10px;
+  white-space: nowrap;
+  justify-self: end;
+  padding-left: 8px;
+  padding-right: 1mm;
+}
 
 ul{ margin: 6px 0 0 0; padding-left: 16px; }
 li{ margin: 2px 0; }
@@ -301,6 +312,7 @@ li{ margin: 2px 0; }
   grid-template-columns: var(--leftCol) var(--rightCol);
   gap: var(--colGap);
   margin-top: 10px;
+  padding-right: 0; /* ✅ 이거 때문에 오른쪽이 잘리는 경우가 있었음 */
 }
 
 /* ===== KO layout (A4, 1-col) ===== */
@@ -314,12 +326,18 @@ body[data-lang="ko"]{
   --padY: 11mm;
 }
 
-/* Korean line breaking: keep words together */
+/* Korean line breaking */
 body[data-lang="ko"] .resume{
   word-break: keep-all;
   overflow-wrap: anywhere;
 }
 
+/* ✅ KO 가로줄 “두 겹” 느낌 제거: header 아래 줄은 KO에서 끔 */
+body[data-lang="ko"] .header{
+  border-bottom: 0;
+  margin-bottom: 6px;
+  padding-bottom: 4px;
+}
 body[data-lang="ko"] h2{
   text-transform: none;
   letter-spacing: -0.01em;
@@ -338,7 +356,7 @@ body[data-lang="ko"] h2{
   grid-template-columns: 1fr 1fr;
   gap: 8px 10px;
   padding: 8px 0 2px;
-  border-top: 1px solid var(--hair2);
+  border-top: 1px solid var(--hair);
   border-bottom: 1px solid var(--hair2);
   margin-top: 10px;
 }
@@ -401,20 +419,25 @@ body[data-lang="ko"] h2{
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
   }
+  body::before{ display: none !important; }
 
   /* hide web UI */
   .topbar, .panel{ display: none !important; }
   .main{ padding: 0 !important; }
-  .stage, .sheet-wrap{ max-width: none !important; }
 
-  /* IMPORTANT:
-     - Do NOT use transform scale in print (causes blank or hairline artifacts)
-     - Make sheet exactly match page size (mm)
-  */
+  /* ✅ Chrome/Safari 빈 페이지 방지: flex/grid 강제 해제 */
+  .app, .stage, .sheet-wrap{
+    display: block !important;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* ✅ 핵심: 고정 height 대신 min-height로 안정화 (브라우저별 클리핑/빈페이지 방지) */
   .sheet{
     width: var(--pageW) !important;
-    height: var(--pageH) !important;
-    min-height: 0 !important;
+    min-height: var(--pageH) !important;
+    height: auto !important;
     border-radius: 0 !important;
     box-shadow: none !important;
     overflow: hidden !important;
@@ -424,22 +447,27 @@ body[data-lang="ko"] h2{
   .resume{
     transform: none !important;
     width: auto !important;
+    filter: none !important;
+    backdrop-filter: none !important;
   }
 
-  /* remove chips in print (optional) */
+  /* remove chips in print */
   .chips{ display: none !important; }
   .contact a{ border-bottom: 0 !important; text-decoration: none !important; }
 
   /* ---- Hairline fix: px/rgba -> pt/solid ---- */
-  .header{ border-bottom: 0.75pt solid #d1d5db !important; }
-  .item{ border-top: 0.75pt solid #e5e7eb !important; }
-  .kv .line{ border-top: 0.75pt solid #e5e7eb !important; }
+  .header{ border-bottom: 0.9pt solid #d1d5db !important; }
+  body[data-lang="ko"] .header{ border-bottom: 0 !important; } /* KO는 위에서 끔 */
+
+  .item{ border-top: 0.8pt solid #e5e7eb !important; }
+  .kv .line{ border-top: 0.8pt solid #e5e7eb !important; }
+
   .ko-top-skills{
-    border-top: 0.75pt solid #e5e7eb !important;
-    border-bottom: 0.75pt solid #e5e7eb !important;
+    border-top: 0.9pt solid #d1d5db !important;
+    border-bottom: 0.8pt solid #e5e7eb !important;
   }
 
   /* prevent accidental page breaks */
-  .sheet, .header, .grid, .sec, .item { break-inside: avoid; }
+  .header, .grid, .sec, .item { break-inside: avoid; }
   .sheet{ break-after: avoid-page; }
 }
