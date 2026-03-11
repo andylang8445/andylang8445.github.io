@@ -1,9 +1,0 @@
-services:
-  blog:
-    build: .          # image: node... 대신 이걸 써야 Dockerfile을 읽습니다.
-    working_dir: /app
-    volumes:
-      - .:/app
-      - /app/node_modules # 로컬 Mac의 부품이 안으로 침범하지 못하게 방어
-    ports:
-      - "4321:4321"
