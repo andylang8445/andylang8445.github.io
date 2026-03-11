@@ -1,12 +1,97 @@
 <!DOCTYPE html>
 <html lang="ko">
-  <head>
-    <meta charset="utf-8">
-    <title>블로그 이전 안내</title>
-    <link rel="canonical" href="https://hongjunyun.github.io/">
-    <meta http-equiv="refresh" content="0; url=https://hongjunyun.github.io/">
-  </head>
-  <body>
-    <p>블로그가 <a href="https://hongjunyun.github.io/">hongjunyun.github.io</a>로 이전되었습니다. 잠시 후 자동으로 이동합니다.</p>
-  </body>
+<head>
+  <meta charset="utf-8">
+  <title>블로그 이전 안내 | Blog Moved</title>
+  <link rel="canonical" href="https://hongjunyun.github.io/">
+  <meta http-equiv="refresh" content="5; url=https://hongjunyun.github.io/">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background-color: #f5f5f7; /* 애플 스타일의 부드러운 배경색 */
+      color: #1d1d1f;
+    }
+    .notice-box {
+      background-color: #ffffff;
+      padding: 50px 40px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+      text-align: center;
+      max-width: 420px;
+      width: 85%;
+    }
+    .icon {
+      font-size: 48px;
+      margin-bottom: 20px;
+    }
+    h1 {
+      font-size: 22px;
+      margin: 0 0 15px 0;
+      font-weight: 600;
+    }
+    p {
+      font-size: 15px;
+      margin: 0 0 8px 0;
+      color: #515154;
+      line-height: 1.5;
+    }
+    .en-text {
+      color: #86868b;
+      font-size: 14px;
+      margin-bottom: 30px;
+    }
+    a {
+      display: inline-block;
+      background-color: #1d1d1f;
+      color: #fff;
+      text-decoration: none;
+      padding: 14px 28px;
+      border-radius: 10px;
+      font-weight: 500;
+      font-size: 15px;
+      transition: background-color 0.2s ease, transform 0.1s ease;
+    }
+    a:hover {
+      background-color: #333336;
+      transform: scale(0.98);
+    }
+    .loader {
+      border: 3px solid #f5f5f7;
+      border-top: 3px solid #1d1d1f;
+      border-radius: 50%;
+      width: 28px;
+      height: 28px;
+      animation: spin 1s linear infinite;
+      margin: 30px auto 0;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <div class="notice-box">
+    <div class="icon">✈️</div>
+    <h1>블로그 주소가 변경되었습니다</h1>
+    <p>새로운 주소로 <b>5초</b> 뒤 자동 이동합니다.<br>이동하지 않는다면 아래 버튼을 클릭해 주세요.</p>
+    
+    <p class="en-text">My blog has moved to a new address.<br>You will be redirected in 5 seconds.</p>
+    
+    <a href="https://hongjunyun.github.io/">새 블로그로 이동 (Go to New Blog)</a>
+    <div class="loader"></div>
+  </div>
+  
+  <script>
+    setTimeout(function() {
+      window.location.href = "https://hongjunyun.github.io/";
+    }, 5000);
+  </script>
+</body>
 </html>
